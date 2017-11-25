@@ -1,0 +1,5 @@
+{
+  "controllers": "app/controllers",
+  "models": "app/models",
+  "routes": "app/routes"
+}

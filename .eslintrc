@@ -1,0 +1,13 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "one-var": "off",
+    "spaced-comment": ["warn", "always", {
+      "block": {
+        "markers": ["!"],
+        "exceptions": ["*"],
+        "balanced": true
+      }
+    }]
+  }
+}

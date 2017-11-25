@@ -1,0 +1,44 @@
+{
+  "name": "cbt-planner-api",
+  "version": "0.0.1",
+  "description": "API for time management and goal tracking",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imranzaidi/cbt-planner.git"
+  },
+  "keywords": [
+    "CBT",
+    "daily",
+    "planning",
+    "cognitive",
+    "behavioral",
+    "therapy",
+    "goal",
+    "tracking",
+    "personal",
+    "analytics"
+  ],
+  "author": "Imran A Zaidi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/imranzaidi/cbt-planner/issues"
+  },
+  "homepage": "https://github.com/imranzaidi/cbt-planner#readme",
+  "devDependencies": {
+    "eslint": "4.11.0",
+    "eslint-config-airbnb": "16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1",
+    "nodemon": "1.12.1"
+  },
+  "dependencies": {
+    "body-parser": "1.18.2",
+    "express": "4.16.2",
+    "mongoose": "4.13.5"
+  }
+}
