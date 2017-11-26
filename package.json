@@ -3,13 +3,9 @@
   "version": "0.0.1",
   "description": "API for time management and goal tracking",
   "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/imranzaidi/cbt-planner.git"
-  },
+  "author": "Imran Ali Zaidi",
+  "license": "MIT",
+  "homepage": "https://github.com/imranzaidi/cbt-planner#readme",
   "keywords": [
     "CBT",
     "daily",
@@ -22,23 +18,35 @@
     "personal",
     "analytics"
   ],
-  "author": "Imran A Zaidi",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/imranzaidi/cbt-planner/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imranzaidi/cbt-planner.git"
   },
-  "homepage": "https://github.com/imranzaidi/cbt-planner#readme",
+  "engines": {
+    "node": ">=8.9.1",
+    "npm": ">=5.5.1"
+  },
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "dev": "nodemon server.js",
+    "reinstall": "npm cache clean; npm run clean; npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "eslint": "4.11.0",
     "eslint-config-airbnb": "16.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.5.1",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-jsx-a11y": "6.0.2",
+    "eslint-plugin-react": "7.5.1",
     "nodemon": "1.12.1"
   },
   "dependencies": {
     "body-parser": "1.18.2",
+    "chalk": "2.3.0",
     "express": "4.16.2",
-    "mongoose": "4.13.5"
+    "glob": "7.1.2",
+    "lodash": "4.17.4",
+    "mongoose": "4.13.5",
+    "winston": "2.4.0"
   }
 }
