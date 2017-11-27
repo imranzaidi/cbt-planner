@@ -1,9 +1,3 @@
-/***********************
- * Module Dependencies *
- ***********************/
-const utils = require('../libraries/utils');
-
-
 /******************
  * Module Members *
  ******************/

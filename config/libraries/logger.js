@@ -7,14 +7,15 @@ const winston = require('winston');
 /******************
  * Module Members *
  ******************/
-const logger = new (winston.Logger)({
+const logger = new winston.Logger({
   transports: [
-    new (winston.transports.Console)({
+    new winston.transports.Console({
       name: 'info-console',
-      level: 'info',
+      level: 'debug',
       colorize: true,
       showLevel: true,
       handleExceptions: true,
+      json: true,
       humanReadableUnhandledException: true
     }),
     new (winston.transports.File)({
@@ -32,6 +33,9 @@ const logger = new (winston.Logger)({
   ],
   exitOnError: false
 });
+
+
+logger.stream = { write: (message) => { logger.info(message); } };
 
 
 module.exports = logger;

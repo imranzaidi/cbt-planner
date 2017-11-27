@@ -45,8 +45,11 @@
     "chalk": "2.3.0",
     "express": "4.16.2",
     "glob": "7.1.2",
+    "helmet": "3.9.0",
     "lodash": "4.17.4",
+    "method-override": "2.3.10",
     "mongoose": "4.13.5",
+    "morgan": "1.9.0",
     "winston": "2.4.0"
   }
 }

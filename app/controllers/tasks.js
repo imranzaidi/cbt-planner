@@ -5,7 +5,7 @@ function create(req, res) {
 
 function read(req, res) {
   // TODO: implement
-  res.status(200).json({});
+  res.status(200).json({ andSoItBeings: 'Damn son!' });
 }
 
 function update(req, res) {
