@@ -1,29 +1,19 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const chalk = require('chalk'),
-  express = require('express'),
-  bodyParser = require('body-parser'),
+const express = require('./config/libraries/express'),
+  mongooseService = require('./config/libraries/mongoose'),
   config = require('./config/config');
 
 
 /******************
  * Module Members *
  ******************/
-const PORT = config.app.port,
-  // ROOT_PATH = __dirname,
-  app = express();
+let app;
 
 
-// wire middle-ware
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// load routes
-// require('./app/routes')(app, {});
-
-// TODO: Load models and / or setup db instance.
-
-// start server
-app.listen(PORT, () => {
-  console.info(chalk.blue(`We are live on port ${PORT}:`));
+mongooseService.connect(config.db, (db, error) => { // eslint-disable-line no-unused-vars
+  mongooseService.loadModels(config.paths.models);
+  app = express.initialize(config);
+  express.startApp(app, config);
 });

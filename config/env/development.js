@@ -9,6 +9,8 @@ const utils = require('../libraries/utils');
  ******************/
 const developmentConfig = {
   app: {
+    protocol: 'http',
+    host: 'localhost',
     port: 3000,
     env: 'development'
   },
@@ -16,12 +18,11 @@ const developmentConfig = {
   db: {
     host: 'localhost',
     name: 'cbt-planner',
-    port: '27017'
+    port: 27017,
+    debug: process.env.DB_DEBUG || true,
+    promise: global.Promise
   }
 };
-
-
-utils.deepFreeze(developmentConfig);
 
 
 module.exports = developmentConfig;

@@ -1,0 +1,13 @@
+/***********************
+ * Module Dependencies *
+ ***********************/
+const controller = require('../controllers/planning');
+
+
+module.exports = function bindRoute(app) {
+  app.route('/api/v1/planning')
+    .get(controller.read)
+    .post(controller.create)
+    .put(controller.update)
+    .delete(controller.destroy);
+};

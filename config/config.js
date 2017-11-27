@@ -15,9 +15,9 @@ const modelPaths = utils.getFilePaths(assets.models),
 
 
 /**
- * Helper for printing all configuration info to console.
+ * Print core API assets.
  */
-function outputConfigInfo() {
+function outputAssets() {
   utils.outputPaths(modelPaths, 'Models');
   utils.outputPaths(controllerPaths, 'Controllers');
   utils.outputPaths(routePaths, 'Routes');
@@ -25,13 +25,12 @@ function outputConfigInfo() {
 }
 
 
-outputConfigInfo();
+outputAssets();
 config.paths = {
   models: modelPaths,
   controllers: controllerPaths,
   routes: routePaths
 };
 utils.deepFreeze(config);
-
 
 module.exports = config;
