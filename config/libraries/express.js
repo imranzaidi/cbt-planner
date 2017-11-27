@@ -11,13 +11,6 @@ const chalk = require('chalk'),
   path = require('path');
 
 
-/******************
- * Module Members *
- ******************/
-
-// const URL = `${config.app.protocol}://${config.app.host}:${config.app.port}`;
-
-
 /**
  * Initialize middleware.
  *
@@ -71,8 +64,7 @@ function loadRoutes(app, routePaths) {
  * @param config {Object} application configuration
  */
 function startApp(app, config) {
-  // TODO: Investigate ability to bind URL.
-  app.listen(config.app.port, () => {
+  app.listen(config.app.port, config.app.host, () => {
     console.info(chalk.blue(`We are live on port ${config.app.port}:`));
   });
 }
