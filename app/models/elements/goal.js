@@ -46,6 +46,7 @@ function validateSteps(steps) {
 }
 
 
+// TODO: update schema to relate the goal to a value, mission or role
 const GoalSchema = new mongoose.Schema({
   created: {
     type: Date,
