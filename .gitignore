@@ -12,7 +12,6 @@ Thumbs.db
 node_modules/
 app/tests/coverage/
 coverage/
-package-lock.json
 
 
 # General
