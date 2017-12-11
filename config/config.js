@@ -15,7 +15,7 @@ const modelPaths = utils.getFilePaths(assets.models),
 
 
 /**
- * Print core API assets.
+ * Prints API assets to console.
  */
 function outputAssets() {
   utils.outputPaths(modelPaths, 'Models');

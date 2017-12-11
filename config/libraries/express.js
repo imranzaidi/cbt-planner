@@ -14,8 +14,8 @@ const chalk = require('chalk'),
 /**
  * Initialize middleware.
  *
- * @param app {Object} express application
- * @param config {Object} application configuration
+ * @param {Object} app - express application instance
+ * @param {Object} config - application configuration
  */
 function initializeMiddleware(app, config) {
   // parsing requests
@@ -48,7 +48,8 @@ function initializeMiddleware(app, config) {
 /**
  * Set up routes.
  *
- * @param app {Object} express application
+ * @param {Object} app - express application instance
+ * @param {Array} routePaths - an list of string with the relative path to each route
  */
 function loadRoutes(app, routePaths) {
   routePaths.forEach((routePath) => {
@@ -58,17 +59,11 @@ function loadRoutes(app, routePaths) {
 }
 
 /**
- * Start the server.
+ * Initializes Express application.
  *
- * @param app {Object} express application
- * @param config {Object} application configuration
+ * @param {Object} config - application configuration
+ * @returns {Object} app - express application instance
  */
-function startApp(app, config) {
-  app.listen(config.app.port, config.app.host, () => {
-    console.info(chalk.blue(`We are live on port ${config.app.port}:`));
-  });
-}
-
 function initialize(config) {
   const app = express();
 
@@ -78,10 +73,22 @@ function initialize(config) {
   return app;
 }
 
+/**
+ * Start the server.
+ *
+ * @param {Object} app - express application instance
+ * @param {Object} config - application configuration
+ */
+function startApp(app, config) {
+  app.listen(config.app.port, config.app.host, () => {
+    console.info(chalk.blue(`We are live on port ${config.app.port}:`));
+  });
+}
+
 
 module.exports = {
   initializeMiddleware,
   loadRoutes,
-  startApp,
-  initialize
+  initialize,
+  startApp
 };

@@ -1,33 +1,19 @@
-# OS
-# ===========
+# OSX / OS
+# ========
 .DS_Store
 ehthumbs.db
 Icon?
 Thumbs.db
 
+
 # Node and related ecosystem
 # ==========================
 .nodemonignore
-.sass-cache/
 node_modules/
-public/lib/
 app/tests/coverage/
-.bower-*/
-.idea/
 coverage/
 package-lock.json
 
-# MEAN.js app and assets
-# ======================
-public/dist/
-uploads
-modules/users/client/img/profile/uploads
-config/env/local.js
-config/env/local-*.js
-*.pem
-
-# Ignoring MEAN.JS's gh-pages branch for documenation
-_site/
 
 # General
 # =======
@@ -43,33 +29,36 @@ _site/
 logs/
 build/
 
+
 # Sublime editor
 # ==============
 .sublime-project
 *.sublime-project
 *.sublime-workspace
 
-# Eclipse project files
-# =====================
+
+# Eclipse project files / Webstorm
+# ================================
 .project
 .settings/
 .*.md.html
 .metadata
 *~.nib
 local.properties
+.idea/
+.idea*/
+.idea*
 
-# IntelliJ
-# ========
-*.iml
 
 # Cloud9 IDE
-# =========
+# ==========
 .c9/
 data/
 mongod
 
+
 # Visual Studio
-# =========
+# =============
 *.suo
 *.ntvs*
 *.njsproj

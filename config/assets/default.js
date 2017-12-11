@@ -12,6 +12,7 @@ const assets = {
   models: 'app/models/**/*.js',
   routes: 'app/routes/**/*.js'
 };
+utils.deepFreeze(assets);
 
 
-module.exports = utils.deepFreeze(assets);
+module.exports = assets;

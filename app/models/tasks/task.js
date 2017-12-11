@@ -14,7 +14,7 @@ const VALID_PRIORITIES = ['a', 'b', 'c'],
 /**
  * Validated priority level.
  *
- * @param priority {String} priority level
+ * @param {String} priority - priority level
  * @returns {boolean} true if valid
  */
 function isValidPriority(priority) {
@@ -24,7 +24,7 @@ function isValidPriority(priority) {
 /**
  * Valid task status.
  *
- * @param status {String} task status
+ * @param {String} status - task status
  * @returns {boolean} true if valid
  */
 function isValidStatus(status) {
@@ -33,7 +33,8 @@ function isValidStatus(status) {
 
 /**
  * Helper function to converts options to a human readable string.
- * @param a {Array} an array of options (strings)
+ *
+ * @param {Array} a - a list of options (strings)
  * @returns {String} a human readable output string
  */
 function optionsToString(a) {

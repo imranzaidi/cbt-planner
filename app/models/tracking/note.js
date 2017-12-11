@@ -4,6 +4,7 @@
 const mongoose = require('mongoose');
 
 
+// TODO: implement
 const NoteSchema = new mongoose.Schema({
   created: {
     type: Date,

@@ -8,8 +8,8 @@ const mongoose = require('mongoose'),
 /**
  * Create a task.
  *
- * @param req {Object} express request object
- * @param res {Object} express response object
+ * @param {Object} req - express request object
+ * @param {Object} res - express response object
  */
 function create(req, res) {
   const payload = req.body;
@@ -29,8 +29,8 @@ function create(req, res) {
 /**
  * Read a task.
  *
- * @param req {Object} express request object
- * @param res {Object} express response object
+ * @param {Object} req - express request object
+ * @param {Object} res - express response object
  */
 function read(req, res) {
   const { task } = req;
@@ -40,8 +40,8 @@ function read(req, res) {
 /**
  * Update a task.
  *
- * @param req {Object} express request object
- * @param res {Object} express response object
+ * @param {Object} req - express request object
+ * @param {Object} res - express response object
  */
 function update(req, res) {
   const { task } = req;
@@ -60,8 +60,8 @@ function update(req, res) {
 /**
  * Destroy a task.
  *
- * @param req {Object} express request object
- * @param res {Object} express response object
+ * @param {Object} req - express request object
+ * @param {Object} res - express response object
  */
 function destroy(req, res) {
   const { task } = req;
@@ -76,11 +76,11 @@ function destroy(req, res) {
 /**
  * Helper middle-ware function to look up tasks by ID.
  *
- * @param req {Object} express request object
- * @param res {Object} express response object
- * @param next {Function} next function handler in express
- * @param id {String} task ID
- * @returns {*}
+ * @param {Object} req - express request object
+ * @param {Object} res - express response object
+ * @param {Function} next - next function handler in express
+ * @param {String} id - task ID
+ * @returns {*} void
  */
 function findTaskByID(req, res, next, id) {
   if (!mongoose.Types.ObjectId.isValid(id)) {

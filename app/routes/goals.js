@@ -4,6 +4,7 @@
 const controller = require('../controllers/goals');
 
 
+// TODO: implement and refactor
 module.exports = function bindRoute(app) {
   app.route('/api/v1/goals')
     .get(controller.read)

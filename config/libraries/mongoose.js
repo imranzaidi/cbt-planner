@@ -15,7 +15,7 @@ const DATABASE_SYSTEM_NAME = 'MongoDB';
 /**
  * Loads all models.
  *
- * @param modelPaths {Array} string path literals with out project root
+ * @param {Array} modelPaths - a list of relative string paths
  */
 function loadModels(modelPaths) {
   modelPaths.forEach((modelPath) => {
@@ -28,10 +28,10 @@ function loadModels(modelPaths) {
 }
 
 /**
- * Established database connection.
+ * Establishes database connection.
  *
- * @param db {Object} contains database configuration info
- * @param callback {Function} callback function
+ * @param {Object} db - database configuration info
+ * @param {Function} callback - callback function
  */
 function connect(db, callback) {
   const dbURL = `mongodb://${db.host}/${db.name}`;
@@ -61,15 +61,14 @@ function connect(db, callback) {
 /**
  * Closes database connection.
  *
- * @param callback {Function} callback function
+ * @param {Function} callback - callback function
  */
 function disconnect(callback) {
-  mongoose.connection.db
-    .close((error) => {
-      console.info(chalk.yellow(`Disconnected from ${DATABASE_SYSTEM_NAME}.`));
+  mongoose.connection.db.close((error) => {
+    console.info(chalk.yellow(`Disconnected from ${DATABASE_SYSTEM_NAME}.`));
 
-      return callback(error);
-    });
+    return callback(error);
+  });
 }
 
 

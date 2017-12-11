@@ -7,13 +7,13 @@ const mongoose = require('mongoose');
 /**
  * Helper function for validating step object structure.
  *
- * @param step {Object} step to validate
+ * @param {Object} step - step to validate
  * @returns {boolean} true if invalid
  */
 function stepIsInvalid(step) {
   const isObject = typeof step === 'object',
-    descriptionIsString = typeof step['description'] === 'string',
-    deadlineInstanceOfDate = step['deadline'] instanceof Date;
+    descriptionIsString = typeof step.description === 'string',
+    deadlineInstanceOfDate = step.deadline instanceof Date;
 
   return !(isObject && descriptionIsString && deadlineInstanceOfDate);
 }
@@ -21,7 +21,7 @@ function stepIsInvalid(step) {
 /**
  * Checks to see if steps are sorted by incrementing deadlines.
  *
- * @param steps {Array} sequence of steps
+ * @param {Array} steps - sequence of steps
  * @returns {boolean} true if sorting is valid
  */
 function stepsAreSortedByDeadline(steps) { // eslint-disable-line
@@ -32,7 +32,7 @@ function stepsAreSortedByDeadline(steps) { // eslint-disable-line
 /**
  * Validates steps required to achieve a goal.
  *
- * @param steps {Array} an array of steps sequentially sorted by due date
+ * @param {Array} step - a list of steps (should be sequentially sorted by due date)
  * @returns {boolean}
  */
 function validateSteps(steps) {
