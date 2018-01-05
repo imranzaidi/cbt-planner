@@ -65,10 +65,7 @@ const TaskSchema = new mongoose.Schema({
     required: 'Please assign a priority.',
     validate: [isValidStatus, `Status must be ${optionsToString(VALID_STATUSES)}.`]
   },
-  notes: {
-    type: String,
-    default: ''
-  }
+  notes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Note' }]
 });
 
 
