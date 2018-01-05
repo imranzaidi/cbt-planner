@@ -46,13 +46,7 @@ function optionsToString(a) {
 
 
 const TaskSchema = new mongoose.Schema({
-  created: {
-    type: Date,
-    default: Date.now
-  },
-  updated: {
-    type: Date
-  },
+  timestamps: true,
   description: {
     type: String,
     default: 'New task',

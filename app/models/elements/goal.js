@@ -10,12 +10,13 @@ const mongoose = require('mongoose');
  * @param {Object} step - step to validate
  * @returns {boolean} true if invalid
  */
-function stepIsInvalid(step) {
+function stepIsValid(step) {
   const isObject = typeof step === 'object',
-    descriptionIsString = typeof step.description === 'string',
-    deadlineInstanceOfDate = step.deadline instanceof Date;
+    hasValidDescription = typeof step.description === 'string',
+    hasValidDeadline = step.deadline instanceof Date,
+    hasCompletedFlag = typeof step.completed === 'boolean';
 
-  return !(isObject && descriptionIsString && deadlineInstanceOfDate);
+  return isObject && hasValidDescription && hasValidDeadline && hasCompletedFlag;
 }
 
 /**
@@ -24,49 +25,41 @@ function stepIsInvalid(step) {
  * @param {Array} steps - sequence of steps
  * @returns {boolean} true if sorting is valid
  */
-function stepsAreSortedByDeadline(steps) { // eslint-disable-line
-  // TODO: Validate steps ordering based on incrementing deadline and remove lint disable.
-  return true;
+function stepsAreSortedByDeadline(steps) {
+  return steps.every((val, index) => index === 0 || steps[index - 1].getTime() < steps[index].getTime());
 }
 
 /**
  * Validates steps required to achieve a goal.
  *
- * @param {Array} step - a list of steps (should be sequentially sorted by due date)
+ * @param {Array} steps - a list of steps (should be sequentially sorted by due date)
  * @returns {boolean}
  */
 function validateSteps(steps) {
-  // steps not yet specified
   if (steps.length === 0) return true;
-
-  const containInvalidStep = steps.some(step => stepIsInvalid(step));
-  if (containInvalidStep) return false;
+  if (steps.some(step => !stepIsValid(step))) return false;
 
   return stepsAreSortedByDeadline(steps);
 }
 
 
-// TODO: update schema to relate the goal to a value, mission or role
 const GoalSchema = new mongoose.Schema({
-  created: {
-    type: Date,
-    default: Date.now
-  },
-  updated: {
-    type: Date
-  },
+  timestamps: true,
   label: {
     type: String,
-    default: 'New goal.',
+    default: 'New goal',
     trim: true,
-    required: 'Title cannot be blank'
+    required: 'Label cannot be blank.'
   },
   steps: {
     type: Array,
     default: [],
     required: 'Please specify the steps necessary to achieve your goal.',
     validate: [validateSteps, 'Steps contains an invalid step object or are not ordered correctly.']
-  }
+  },
+  relatedValues: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Value' }],
+  relatedMissions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Mission' }],
+  relatedRoles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }]
 });
 
 

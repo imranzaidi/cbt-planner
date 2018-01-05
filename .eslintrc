@@ -3,6 +3,7 @@
   "rules": {
     "comma-dangle": ["error", "never"],
     "dot-notation": ["warn"],
+    "max-len": ["error", { "code": 120 }],
     "one-var": "off",
     "spaced-comment": ["warn", "always", {
       "block": {
