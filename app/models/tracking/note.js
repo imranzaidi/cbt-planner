@@ -4,11 +4,10 @@
 const mongoose = require('mongoose');
 
 
-/***********
- * Helpers *
- ***********/
-
-const validateContent = content => content.length <= 200 && content.length !== 0;
+/******************
+ * Module Members *
+ ******************/
+const BLANK_ERROR = 'Note cannot be blank!';
 
 
 const NoteSchema = new mongoose.Schema({
@@ -16,8 +15,9 @@ const NoteSchema = new mongoose.Schema({
   content: {
     type: String,
     trim: true,
-    required: 'Note content cannot be blank!',
-    validate: [validateContent, 'Note cannot be longer than 200 characters!']
+    minlength: [1, BLANK_ERROR],
+    maxlength: [200, 'Note cannot be longer than 200 characters!'],
+    required: BLANK_ERROR
   },
   task: {
     type: mongoose.Schema.Types.ObjectId,
