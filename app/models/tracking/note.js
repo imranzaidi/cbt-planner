@@ -19,7 +19,7 @@ const NoteSchema = new mongoose.Schema({
     required: 'Note content cannot be blank!',
     validate: [validateContent, 'Note cannot be longer than 200 characters!']
   },
-  taskID: {
+  task: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Task',
     required: 'A note must have an associated task!'
