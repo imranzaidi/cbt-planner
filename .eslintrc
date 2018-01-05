@@ -4,6 +4,7 @@
     "comma-dangle": ["error", "never"],
     "dot-notation": ["warn"],
     "max-len": ["error", { "code": 120 }],
+    "no-restricted-globals": "off",
     "one-var": "off",
     "spaced-comment": ["warn", "always", {
       "block": {

@@ -13,7 +13,7 @@ const mongoose = require('mongoose');
 function stepIsValid(step) {
   const isObject = typeof step === 'object',
     hasValidDescription = typeof step.description === 'string',
-    hasValidDeadline = step.deadline instanceof Date,
+    hasValidDeadline = step.deadline instanceof Date && !isNaN(step.deadline.getDate()),
     hasCompletedFlag = typeof step.completed === 'boolean';
 
   return isObject && hasValidDescription && hasValidDeadline && hasCompletedFlag;
