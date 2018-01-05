@@ -11,7 +11,7 @@ const StepSchema = new mongoose.Schema({
     trim: true,
     minlength: 1,
     maxlength: 200,
-    required: 'Label cannot be blank.'
+    required: 'Description cannot be blank.'
   },
   deadline: {
     type: Date,
@@ -19,7 +19,12 @@ const StepSchema = new mongoose.Schema({
   },
   complete: {
     type: Boolean,
-    required: 'A step must be marked either as complete or incomplete.'
+    required: 'Completed flag is required.'
+  },
+  goal: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Goal',
+    required: 'A step must be associated with a goal!'
   }
 });
 
