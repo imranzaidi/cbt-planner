@@ -11,7 +11,6 @@ const StakeholderSchema = new mongoose.Schema({
   timestamps: true,
   title: {
     type: String,
-    default: 'New stakeholder',
     trim: true,
     required: 'Title cannot be blank.'
   }

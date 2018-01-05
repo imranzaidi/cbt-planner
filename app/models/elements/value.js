@@ -25,7 +25,6 @@ const ValueSchema = new mongoose.Schema({
   },
   valueStatement: {
     type: String,
-    default: 'I value...',
     trim: true,
     required: 'Value statement cannot be blank.'
   },

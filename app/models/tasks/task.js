@@ -15,7 +15,6 @@ const TaskSchema = new mongoose.Schema({
   timestamps: true,
   description: {
     type: String,
-    default: 'New task',
     trim: true,
     required: 'Task description cannot be blank'
   },

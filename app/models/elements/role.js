@@ -17,13 +17,11 @@ const RoleSchema = new mongoose.Schema({
   timestamps: true,
   title: {
     type: String,
-    default: 'New role',
     trim: true,
     required: 'Title cannot be blank.'
   },
   clarifyingStatements: {
     type: String,
-    default: 'I am...',
     trim: true,
     required: 'Clarifying statements cannot be blank.'
   },

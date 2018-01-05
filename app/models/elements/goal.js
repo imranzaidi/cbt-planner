@@ -47,7 +47,6 @@ const GoalSchema = new mongoose.Schema({
   timestamps: true,
   label: {
     type: String,
-    default: 'New goal',
     trim: true,
     required: 'Label cannot be blank.'
   },

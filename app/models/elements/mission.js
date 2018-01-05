@@ -16,9 +16,8 @@ const MissionSchema = new mongoose.Schema({
   timestamps: true,
   statement: {
     type: String,
-    default: 'New stakeholder',
     trim: true,
-    required: 'Title cannot be blank.'
+    required: 'Mission statement cannot be blank.'
   }
 });
 
