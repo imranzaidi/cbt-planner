@@ -21,7 +21,7 @@ function outputAssets() {
   utils.outputPaths(modelPaths, 'Models');
   utils.outputPaths(controllerPaths, 'Controllers');
   utils.outputPaths(routePaths, 'Routes');
-  console.log('\n');
+  console.log('\n'); // eslint-disable-line no-console
 }
 
 

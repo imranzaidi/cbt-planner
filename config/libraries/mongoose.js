@@ -19,7 +19,7 @@ const DATABASE_SYSTEM_NAME = 'MongoDB';
  */
 function loadModels(modelPaths) {
   modelPaths.forEach((modelPath) => {
-    let model = require(path.resolve(modelPath)); // eslint-disable-line
+    const model = require(path.resolve(modelPath)); // eslint-disable-line
 
     if (model.name && model.schema) {
       mongoose.model(model.name, model.schema);
@@ -52,7 +52,9 @@ function connect(db, callback) {
 
       callback(connection.db);
     }).catch((error) => {
+      /* eslint-disable no-console */
       console.error(chalk.red(`Unable to connect to ${DATABASE_SYSTEM_NAME}!`), error);
+      /* eslint-enable */
 
       callback(null, error);
     });
@@ -65,7 +67,7 @@ function connect(db, callback) {
  */
 function disconnect(callback) {
   mongoose.connection.db.close((error) => {
-    console.info(chalk.yellow(`Disconnected from ${DATABASE_SYSTEM_NAME}.`));
+    console.info(chalk.yellow(`Disconnected from ${DATABASE_SYSTEM_NAME}.`)); // eslint-disable-line no-console
 
     return callback(error);
   });

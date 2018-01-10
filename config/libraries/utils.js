@@ -65,8 +65,10 @@ function getFilePaths(globPattern) {
  * @param label {String} a label specifying what is being printed and possibly why
  */
 function outputPaths(paths, label) {
+  /* eslint-disable no-console */
   console.info(chalk.yellow(`\n${label}:\n`));
   paths.forEach((path) => { console.info(`   ${chalk.white(path)}`); });
+  /* eslint-enable */
 }
 
 

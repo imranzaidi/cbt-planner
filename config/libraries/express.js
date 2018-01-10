@@ -81,7 +81,7 @@ function initialize(config) {
  */
 function startApp(app, config) {
   app.listen(config.app.port, config.app.host, () => {
-    console.info(chalk.blue(`We are live on port ${config.app.port}:`));
+    console.info(chalk.blue(`We are live on port ${config.app.port}:`)); // eslint-disable-line no-console
   });
 }
 
