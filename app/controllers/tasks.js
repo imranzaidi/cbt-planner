@@ -2,7 +2,8 @@
  * Module Dependencies *
  ***********************/
 const mongoose = require('mongoose'),
-  Task = mongoose.model('Task');
+  Task = mongoose.model('Task'),
+  lib = require('../libraries/tasks');
 
 
 /**
@@ -12,15 +13,16 @@ const mongoose = require('mongoose'),
  * @param {Object} res - express response object
  */
 function create(req, res) {
-  const payload = req.body;
-  if (!payload.description) {
-    res.status(400).send({ error: 'Description cannot be empty.' });
+  const payload = req.body,
+    errorMessage = lib.validateTask(payload);
+
+  if (errorMessage) {
+    return res.status(400).send({ error: errorMessage });
   }
 
   const newTask = new Task(payload);
-
-  newTask.save((err) => {
-    if (err) return res.status(422).send(err);
+  return newTask.save((err) => {
+    if (err) return res.status(500).send({ error: 'Error creating task.' });
 
     return res.status(201).json(newTask);
   });
@@ -44,14 +46,23 @@ function read(req, res) {
  * @param {Object} res - express response object
  */
 function update(req, res) {
+  const payload = req.body,
+    errorMessage = lib.validateTask(payload);
+
+  if (errorMessage) {
+    return res.status(400).send({ error: errorMessage });
+  }
+
   const { task } = req;
+  console.log('> task (update):', task);
 
   task.description = req.body.description;
   task.priority = req.body.priority;
   task.notes = req.body.notes;
   task.status = req.body.status;
+
   return task.save((err) => {
-    if (err) return res.status(422).send({ message: 'Updated failed.' });
+    if (err) return res.status(500).send({ error: err });
 
     return res.status(200).json(task);
   });
@@ -67,7 +78,7 @@ function destroy(req, res) {
   const { task } = req;
 
   return task.remove((err) => {
-    if (err) return res.status(422).send({ message: 'Delete failed.' });
+    if (err) return res.status(500).send({ message: 'Delete failed.' });
 
     return res.sendStatus(204);
   });

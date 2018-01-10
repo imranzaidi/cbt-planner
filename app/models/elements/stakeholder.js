@@ -8,13 +8,12 @@ const mongoose = require('mongoose');
  */
 
 const StakeholderSchema = new mongoose.Schema({
-  timestamps: true,
   title: {
     type: String,
     trim: true,
     required: 'Title cannot be blank.'
   }
-});
+}, { timestamps: true });
 
 
 module.exports = {

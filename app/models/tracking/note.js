@@ -11,7 +11,6 @@ const BLANK_ERROR = 'Note cannot be blank!';
 
 
 const NoteSchema = new mongoose.Schema({
-  timestamps: true,
   content: {
     type: String,
     trim: true,
@@ -24,7 +23,7 @@ const NoteSchema = new mongoose.Schema({
     ref: 'Task',
     required: 'A note must have an associated task!'
   }
-});
+}, { timestamps: true });
 
 
 module.exports = {

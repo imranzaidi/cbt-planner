@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 
 
 const GoalSchema = new mongoose.Schema({
-  timestamps: true,
   label: {
     type: String,
     trim: true,
@@ -15,7 +14,7 @@ const GoalSchema = new mongoose.Schema({
   relatedValues: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Value' }],
   relatedMissions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Mission' }],
   relatedRoles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }]
-});
+}, { timestamps: true });
 
 
 module.exports = {

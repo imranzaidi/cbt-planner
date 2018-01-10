@@ -6,8 +6,7 @@ const mongoose = require('mongoose');
 
 // TODO: implement
 const WeeklyTemplateSchema = new mongoose.Schema({
-  timestamps: true
-});
+}, { timestamps: true });
 
 
 module.exports = {

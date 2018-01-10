@@ -14,7 +14,6 @@ const mongoose = require('mongoose');
  */
 
 const RoleSchema = new mongoose.Schema({
-  timestamps: true,
   title: {
     type: String,
     trim: true,
@@ -26,7 +25,7 @@ const RoleSchema = new mongoose.Schema({
     required: 'Clarifying statements cannot be blank.'
   },
   stakeholders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Stakeholder' }]
-});
+}, { timestamps: true });
 
 
 module.exports = {

@@ -13,13 +13,12 @@ const mongoose = require('mongoose');
  */
 
 const MissionSchema = new mongoose.Schema({
-  timestamps: true,
   statement: {
     type: String,
     trim: true,
     required: 'Mission statement cannot be blank.'
   }
-});
+}, { timestamps: true });
 
 
 module.exports = {

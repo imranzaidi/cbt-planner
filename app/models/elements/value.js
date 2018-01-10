@@ -16,7 +16,6 @@ const mongoose = require('mongoose');
 const CATEGORIES = ['personal', 'interpersonal', 'health and well-being', 'professional', 'financial'];
 
 const ValueSchema = new mongoose.Schema({
-  timestamps: true,
   category: {
     type: String,
     enum: CATEGORIES,
@@ -33,7 +32,7 @@ const ValueSchema = new mongoose.Schema({
     trim: true,
     required: 'Description cannot be blank.'
   }
-});
+}, { timestamps: true });
 
 
 module.exports = {

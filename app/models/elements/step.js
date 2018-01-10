@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 
 
 const StepSchema = new mongoose.Schema({
-  timestamps: true,
   description: {
     type: String,
     trim: true,
@@ -26,7 +25,7 @@ const StepSchema = new mongoose.Schema({
     ref: 'Goal',
     required: 'A step must be associated with a goal!'
   }
-});
+}, { timestamps: true });
 
 
 module.exports = {
