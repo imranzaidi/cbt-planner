@@ -4,7 +4,7 @@
 const controller = require('../controllers/tasks');
 
 
-module.exports = function bindRoute(app) {
+module.exports = function bindRoutes(app) {
   app.route('/api/v1/tasks')
     .post(controller.create);
 

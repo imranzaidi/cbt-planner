@@ -53,8 +53,8 @@ function initializeMiddleware(app, config) {
  */
 function loadRoutes(app, routePaths) {
   routePaths.forEach((routePath) => {
-    const route = require(path.resolve(routePath)); // eslint-disable-line
-    route(app);
+    const bindRoutes = require(path.resolve(routePath)); // eslint-disable-line
+    bindRoutes(app);
   });
 }
 
