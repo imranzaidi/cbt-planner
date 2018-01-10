@@ -29,6 +29,7 @@
   "scripts": {
     "clean": "rm -rf node_modules",
     "dev": "nodemon server.js",
+    "lint": "./node_modules/.bin/eslint .",
     "reinstall": "npm cache clean; npm run clean; npm install",
     "test": "mocha"
   },
