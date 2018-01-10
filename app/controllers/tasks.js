@@ -54,7 +54,6 @@ function update(req, res) {
   }
 
   const { task } = req;
-  console.log('> task (update):', task);
 
   task.description = req.body.description;
   task.priority = req.body.priority;
