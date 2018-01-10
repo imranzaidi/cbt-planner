@@ -15,14 +15,15 @@ describe('libraries/validation-utils', () => {
       expect(lib.optionsToString(options)).to.equal('\'yes\', \'no\' or \'maybe\'');
     });
 
-    it('should work for ["a", "b", "c"]', () => {
-      const options = ['a', 'b', 'c'];
-      expect(lib.optionsToString(options)).to.equal('\'a\', \'b\' or \'c\'');
-    });
-
     it('should work for ["a", "b"]', () => {
       const options = ['a', 'b'];
       expect(lib.optionsToString(options)).to.equal('\'a\' or \'b\'');
+    });
+
+
+    it('should work for a single value array', () => {
+      const options = ['whatever'];
+      expect(lib.optionsToString(options)).to.equal('\'whatever\'');
     });
 
     it('should return empty string for []', () => {
