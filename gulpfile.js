@@ -2,7 +2,6 @@
  * Module Dependencies.
  */
 const chalk = require('chalk'),
-  defaultConfig = require('./config/config'),
   gulp = require('gulp'),
   mocha = require('gulp-mocha'),
   mongooseService = require('./config/libraries/mongoose'),
@@ -59,7 +58,7 @@ gulp.task('dropDB', (done) => {
         if (err) {
           errorAlert('Error dropping db:', err);
         } else {
-          logAlert(`Successfully dropped db: ${db.databaseName}`, [{ a: 'a' }, { b: 'b' }]);
+          logAlert(`Successfully dropped db: ${db.databaseName}`);
         }
 
         mongooseService.disconnect(done);
@@ -69,7 +68,8 @@ gulp.task('dropDB', (done) => {
 });
 
 gulp.task('mocha', (done) => {
-  const assetGlobs = Object.keys(testFileGlobs).map(key => testFileGlobs[key]);
+  const assetGlobs = Object.keys(testFileGlobs).map(key => testFileGlobs[key]),
+    defaultConfig = require('./config/config'); // eslint-disable-line global-require
 
   mongooseService.connect(testConfig.db, (db, connectionError) => {
     if (connectionError) {

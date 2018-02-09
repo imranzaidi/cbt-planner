@@ -24,8 +24,8 @@ function outputAssets() {
   console.log('\n'); // eslint-disable-line no-console
 }
 
+if (process.env.NODE_ENV === 'development') { outputAssets(); }
 
-outputAssets();
 config.paths = {
   models: modelPaths,
   controllers: controllerPaths,
