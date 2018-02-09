@@ -2,81 +2,82 @@
  * Module Dependencies *
  ***********************/
 const mongoose = require('mongoose'),
-  Task = mongoose.model('Task'),
-  tasksLib = require('../libraries/tasks');
+  Note = mongoose.model('Note'),
+  notesLib = require('../libraries/notes');
 
 
 /**
- * Create a task.
+ * Create a note.
  *
  * @param {Object} req - express request object
  * @param {Object} res - express response object
  */
 function create(req, res) {
   const payload = req.body,
-    errorMessage = tasksLib.validateTask(payload);
+    errorMessage = notesLib.validateNote(payload);
 
   if (errorMessage) {
     return res.status(400).send({ error: errorMessage });
   }
 
-  const newTask = new Task(payload);
-  return newTask.save((err) => {
-    if (err) return res.status(500).send({ error: 'Error creating task.' });
+  const newNote = new Note(payload);
+  return newNote.save((err) => {
+    if (err) return res.status(500).send({ error: 'Error creating note.' });
 
-    return res.status(201).json(newTask);
+    return res.status(201).json(newNote);
   });
 }
 
 /**
- * Read a task.
+ * Read a note.
  *
  * @param {Object} req - express request object
  * @param {Object} res - express response object
  */
 function read(req, res) {
-  const { task } = req;
-  res.status(200).json(task);
+  const { note } = req;
+  res.status(200).json(note);
 }
 
 /**
- * Update a task.
+ * Update a note.
  *
  * @param {Object} req - express request object
  * @param {Object} res - express response object
  */
 function update(req, res) {
   const payload = req.body,
-    errorMessage = tasksLib.validateTask(payload);
+    errorMessage = notesLib.validateNote(payload);
 
   if (errorMessage) {
     return res.status(400).send({ error: errorMessage });
   }
 
-  const { task } = req;
+  if (errorMessage) {
+    return res.status(400).send({ error: errorMessage });
+  }
 
-  task.description = payload.description;
-  task.priority = payload.priority;
-  task.notes = payload.notes;
-  task.status = payload.status;
+  const { note } = req;
 
-  return task.save((err) => {
+  note.content = payload.content;
+
+  return note.save((err) => {
     if (err) return res.status(500).send({ error: err });
 
-    return res.status(200).json(task);
+    return res.status(200).json(note);
   });
 }
 
 /**
- * Destroy a task.
+ * Destroy a note.
  *
  * @param {Object} req - express request object
  * @param {Object} res - express response object
  */
 function destroy(req, res) {
-  const { task } = req;
+  const { note } = req;
 
-  return task.remove((err) => {
+  return note.remove((err) => {
     if (err) return res.status(500).send({ message: 'Delete failed.' });
 
     return res.sendStatus(204);
@@ -84,30 +85,30 @@ function destroy(req, res) {
 }
 
 /**
- * Helper middle-ware function to look up tasks by ID.
+ * Helper middle-ware function to look up notes by ID.
  *
  * @param {Object} req - express request object
  * @param {Object} res - express response object
  * @param {Function} next - next function handler in express
- * @param {String} id - task ID
+ * @param {String} id - note ID
  * @returns {*} void
  */
-function findTaskByID(req, res, next, id) {
+function findNoteByID(req, res, next, id) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
-      message: 'Task ID is invalid.'
+      message: 'Note ID is invalid.'
     });
   }
 
-  return Task.findById(id).exec((err, task) => {
+  return Note.findById(id).exec((err, note) => {
     if (err) return next(err);
-    else if (!task) {
+    else if (!note) {
       return res.status(404).send({
-        message: 'No task associated with that ID was found.'
+        message: 'No note associated with this ID was found.'
       });
     }
 
-    req.task = task;
+    req.note = note;
     return next();
   });
 }
@@ -118,5 +119,5 @@ module.exports = {
   read,
   update,
   destroy,
-  findTaskByID
+  findNoteByID
 };
