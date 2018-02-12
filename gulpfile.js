@@ -15,6 +15,7 @@ const chalk = require('chalk'),
  */
 function errorAlert(...rest) {
   rest.forEach((arg) => {
+    /* eslint-disable no-console */
     if (typeof arg === 'object' && !(arg instanceof Array)) {
       console.error(chalk.redBright(`\n${JSON.stringify(arg, null, 2)}\n`));
     } else if (arg instanceof Array) {
@@ -22,11 +23,13 @@ function errorAlert(...rest) {
     } else {
       console.error(chalk.red(arg));
     }
+    /* eslint-enable */
   });
 }
 
 function logAlert(...rest) {
   rest.forEach((arg) => {
+    /* eslint-disable no-console */
     if (typeof arg === 'object' && !(arg instanceof Array)) {
       console.log(chalk.white(`\n${JSON.stringify(arg, null, 2)}\n`));
     } else if (arg instanceof Array) {
@@ -34,6 +37,7 @@ function logAlert(...rest) {
     } else {
       console.log(chalk.yellow(arg));
     }
+    /* eslint-enable */
   });
 }
 
@@ -53,17 +57,18 @@ gulp.task('dropDB', (done) => {
   mongooseService.connect(testConfig.db, (db, connectionError) => {
     if (connectionError) {
       errorAlert('Error connecting to test database:', connectionError);
-    } else {
-      db.dropDatabase((err) => {
-        if (err) {
-          errorAlert('Error dropping db:', err);
-        } else {
-          logAlert(`Successfully dropped db: ${db.databaseName}`);
-        }
-
-        mongooseService.disconnect(done);
-      });
+      return;
     }
+
+    db.dropDatabase((err) => {
+      if (err) {
+        errorAlert('Error dropping db:', err);
+        return;
+      }
+
+      logAlert(`Successfully dropped db: ${db.databaseName}`);
+      mongooseService.disconnect(done);
+    });
   });
 });
 
@@ -74,18 +79,18 @@ gulp.task('mocha', (done) => {
   mongooseService.connect(testConfig.db, (db, connectionError) => {
     if (connectionError) {
       errorAlert('Error connecting to test database: ', connectionError);
-    } else {
-      logAlert(`Connected to database: ${db.databaseName}`);
-
-      mongooseService.loadModels(defaultConfig.paths.models);
-      gulp.src(assetGlobs)
-        .pipe(mocha({ exit: true }))
-        .on('error', (mochaError) => {
-          errorAlert('Error running mocha: ', mochaError);
-          process.exit(1);
-        });
-      mongooseService.disconnect(done);
+      return;
     }
+
+    logAlert(`Connected to database: ${db.databaseName}`);
+    mongooseService.loadModels(defaultConfig.paths.models);
+    gulp.src(assetGlobs)
+      .pipe(mocha({ exit: true }))
+      .on('error', (mochaError) => {
+        errorAlert('Error running mocha: ', mochaError);
+        process.exit(1);
+      });
+    mongooseService.disconnect(done);
   });
 });
 

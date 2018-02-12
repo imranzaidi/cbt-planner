@@ -12,7 +12,9 @@ Thumbs.db
 node_modules/
 app/tests/coverage/
 coverage/
-
+.coverdata/
+.coverrun
+debug/
 
 # General
 # =======
