@@ -2,7 +2,7 @@
  * Module Dependencies *
  ***********************/
 const mongoose = require('mongoose'),
-  CONSTS = require('../../consts/notes');
+  CONSTS = require('../../../consts/notes');
 
 
 const NoteSchema = new mongoose.Schema({

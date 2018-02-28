@@ -6,6 +6,7 @@
     "max-len": ["error", { "code": 120 }],
     "no-restricted-globals": "off",
     "one-var": "off",
+    "object-curly-newline": "off",
     "spaced-comment": ["warn", "always", {
       "block": {
         "markers": ["!"],

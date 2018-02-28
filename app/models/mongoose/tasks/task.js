@@ -2,7 +2,7 @@
  * Module Dependencies *
  ***********************/
 const mongoose = require('mongoose'),
-  CONSTS = require('../../consts/task');
+  CONSTS = require('../../../consts/task');
 
 
 const TaskSchema = new mongoose.Schema({

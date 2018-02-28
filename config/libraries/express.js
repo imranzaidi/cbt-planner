@@ -1,14 +1,21 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const chalk = require('chalk'),
-  express = require('express'),
+const apolloServerExpress = require('apollo-server-express'),
   bodyParser = require('body-parser'),
-  morgan = require('morgan'),
-  logger = require('./logger'),
+  chalk = require('chalk'),
+  express = require('express'),
   helmet = require('helmet'),
+  logger = require('./logger'),
   methodOverride = require('method-override'),
+  morgan = require('morgan'),
   path = require('path');
+
+
+/******************
+ * Module Members *
+ ******************/
+const { graphiqlExpress, graphqlExpress } = apolloServerExpress;
 
 
 /**
@@ -58,6 +65,11 @@ function loadRoutes(app, routePaths) {
   });
 }
 
+function initGraphQLEndpoints(app, schema, db) {
+  app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+  app.use('/graphql', graphqlExpress({ schema, context: { db } }));
+}
+
 /**
  * Initializes Express application.
  *
@@ -89,6 +101,7 @@ function startApp(app, config) {
 module.exports = {
   initializeMiddleware,
   loadRoutes,
+  initGraphQLEndpoints,
   initialize,
   startApp
 };
