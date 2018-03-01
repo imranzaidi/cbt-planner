@@ -55,7 +55,7 @@ function getEnvironment() {
  * @returns {Array} a list of file paths
  */
 function getFilePaths(globPattern) {
-  return glob.sync(globPattern);
+  return glob.sync(globPattern).filter(path => path.match(/(.js)$/));
 }
 
 /**
