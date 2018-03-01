@@ -1,46 +1,54 @@
-# Personal Organizer
+# CBT Planner
 
-This application is a hybrid of different tools and techniques for personal organization. The basic premise is largely based on organizational principles derived from cognitive behavioral therapy. In addition, it leverages the Pomodoro technique, task breakdowns based on daily planners and modern data visualization tools for analytics.
+This application is a hybrid of different tools and techniques for personal organization and time management, heavily inspired by principles and methodologies used in cognitive behavioral therapy. It is an attempt to supplement, perhaps replace entirely, conventional hard copy daily planners with an app one can use at home and on the go. To this end, it extends it the traditional planner system through the power of computing with modern analytics and data visualization.
 
-The end goal isn't to simply mimic a daily planner for the sake of creating to-do lists, manage time and break down short term goals. It is a bit more ambitious than that; a personalized tool for setting long term goals, tracking progress and productivity in order to achieve these. By providing organization tools for daily use, an engine for aggregating data points and making sense of it all, a high level overview of the bigger picture is intended to guide the process, getting there more efficiently and effectively.
+The end goal is more ambitious than mimicking a classic daily planner or simplistic to-do lists. It's a tool specifically designed for personalized growth, long term planning, progress tracking, daily productivity and navigating effective paths to success.
 
 ## Features
 
-1. **_Task Management_**
-  * Basic Todo List
-  * Master Task List
-  * Monthly Tasks
-  * Weekly Tasks
-  * Daily Tasks
-2. **_Planner_**
-  * Calendar
-  * Weekly Template
-  * Daily Planning
-3. **_Pomodoro_**
-  * Minimal implementation
-  * Time Tracking
-  * Sessions
-  * Svg UI
-4. **_Goal Setting & Evaluation_**
-  * Goals List
-  * Active Goals
-  * Progress Tracking
-  * Evaluation (Analytics Dashboard)
-5. **_Aggregation: Time Tracking_**
-  * Breakdowns
+1. **_Pyramid Foundation - Life Organization_**
+
+    * Value Definitions
+    * Mission Statements
+    * Roles
     * Goals
-    * Activities (Tags)
-    * Total Tracked
-  * Analytics Dashboard
-6. **_Google Calendar Integration_**
-  * Write To Calendar (Push)
-  * Data Sync
-    * Push
-    * Pull
+        * List
+        * Active
+        
+2. **_Pyramid Cap - Task Management_**
+
+    * Master Task List
+    * Weekly Tasks
+    * Daily Tasks
+    
+3. **_Planner_**
+
+    * Calendar
+    * Weekly Templates
+    * Weekly Planning
+    * Daily Planning
+    * Task Tracking
+    
+4. **_Pomodoro_**
+
+    * Focus Windows
+    * Focus Sessions
+    * Session Logging
+    
+5. **_Aggregation: Time Tracking & Evaluation_**
+
+    * Breakdowns By
+        * Goals
+        * Values
+        * Missions
+        * Roles
+    * Analytics Dashboard
+        * Overview
+        * Tags
 
 ## License
 **The MIT License (MIT)**
-Copyright (c) 2016 Imran Ali Zaidi
+Copyright (c) 2017 Imran Ali Zaidi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
