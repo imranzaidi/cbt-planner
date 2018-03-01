@@ -43,7 +43,7 @@ function loadModels(sequelize, paths) {
  * Connects to Postgres database.
  *
  * @param {Object} config - application configurations
- * @returns {Object} db - a connected database instance with all models and associations
+ * @returns {Object} new sequelize instance
  */
 function connect(config) {
   const { name, username, password, host } = config.db.postgres,
@@ -58,10 +58,20 @@ function connect(config) {
       }
     };
 
-  const sequelize = new Sequelize(name, username, password, sequelizeConfig);
+  return new Sequelize(name, username, password, sequelizeConfig);
+}
+
+/**
+ * Initializes database connection and returns an instance ready for use.
+ *
+ * @param {Object} config - application configurations
+ * @returns {Object} db - a connected database instance with all models and associations
+ */
+function getDBInstance(config) {
+  const sequelize = connect(config);
   const db = loadModels(sequelize, config.paths.models.sequelize);
 
-  // Attach instance
+  // Attach sequelize instance
   db.sequelize = sequelize;
 
   return db;
@@ -69,5 +79,5 @@ function connect(config) {
 
 
 module.exports = {
-  connect
+  getDBInstance
 };
