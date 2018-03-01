@@ -4,6 +4,12 @@
 const Sequelize = require('sequelize');
 
 
+/******************
+ * Module Members *
+ ******************/
+let db;
+
+
 /**
  * Helper function; parses model name from path string.
  *
@@ -68,11 +74,12 @@ function connect(config) {
  * @returns {Object} db - a connected database instance with all models and associations
  */
 function getDBInstance(config) {
-  const sequelize = connect(config);
-  const db = loadModels(sequelize, config.paths.models.sequelize);
-
-  // Attach sequelize instance
-  db.sequelize = sequelize;
+  if (!db) {
+    const sequelize = connect(config);
+    db = loadModels(sequelize, config.paths.models.sequelize);
+    // Attach sequelize instance
+    db.sequelize = sequelize;
+  }
 
   return db;
 }
