@@ -2,7 +2,7 @@
  * Module Dependencies *
  ***********************/
 const utils = require('../../config/libraries/utils'),
-  validation = require('../libraries/validation-utils');
+  validation = require('../libraries/validationUtils');
 
 
 const VALID_PRIORITIES = ['a', 'b', 'c'],

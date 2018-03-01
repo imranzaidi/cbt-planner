@@ -5,6 +5,17 @@ const Sequelize = require('sequelize');
 
 
 /**
+ * Helper function; parses model name from path string.
+ *
+ * @param {String} path - file path
+ * @returns {string}
+ */
+function getModelName(path) {
+  const modelName = path.replace('app/models/sequelize/', '').replace('.js', '');
+  return modelName.charAt(0).toUpperCase() + modelName.slice(1);
+}
+
+/**
  * Loads all models and forms associations.
  *
  * @param {Object} sequelize - Sequelize instance
@@ -14,8 +25,7 @@ const Sequelize = require('sequelize');
 function loadModels(sequelize, paths) {
   // Load models
   const db = paths.reduce((acc, path) => {
-    const modelName = path.replace('app/models/sequelize/', '').replace('.js', '');
-    acc[modelName] = sequelize.import(`../../${path}`);
+    acc[getModelName(path)] = sequelize.import(`../../${path}`);
     return acc;
   }, {});
 

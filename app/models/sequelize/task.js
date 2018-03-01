@@ -1,5 +1,5 @@
-module.exports = function taskModel(sequelize, DataTypes) {
-  const task = sequelize.define('tasks', {
+module.exports = (sequelize, DataTypes) => {
+  const Task = sequelize.define('tasks', {
     description: {
       type: DataTypes.STRING,
       allowNull: false
@@ -18,11 +18,9 @@ module.exports = function taskModel(sequelize, DataTypes) {
     }
   });
 
-  task.associate = (models) => {
-    task.hasMany(models.note, {
-      foreignKey: 'taskID'
-    });
+  Task.associate = (models) => {
+    models.Task.hasMany(models.Note);
   };
 
-  return task;
+  return Task;
 };

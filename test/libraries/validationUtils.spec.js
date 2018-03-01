@@ -5,7 +5,7 @@
  ***********************/
 const chai = require('chai'),
   { expect } = chai,
-  lib = require('../../app/libraries/validation-utils');
+  lib = require('../../app/libraries/validationUtils');
 
 
 describe('libraries/validation-utils', () => {
