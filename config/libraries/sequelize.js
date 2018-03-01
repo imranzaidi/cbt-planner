@@ -14,7 +14,8 @@ const Sequelize = require('sequelize');
 function loadModels(sequelize, paths) {
   // Load models
   const db = paths.reduce((acc, path) => {
-    acc[path] = sequelize.import(`../../${path}`);
+    const modelName = path.replace('app/models/sequelize/', '').replace('.js', '');
+    acc[modelName] = sequelize.import(`../../${path}`);
     return acc;
   }, {});
 

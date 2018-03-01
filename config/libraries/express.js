@@ -53,7 +53,7 @@ function initializeMiddleware(app, config) {
 }
 
 /**
- * Set up routes.
+ * Set up REST routes.
  *
  * @param {Object} app - express application instance
  * @param {Array} routePaths - an list of string with the relative path to each route
@@ -65,6 +65,13 @@ function loadRoutes(app, routePaths) {
   });
 }
 
+/**
+ * Add GraphQL to server.
+ *
+ * @param {Object} app - express application instance
+ * @param {*} schema - some kind of schema type < TODO: update once we know
+ * @param {Object} db - sequelize postgres database instance
+ */
 function initGraphQLEndpoints(app, schema, db) {
   app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
   app.use('/graphql', graphqlExpress({ schema, context: { db } }));
@@ -80,7 +87,8 @@ function initialize(config) {
   const app = express();
 
   this.initializeMiddleware(app, config);
-  this.loadRoutes(app, config.paths.routes);
+  // TODO: refactor once all mongoose models are replaced with sequelize models
+  // this.loadRoutes(app, config.paths.routes);
 
   return app;
 }

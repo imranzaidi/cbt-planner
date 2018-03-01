@@ -12,6 +12,7 @@ mongooseService.connect(config.db.mongoose, (db, error) => { // eslint-disable-l
   const postgresDB = sequelizeService.connect(config),
     app = expressService.initialize(config);
   postgresDB.sequelize.sync().then(() => { expressService.startApp(app, config); });
+  // expressService.startApp(app, config);
 });
 
 // TODO: uncomment and refactor after stripping out mongoose
