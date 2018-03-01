@@ -6,7 +6,7 @@ The end goal is more ambitious than mimicking a classic daily planner or simplis
 
 ## Features
 
-1. **_Pyramid Foundation - Life Organization_**
+1. **_Pyramid Foundation: Life Organization_**
 
     * Value Definitions
     * Mission Statements
@@ -15,13 +15,13 @@ The end goal is more ambitious than mimicking a classic daily planner or simplis
         * List
         * Active
         
-2. **_Pyramid Cap - Task Management_**
+2. **_Pyramid Cap: Task Management_**
 
     * Master Task List
     * Weekly Tasks
     * Daily Tasks
     
-3. **_Planner_**
+3. **_Execution: Planner_**
 
     * Calendar
     * Weekly Templates
@@ -29,9 +29,9 @@ The end goal is more ambitious than mimicking a classic daily planner or simplis
     * Daily Planning
     * Task Tracking
     
-4. **_Pomodoro_**
+4. **_Focus: Pomodoro_**
 
-    * Focus Windows
+    * Pomodoro & Break windows
     * Focus Sessions
     * Session Logging
     
