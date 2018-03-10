@@ -9,10 +9,9 @@ const utils = require('./libraries/utils'),
 /******************
  * Module Members *
  ******************/
-const mongooseModelPaths = utils.getFilePaths(assets.models.mongoose),
-  controllerPaths = utils.getFilePaths(assets.controllers),
+const controllerPaths = utils.getFilePaths(assets.controllers),
   routePaths = utils.getFilePaths(assets.routes),
-  sequelizeModelPaths = utils.getFilePaths(assets.models.sequelize);
+  modelPaths = utils.getFilePaths(assets.models);
 
 
 /**
@@ -20,8 +19,7 @@ const mongooseModelPaths = utils.getFilePaths(assets.models.mongoose),
  */
 function outputAssets() {
   utils.outputPaths(controllerPaths, 'Controllers');
-  utils.outputPaths(mongooseModelPaths, 'Models (Mongoose)');
-  utils.outputPaths(sequelizeModelPaths, 'Models (Sequelize)');
+  utils.outputPaths(modelPaths, 'Models');
   utils.outputPaths(routePaths, 'Routes');
   console.log('\n'); // eslint-disable-line no-console
 }
@@ -29,10 +27,7 @@ function outputAssets() {
 if (process.env.NODE_ENV === 'development') { outputAssets(); }
 
 config.paths = {
-  models: {
-    mongoose: mongooseModelPaths,
-    sequelize: sequelizeModelPaths
-  },
+  models: modelPaths,
   controllers: controllerPaths,
   routes: routePaths
 };

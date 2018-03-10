@@ -1,20 +1,21 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize'),
+  config = require('../config');
 
 
 /******************
  * Module Members *
  ******************/
-let db;
+const db = {};
 
 
 /**
  * Helper function; parses model name from path string.
  *
  * @param {String} path - file path
- * @returns {string}
+ * @returns {String} * - model file name with the first letter capitalized
  */
 function getModelName(path) {
   const modelName = path.replace('app/models/sequelize/', '').replace('.js', '');
@@ -30,32 +31,31 @@ function getModelName(path) {
  */
 function loadModels(sequelize, paths) {
   // Load models
-  const db = paths.reduce((acc, path) => {
+  const models = paths.reduce((acc, path) => {
     acc[getModelName(path)] = sequelize.import(`../../${path}`);
     return acc;
   }, {});
 
   // Form associations
-  Object.keys(db).forEach((modelName) => {
-    if ('associate' in db[modelName]) {
-      db[modelName].associate(db);
+  Object.keys(models).forEach((modelName) => {
+    if ('associate' in models[modelName]) {
+      models[modelName].associate(models);
     }
   });
 
-  return db;
+  return models;
 }
 
 /**
  * Connects to Postgres database.
  *
- * @param {Object} config - application configurations
  * @returns {Object} new sequelize instance
  */
-function connect(config) {
-  const { name, username, password, host } = config.db.postgres,
+function connect() {
+  const { dbName, username, password, dialect, host } = config.db,
     sequelizeConfig = {
       host,
-      dialect: 'postgres',
+      dialect,
       pool: {
         max: 5,
         min: 0,
@@ -64,27 +64,13 @@ function connect(config) {
       }
     };
 
-  return new Sequelize(name, username, password, sequelizeConfig);
-}
-
-/**
- * Initializes database connection and returns an instance ready for use.
- *
- * @param {Object} config - application configurations
- * @returns {Object} db - a connected database instance with all models and associations
- */
-function getDBInstance(config) {
-  if (!db) {
-    const sequelize = connect(config);
-    db = loadModels(sequelize, config.paths.models.sequelize);
-    // Attach sequelize instance
-    db.sequelize = sequelize;
-  }
-
-  return db;
+  return new Sequelize(dbName, username, password, sequelizeConfig);
 }
 
 
-module.exports = {
-  getDBInstance
-};
+const sequelize = connect();
+db.models = loadModels(sequelize, config.paths.models);
+db.sequelize = sequelize;
+
+
+module.exports = db;

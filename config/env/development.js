@@ -10,19 +10,11 @@ const developmentConfig = {
   },
 
   db: {
-    mongoose: {
-      host: 'localhost',
-      name: 'cbt-planner',
-      port: 27017,
-      debug: process.env.DB_DEBUG || true,
-      promise: global.Promise
-    },
-    postgres: {
-      host: 'localhost',
-      name: 'cbt_planner',
-      username: process.env.POSTGRES_USERNAME || 'local',
-      password: process.env.POSTGRES_PASSWORD || ''
-    }
+    host: 'localhost',
+    dbName: 'cbt_planner',
+    dialect: 'postgres',
+    username: process.env.POSTGRES_USERNAME || 'local',
+    password: process.env.POSTGRES_PASSWORD || ''
   }
 };
 

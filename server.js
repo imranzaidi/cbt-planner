@@ -2,11 +2,13 @@
  * Module Dependencies *
  ***********************/
 const expressService = require('./config/libraries/express'),
-  sequelizeService = require('./config/libraries/sequelize'),
-  config = require('./config/config');
+  sequelizeService = require('./config/libraries/sequelize');
 
 
-const postgresDB = sequelizeService.getDBInstance(config),
-  app = expressService.initialize(config);
+/******************
+ * Module Members *
+ ******************/
+const app = expressService.initialize();
 
-postgresDB.sequelize.sync().then(() => { expressService.startApp(app, config); });
+
+sequelizeService.sequelize.sync().then(() => { expressService.startApp(app); });

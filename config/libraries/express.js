@@ -4,6 +4,7 @@
 const apolloServerExpress = require('apollo-server-express'),
   bodyParser = require('body-parser'),
   chalk = require('chalk'),
+  config = require('../config'),
   express = require('express'),
   helmet = require('helmet'),
   logger = require('./logger'),
@@ -22,9 +23,8 @@ const { graphiqlExpress, graphqlExpress } = apolloServerExpress;
  * Initialize middleware.
  *
  * @param {Object} app - express application instance
- * @param {Object} config - application configuration
  */
-function initializeMiddleware(app, config) {
+function initializeMiddleware(app) {
   // parsing requests
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
@@ -80,10 +80,9 @@ function initGraphQLEndpoints(app, schema, db) {
 /**
  * Initializes Express application.
  *
- * @param {Object} config - application configuration
  * @returns {Object} app - express application instance
  */
-function initialize(config) {
+function initialize() {
   const app = express();
 
   this.initializeMiddleware(app, config);
@@ -97,9 +96,8 @@ function initialize(config) {
  * Start the server.
  *
  * @param {Object} app - express application instance
- * @param {Object} config - application configuration
  */
-function startApp(app, config) {
+function startApp(app) {
   app.listen(config.app.port, config.app.host, () => {
     console.info(chalk.blue(`We are live on port ${config.app.port}:`)); // eslint-disable-line no-console
   });

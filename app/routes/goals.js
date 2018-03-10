@@ -1,7 +1,7 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const controller = require('../controllers/goals');
+const controller = require('../controllers/mongoose/goals');
 
 
 // TODO: implement and refactor

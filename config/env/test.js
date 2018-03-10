@@ -11,10 +11,10 @@ const testConfig = {
 
   db: {
     host: 'localhost',
-    name: 'cbt-planner-test',
-    port: 27017,
-    debug: process.env.DB_DEBUG || true,
-    promise: global.Promise
+    dbName: 'cbt_planner',
+    dialect: 'postgres',
+    username: process.env.POSTGRES_USERNAME || 'local',
+    password: process.env.POSTGRES_PASSWORD || ''
   }
 };
 

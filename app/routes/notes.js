@@ -1,8 +1,8 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const notesController = require('../controllers/notes'),
-  tasksController = require('../controllers/tasks');
+const notesController = require('../controllers/mongoose/notes'),
+  tasksController = require('../controllers/mongoose/tasks');
 
 
 module.exports = function bindRoutes(app) {
