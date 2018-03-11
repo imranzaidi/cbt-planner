@@ -11,7 +11,7 @@ const testConfig = {
 
   db: {
     host: 'localhost',
-    dbName: 'cbt_planner',
+    dbName: 'cbt_planner_test',
     dialect: 'postgres',
     username: process.env.POSTGRES_USERNAME || 'local',
     password: process.env.POSTGRES_PASSWORD || ''
