@@ -25,9 +25,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  Value.associate = (models) => {
-    models.Value.hasMany(models.Goal);
-  };
-
   return Value;
 };

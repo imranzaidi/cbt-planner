@@ -18,9 +18,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  Mission.associate = (models) => {
-    models.Mission.hasMany(models.Goal);
-  };
-
   return Mission;
 };
