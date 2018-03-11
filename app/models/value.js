@@ -1,3 +1,9 @@
+/***********************
+ * Module Dependencies *
+ ***********************/
+const enums = require('../consts/enums');
+
+
 /**
  * Governing values form the foundation, enabling you to realize the type of life you want to live.
  *
@@ -21,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM,
       allowNull: false,
       defaultValue: 'personal',
-      values: ['personal', 'interpersonal', 'health and well-being', 'professional', 'financial']
+      values: enums.valueCategories
     }
   });
 

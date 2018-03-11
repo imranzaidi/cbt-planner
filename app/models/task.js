@@ -1,3 +1,9 @@
+/***********************
+ * Module Dependencies *
+ ***********************/
+const enums = require('../consts/enums');
+
+
 module.exports = (sequelize, DataTypes) => {
   const Task = sequelize.define('tasks', {
     description: {
@@ -8,13 +14,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM,
       allowNull: false,
       defaultValue: 'a',
-      values: ['a', 'b', 'c']
+      values: enums.taskPriorities
     },
     status: {
       type: DataTypes.ENUM,
       allowNull: false,
       defaultValue: 'incomplete',
-      values: ['incomplete', 'in progress', 'completed', 'forwarded']
+      values: enums.taskStatuses
     }
   });
 
