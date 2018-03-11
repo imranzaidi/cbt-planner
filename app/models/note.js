@@ -7,12 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Note.associate = (models) => {
-    models.Note.belongsTo(models.Task, {
-      onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false
-      }
-    });
+    models.Note.belongsTo(models.Task);
   };
 
   return Note;

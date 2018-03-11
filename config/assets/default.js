@@ -9,7 +9,7 @@ const utils = require('../libraries/utils');
  ******************/
 const assets = {
   controllers: 'app/controllers/**/*.js',
-  models: 'app/models/sequelize/**/*.js',
+  models: 'app/models/**/*.js',
   routes: 'app/routes/**/*.js'
 };
 utils.deepFreeze(assets);
