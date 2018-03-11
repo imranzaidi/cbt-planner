@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Role.associate = (models) => {
-    models.Role.hasMany(models.Stakeholder);
+    models.Role.belongsToMany(models.Stakeholder, { through: 'roles_stakeholders' });
   };
 
   return Role;

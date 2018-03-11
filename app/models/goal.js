@@ -8,9 +8,9 @@ module.exports = (sequelize, DataTypes) => {
 
   Goal.associate = (models) => {
     // Goals serve one or more of the following
-    models.Goal.hasMany(models.Value);
-    models.Goal.hasMany(models.Mission);
-    models.Goal.hasMany(models.Role);
+    models.Goal.belongsToMany(models.Value, { through: 'goals_values' });
+    models.Goal.belongsToMany(models.Mission, { through: 'goals_missions' });
+    models.Goal.belongsToMany(models.Role, { through: 'goals_roles' });
 
     // Accomplish goals by breaking them down in to steps
     models.Goal.hasMany(models.Step);
