@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'incomplete',
       values: enums.taskStatuses
+    },
+    due: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
   });
 
