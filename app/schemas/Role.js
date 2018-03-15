@@ -1,8 +1,8 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const Goal = require('./goal'),
-  Stakeholder = require('./stakeholder');
+const Goal = require('./Goal'),
+  Stakeholder = require('./Stakeholder');
 
 
 /**********

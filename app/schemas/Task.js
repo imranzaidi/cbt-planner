@@ -1,7 +1,7 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const Note = require('./note');
+const Note = require('./Note');
 
 
 /**********

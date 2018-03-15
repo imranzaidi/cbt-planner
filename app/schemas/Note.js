@@ -1,7 +1,7 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const Task = require('./task');
+const Task = require('./Task');
 
 
 /**********

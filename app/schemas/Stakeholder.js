@@ -1,7 +1,7 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const Role = require('./role');
+const Role = require('./Role');
 
 
 /**********

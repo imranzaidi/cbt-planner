@@ -18,8 +18,7 @@ const db = {};
  * @returns {String} * - model file name with the first letter capitalized
  */
 function getModelName(path) {
-  const modelName = path.replace('app/models/', '').replace('.js', '');
-  return modelName.charAt(0).toUpperCase() + modelName.slice(1);
+  return path.replace('app/models/', '').replace('.js', '');
 }
 
 /**

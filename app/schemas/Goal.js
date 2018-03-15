@@ -1,10 +1,10 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const Mission = require('./mission'),
-  Role = require('./role'),
-  Step = require('./step'),
-  Value = require('./value');
+const Mission = require('./Mission'),
+  Role = require('./Role'),
+  Step = require('./Step'),
+  Value = require('./Value');
 
 
 /**********

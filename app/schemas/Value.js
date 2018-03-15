@@ -1,7 +1,7 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const Goal = require('./goal');
+const Goal = require('./Goal');
 
 
 /**********
