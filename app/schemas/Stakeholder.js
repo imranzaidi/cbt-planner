@@ -9,7 +9,7 @@ const Role = require('./Role');
  **********/
 const Stakeholder = `
   type Stakeholder {
-    id: ID!
+    id: Int!
     title: String!
     roles: [Role]
   }

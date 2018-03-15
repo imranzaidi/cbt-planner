@@ -10,7 +10,7 @@ const Goal = require('./Goal'),
  **********/
 const Role = `
   type Role {
-    id: ID!
+    id: Int!
     title: String!
     clarifyingStatements: String!
     stakeholders: [Stakeholder]

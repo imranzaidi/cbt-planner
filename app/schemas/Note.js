@@ -9,7 +9,7 @@ const Task = require('./Task');
  **********/
 const Note = `
   type Note {
-    id: ID!
+    id: Int!
     content: String!
     task: Task!
   }

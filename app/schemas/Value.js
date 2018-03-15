@@ -9,7 +9,7 @@ const Goal = require('./Goal');
  **********/
 const Value = `
   type Value {
-    id: ID!
+    id: Int!
     valueStatement: String!
     description: String!
     category: String!

@@ -9,7 +9,7 @@ const Goal = require('./Goal');
  **********/
 const Step = `
   type Step {
-    id: ID!
+    id: Int!
     description: String!
     deadline: String!
     complete: Boolean!

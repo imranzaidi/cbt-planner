@@ -12,7 +12,7 @@ const Mission = require('./Mission'),
  **********/
 const Goal = `
   type Goal {
-    id: ID!
+    id: Int!
     statement: String!
     values: [Value]
     missions: [Mission]

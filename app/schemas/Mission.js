@@ -9,7 +9,7 @@ const Goal = require('./Goal');
  **********/
 const Mission = `
   type Mission {
-    id: ID!
+    id: Int!
     statement: String!
     accomplished: Boolean!
     goals: [Goal]
