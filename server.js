@@ -8,7 +8,7 @@ const expressService = require('./config/libraries/express'),
 /******************
  * Module Members *
  ******************/
-const app = expressService.initialize();
+const app = expressService.initialize(sequelizeService);
 
 
 sequelizeService.sequelize.sync().then(() => { expressService.startApp(app); });

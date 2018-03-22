@@ -4,14 +4,15 @@ module.exports = {
   },
 
   Query: {
-    getTask: ({ id }, args, { models }) => models.Task.findOne({ where: { id } })
+    getTask: (parent, { id }, { models }) => models.Task.findOne({ where: { id } })
+    // TODO: getTasksDueBy
   },
 
   Mutation: {
-    createTask: (parent, args, { models }) => models.Task.create(args),
-    updateTask: ({ id }, { description, status, priority }, { models }) => models.Task.update({
+    createTask: (parent, { description }, { models }) => models.Task.create({ description }),
+    updateTask: (parent, { id, description, status, priority }, { models }) => models.Task.update({
       description, status, priority
     }, { where: { id } }),
-    deleteTask: ({ id }, args, { models }) => models.Task.destroy({ where: { id } })
+    deleteTask: (parent, { id }, { models }) => models.Task.destroy({ where: { id } })
   }
 };

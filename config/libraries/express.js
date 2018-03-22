@@ -5,18 +5,13 @@ const apolloServerExpress = require('apollo-server-express'),
   bodyParser = require('body-parser'),
   chalk = require('chalk'),
   config = require('../config'),
+  graphqlSchemaService = require('./graphqlSchema'),
   express = require('express'),
   helmet = require('helmet'),
   logger = require('./logger'),
   methodOverride = require('method-override'),
   morgan = require('morgan'),
   path = require('path');
-
-
-/******************
- * Module Members *
- ******************/
-const { graphiqlExpress, graphqlExpress } = apolloServerExpress;
 
 
 /**
@@ -56,10 +51,10 @@ function initializeMiddleware(app) {
  * Set up REST routes.
  *
  * @param {Object} app - express application instance
- * @param {Array} routePaths - an list of string with the relative path to each route
  */
-function loadRoutes(app, routePaths) {
-  routePaths.forEach((routePath) => {
+function loadRoutes(app) { // eslint-disable-line no-unused-vars
+  // TODO: remove eslint disable once used
+  config.paths.routes.forEach((routePath) => {
     const bindRoutes = require(path.resolve(routePath)); // eslint-disable-line
     bindRoutes(app);
   });
@@ -69,12 +64,18 @@ function loadRoutes(app, routePaths) {
  * Add GraphQL to server.
  *
  * @param {Object} app - express application instance
- * @param {*} schema - some kind of schema type < TODO: update once we know
- * @param {Object} db - sequelize postgres database instance
  */
-function initGraphQLEndpoints(app, schema, db) {
+function initGraphQLEndpoints(app, sequelizeService) {
+  const { graphiqlExpress, graphqlExpress } = apolloServerExpress,
+    schema = graphqlSchemaService.generateSchema();
+
   app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
-  app.use('/graphql', graphqlExpress({ schema, context: { db } }));
+  app.use('/graphql', graphqlExpress({
+    schema,
+    context: {
+      models: sequelizeService.models
+    }
+  }));
 }
 
 /**
@@ -82,12 +83,13 @@ function initGraphQLEndpoints(app, schema, db) {
  *
  * @returns {Object} app - express application instance
  */
-function initialize() {
+function initialize(sequelizeService) {
   const app = express();
 
-  this.initializeMiddleware(app, config);
-  // TODO: refactor once all mongoose models are replaced with sequelize models
-  // this.loadRoutes(app, config.paths.routes);
+  initializeMiddleware(app);
+  // TODO: uncomment once we have some REST endpoints
+  // this.loadRoutes(app);
+  initGraphQLEndpoints(app, sequelizeService);
 
   return app;
 }
@@ -105,9 +107,6 @@ function startApp(app) {
 
 
 module.exports = {
-  initializeMiddleware,
-  loadRoutes,
-  initGraphQLEndpoints,
   initialize,
   startApp
 };

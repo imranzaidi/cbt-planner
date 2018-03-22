@@ -10,7 +10,9 @@ const utils = require('../libraries/utils');
 const assets = {
   controllers: 'app/controllers/**/*.js',
   models: 'app/models/**/*.js',
-  routes: 'app/routes/**/*.js'
+  resolvers: 'app/resolvers/**/*.js',
+  routes: 'app/routes/**/*.js',
+  schemas: 'app/schemas/**/*.js'
 };
 utils.deepFreeze(assets);
 

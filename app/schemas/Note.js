@@ -1,3 +1,6 @@
+module.exports = () => [Note, Task]; // eslint-disable-line no-use-before-define
+
+
 /***********************
  * Module Dependencies *
  ***********************/
@@ -14,6 +17,3 @@ const Note = `
     task: Task!
   }
 `;
-
-
-module.exports = () => [Note, Task];
