@@ -10,9 +10,17 @@ module.exports = {
 
   Mutation: {
     createTask: (parent, { description }, { models }) => models.Task.create({ description }),
-    updateTask: (parent, { id, description, status, priority }, { models }) => models.Task.update({
-      description, status, priority
-    }, { where: { id } }),
+    updateTask: (parent, { id, description, status, priority }, { models }) => {
+      const updatedFields = { description, status, priority };
+
+      Object.keys(updatedFields).forEach((key) => {
+        if (!updatedFields[key]) {
+          delete updatedFields[key];
+        }
+      });
+
+      return models.Task.update(updatedFields, { where: { id } });
+    },
     deleteTask: (parent, { id }, { models }) => models.Task.destroy({ where: { id } })
   }
 };

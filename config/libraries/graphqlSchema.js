@@ -53,8 +53,8 @@ function generateSchema() {
   const Mutation = `
     type Mutation {
       createTask(description: String!): Task
-      updateTask(id: Int!, description: String!, status: String!, priority: String!): Task
-      deleteTask(id: Int!): Task
+      updateTask(id: Int!, description: String!, status: String, priority: String): [Int!]!
+      deleteTask(id: Int!): Int!
     }
   `;
 
