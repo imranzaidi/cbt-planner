@@ -4,14 +4,19 @@ module.exports = {
   },
 
   Query: {
-    getTask: (parent, { id }, { models }) => models.Task.findOne({ where: { id } })
-    // TODO: getTasksDueBy
+    getTask: (parent, { id }, { models }) => models.Task.findOne({ where: { id } }),
+    getTasksDueBy: (parent, { date }, { models }) => {
+      const currentDate = new Date(),
+        dueDate = new Date(date);
+
+      return models.Task.findAll({ where: { due: { $between: [currentDate, dueDate] } } });
+    }
   },
 
   Mutation: {
     createTask: (parent, { description }, { models }) => models.Task.create({ description }),
-    updateTask: (parent, { id, description, status, priority }, { models }) => {
-      const updatedFields = { description, status, priority };
+    updateTask: (parent, { id, description, status, priority, due }, { models }) => {
+      const updatedFields = { description, status, priority, due };
 
       Object.keys(updatedFields).forEach((key) => {
         if (!updatedFields[key]) {

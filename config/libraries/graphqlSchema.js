@@ -47,13 +47,14 @@ function generateSchema() {
   const Query = `
     type Query {
       getTask(id: Int!): Task
+      getTasksDueBy(date: String!): [Task]
     }
   `;
 
   const Mutation = `
     type Mutation {
       createTask(description: String!): Task
-      updateTask(id: Int!, description: String!, status: String, priority: String): [Int!]!
+      updateTask(id: Int!, description: String!, status: String, priority: String, due: String): [Int!]!
       deleteTask(id: Int!): Int!
     }
   `;

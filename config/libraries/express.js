@@ -9,9 +9,7 @@ const apolloServerExpress = require('apollo-server-express'),
   express = require('express'),
   helmet = require('helmet'),
   logger = require('./logger'),
-  methodOverride = require('method-override'),
-  morgan = require('morgan'),
-  path = require('path');
+  morgan = require('morgan');
 
 
 /**
@@ -29,9 +27,6 @@ function initializeMiddleware(app) {
     stream: logger.stream
   }));
 
-  // lets simple clients' requests simulate DELETE and PUT
-  app.use(methodOverride());
-
   // secure HTTP headers
   app.use(helmet.dnsPrefetchControl());
   app.use(helmet.frameguard());
@@ -48,22 +43,10 @@ function initializeMiddleware(app) {
 }
 
 /**
- * Set up REST routes.
- *
- * @param {Object} app - express application instance
- */
-function loadRoutes(app) { // eslint-disable-line no-unused-vars
-  // TODO: remove eslint disable once used
-  config.paths.routes.forEach((routePath) => {
-    const bindRoutes = require(path.resolve(routePath)); // eslint-disable-line
-    bindRoutes(app);
-  });
-}
-
-/**
  * Add GraphQL to server.
  *
  * @param {Object} app - express application instance
+ * @param {Object} sequelizeService - sequelize service with models
  */
 function initGraphQLEndpoints(app, sequelizeService) {
   const { graphiqlExpress, graphqlExpress } = apolloServerExpress,
@@ -81,14 +64,13 @@ function initGraphQLEndpoints(app, sequelizeService) {
 /**
  * Initializes Express application.
  *
+ * @param {Object} sequelizeService - sequelize service with models
  * @returns {Object} app - express application instance
  */
 function initialize(sequelizeService) {
   const app = express();
 
   initializeMiddleware(app);
-  // TODO: uncomment once we have some REST endpoints
-  // this.loadRoutes(app);
   initGraphQLEndpoints(app, sequelizeService);
 
   return app;
