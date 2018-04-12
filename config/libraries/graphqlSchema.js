@@ -42,12 +42,13 @@ function generateSchema() {
   const { makeExecutableSchema } = graphqlTools,
     schemas = getSchemas(),
     resolvers = getResolvers(),
-    { Task, Note } = schemas;
+    { Task, TaskList, Note } = schemas;
 
   const Query = `
     type Query {
       getTask(id: Int!): Task
       getTasksDueBy(date: String!): [Task]
+      getTaskList (id: Int!): TaskList
       getNote(id: Int!): Note
     }
   `;
@@ -57,6 +58,8 @@ function generateSchema() {
       createTask(description: String!): Task
       updateTask(id: Int!, description: String!, status: String, priority: String, due: String): [Int!]!
       deleteTask(id: Int!): Int!
+      createTaskList(startDate: String!, type: String!): TaskList
+      deleteTaskList(id: Int!): Int!
       createNote(taskId: Int!, content: String!): Note
       updateNote(id: Int!, content: String!): [Int!]!
       deleteNote(id: Int!): Int!
@@ -70,8 +73,8 @@ function generateSchema() {
     }
   `;
 
-  const typeDefs = [SchemaDefinition, Query, Mutation, Task, Note];
-  const rootResolver = _.merge({}, resolvers.Task, resolvers.Note);
+  const typeDefs = [SchemaDefinition, Query, Mutation, Task, TaskList, Note];
+  const rootResolver = _.merge({}, resolvers.Task, resolvers.TaskList, resolvers.Note);
 
   return makeExecutableSchema({
     typeDefs,
