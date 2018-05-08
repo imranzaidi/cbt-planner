@@ -2,14 +2,9 @@ module.exports = {
   TaskList: {
     tasks: ({ id }, args, { models }) => {
       // TODO: refactor and fix
-      return models.Task.findAll({
-        include: [{
-          model: models.TaskList,
-          through: {
-            where: { taskListId: id }
-          }
-        }]
-      });
+
+      return models.TaskList.find({ where: { id } })
+        .then(taskList => taskList.getTasks());
     }
   },
 
@@ -24,7 +19,13 @@ module.exports = {
       // TODO: add validation for startDate on monthly & weekly basis
       return models.TaskList.create({ startDate: date, type });
     },
-    // TODO: implement updateTaskList / addToTaskList
+    addToTaskList: (parent, { taskId, taskListId }, { models }) => {
+      models.Task.find({ where: { id: taskId } }).then((task) => {
+        models.TaskList.find({ where: { id: taskListId } }).then((taskList) => {
+          return taskList.addTask(task);
+        });
+      });
+    },
     deleteTaskList: (parent, { id }, { models }) => models.TaskList.destroy({ where: { id } })
   }
 };

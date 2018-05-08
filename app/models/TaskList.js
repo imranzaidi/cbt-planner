@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   TaskList.associate = (models) => {
-    models.TaskList.belongsToMany(models.Task, { through: 'task_lists_tasks' });
+    models.TaskList.belongsToMany(models.Task, { through: models.TaskListsTasks });
   };
 
   return TaskList;

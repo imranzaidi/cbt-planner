@@ -59,6 +59,7 @@ function generateSchema() {
       updateTask(id: Int!, description: String!, status: String, priority: String, due: String): [Int!]!
       deleteTask(id: Int!): Int!
       createTaskList(startDate: String!, type: String!): TaskList
+      addToTaskList(taskId: Int!, taskListId: Int!): TaskList
       deleteTaskList(id: Int!): Int!
       createNote(taskId: Int!, content: String!): Note
       updateNote(id: Int!, content: String!): [Int!]!
