@@ -1,8 +1,6 @@
 module.exports = {
   TaskList: {
-    tasks: ({ id }, args, { models }) => {
-      // TODO: refactor and fix
-
+    tasks: ({ id }, args, { models }) => { // eslint-disable-line arrow-body-style
       return models.TaskList.find({ where: { id } })
         .then(taskList => taskList.getTasks());
     }
@@ -21,7 +19,7 @@ module.exports = {
     },
     addToTaskList: (parent, { taskId, taskListId }, { models }) => {
       models.Task.find({ where: { id: taskId } }).then((task) => {
-        models.TaskList.find({ where: { id: taskListId } }).then((taskList) => {
+        models.TaskList.find({ where: { id: taskListId } }).then((taskList) => { // eslint-disable-line arrow-body-style
           return taskList.addTask(task);
         });
       });

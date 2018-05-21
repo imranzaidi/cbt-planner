@@ -1,7 +1,7 @@
 {
   "extends": "airbnb-base",
   "rules": {
-    "arrow-body-style": ["warn", "always"],
+    "arrow-body-style": ["warn", "as-needed"],
     "comma-dangle": ["error", "never"],
     "dot-notation": ["warn"],
     "max-len": ["error", { "code": 120 }],

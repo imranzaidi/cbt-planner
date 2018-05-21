@@ -4,9 +4,7 @@ module.exports = {
   },
 
   Query: {
-    getTask: (parent, { id }, { models }) => {
-      return models.Task.findOne({ where: { id } });
-    },
+    getTask: (parent, { id }, { models }) => models.Task.findOne({ where: { id } }),
     getTasksDueBy: (parent, { date }, { models }) => {
       const currentDate = new Date(),
         dueDate = new Date(date);
