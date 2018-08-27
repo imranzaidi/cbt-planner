@@ -5,6 +5,7 @@ const apolloServerExpress = require('apollo-server-express'),
   bodyParser = require('body-parser'),
   chalk = require('chalk'),
   config = require('../config'),
+  cors = require('cors'),
   graphqlSchemaService = require('./graphqlSchema'),
   express = require('express'),
   helmet = require('helmet'),
@@ -53,7 +54,7 @@ function initGraphQLEndpoints(app, sequelizeService) {
     schema = graphqlSchemaService.generateSchema();
 
   app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
-  app.use('/graphql', graphqlExpress({
+  app.use('/graphql', cors(), graphqlExpress({
     schema,
     context: {
       models: sequelizeService.models
