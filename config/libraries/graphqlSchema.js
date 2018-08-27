@@ -3,6 +3,7 @@
  ***********************/
 const _ = require('lodash'),
   config = require('../config'),
+  fs = require('fs'),
   graphqlTools = require('graphql-tools'),
   path = require('path');
 
@@ -44,37 +45,9 @@ function generateSchema() {
     resolvers = getResolvers(),
     { Task, TaskList, Note } = schemas;
 
-  const Query = `
-    type Query {
-      getTask(id: Int!): Task
-      getTasksDueBy(date: String!): [Task]
-      getTaskList (id: Int!): TaskList
-      getNote(id: Int!): Note
-    }
-  `;
+  const SchemaDefinition = fs.readFileSync(path.join(__dirname, 'schema.graphqls')).toString();
 
-  const Mutation = `
-    type Mutation {
-      createTask(description: String!): Task
-      updateTask(id: Int!, description: String!, status: String, priority: String, due: String): [Int!]!
-      deleteTask(id: Int!): Int!
-      createTaskList(startDate: String!, type: String!): TaskList
-      addToTaskList(taskId: Int!, taskListId: Int!): TaskList
-      deleteTaskList(id: Int!): Int!
-      createNote(taskId: Int!, content: String!): Note
-      updateNote(id: Int!, content: String!): [Int!]!
-      deleteNote(id: Int!): Int!
-    }
-  `;
-
-  const SchemaDefinition = `
-    schema {
-      query: Query
-      mutation: Mutation
-    }
-  `;
-
-  const typeDefs = [SchemaDefinition, Query, Mutation, Task, TaskList, Note];
+  const typeDefs = [SchemaDefinition, Task, TaskList, Note];
   const rootResolver = _.merge({}, resolvers.Task, resolvers.TaskList, resolvers.Note);
 
   return makeExecutableSchema({
