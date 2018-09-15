@@ -41,6 +41,9 @@ function initializeMiddleware(app) {
     app.use(helmet.noCache());
   }
   // TODO: Consider adding helmet.contentSecurityPolicy() for strict control of asset origin.
+
+  // allow cors for graphql client
+  app.use(cors());
 }
 
 /**
@@ -50,16 +53,17 @@ function initializeMiddleware(app) {
  * @param {Object} sequelizeService - sequelize service with models
  */
 function initGraphQLEndpoints(app, sequelizeService) {
-  const { graphiqlExpress, graphqlExpress } = apolloServerExpress,
+  const { ApolloServer } = apolloServerExpress,
     schema = graphqlSchemaService.generateSchema();
 
-  app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
-  app.use('/graphql', cors(), graphqlExpress({
+  const graphQLServer = new ApolloServer({
     schema,
     context: {
       models: sequelizeService.models
     }
-  }));
+  });
+
+  graphQLServer.applyMiddleware({ app });
 }
 
 /**
