@@ -30,9 +30,9 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true
   });
 
-  // Mission.associate = (models) => {
-  //   models.Mission.belongsTo(models.User, { through: models.MissionsUsers });
-  // };
+  Mission.associate = (models) => {
+    models.Mission.belongsTo(models.User, { as: 'User' });
+  };
 
   return Mission;
 };

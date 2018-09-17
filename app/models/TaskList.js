@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
   const TaskList = sequelize.define('task_list', {
     startDate: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      field: 'start_date'
     },
     type: {
       type: DataTypes.ENUM,
@@ -32,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
 
   TaskList.associate = (models) => {
     models.TaskList.belongsToMany(models.Task, { as: 'Tasks', through: 'task_lists_tasks' });
-    // models.TaskList.belongsTo(models.User, { through: models.TaskListsUsers });
+    models.TaskList.belongsTo(models.User, { as: 'User' });
   };
 
   return TaskList;

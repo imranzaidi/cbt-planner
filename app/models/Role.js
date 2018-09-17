@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     clarifyingStatements: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      field: 'clarifying_statements'
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -33,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Role.associate = (models) => {
     models.Role.belongsToMany(models.Stakeholder, { through: 'roles_stakeholders' });
-    // models.Role.belongsTo(models.User, { through: models.RolesUsers });
+    models.Role.belongsTo(models.User, { as: 'User' });
   };
 
   return Role;

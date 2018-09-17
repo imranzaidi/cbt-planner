@@ -6,9 +6,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
-      unique: true
+      unique: true,
+      allowNull: false
     },
-    password: DataTypes.STRING,
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     createdAt: {
       type: DataTypes.DATE,
       field: 'created_at'
@@ -24,13 +28,13 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    // models.User.hasMany(models.Goal, { through: models.GoalsUsers });
-    // models.User.hasMany(models.Mission, { through: models.MissionsUsers });
-    // models.User.hasMany(models.Role, { through: models.RolesUsers });
-    // models.User.hasMany(models.Stakeholder, { through: models.StakeholdersUsers });
+    models.User.hasMany(models.Goal, { as: 'Goals' });
+    models.User.hasMany(models.Mission, { as: 'Missions' });
+    models.User.hasMany(models.Role, { as: 'Roles' });
+    models.User.hasMany(models.Stakeholder, { as: 'Stakeholders' });
     models.User.hasMany(models.Task, { as: 'Tasks' });
-    // models.User.hasMany(models.TaskList, { through: models.TaskListsUsers });
-    // models.User.hasMany(models.Value, { through: models.ValuesUsers });
+    models.User.hasMany(models.TaskList, { as: 'TaskLists' });
+    models.User.hasMany(models.Value, { as: 'Values' });
   };
 
   return User;

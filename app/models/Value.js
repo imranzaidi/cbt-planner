@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   const Value = sequelize.define('values', {
     valueStatement: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      field: 'value_statement'
     },
     description: {
       type: DataTypes.STRING,
@@ -44,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Value.associate = (models) => {
-    models.Value.belongsTo(models.User, { through: models.ValuesUsers });
+    models.Value.belongsTo(models.User, { as: 'User' });
   };
 
   return Value;

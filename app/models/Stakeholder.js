@@ -21,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true
   });
 
-  // Stakeholder.associate = (models) => {
-  //   models.Stakeholder.belongsTo(models.User, { through: models.StakeholdersUsers });
-  // };
+  Stakeholder.associate = (models) => {
+    models.Stakeholder.belongsTo(models.User, { as: 'User' });
+  };
 
   return Stakeholder;
 };
