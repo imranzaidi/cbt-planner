@@ -15,20 +15,32 @@ const apolloServerExpress = require('apollo-server-express'),
 
 
 /**
- * Facilitates user login and auth
+ * Middleware that facilitates user login and auth.
  *
- * @param {Object} req - request object
- * @returns {Promise<void>}
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ * @returns {Promise<*>}
  */
-async function addUser(req) {
+async function addUser(req, res, next) {
   const token = req.headers.authorization;
-  try {
-    const { user } = await jsonwebtoken.verify(token, process.env.SECRET);
-    req.user = user;
-  } catch (err) {
-    console.log(chalk.red('Authorization error:'), err); // eslint-disable-line no-console
+  let isLoginMutation = false;
+
+  if (req.body && req.body.query) {
+    isLoginMutation = req.body.query.match(/mutation/) && req.body.query.match(/login\(/);
   }
-  req.next();
+  if (!isLoginMutation && req.body.query && req.body.operationName !== 'IntrospectionQuery') {
+    try {
+      const { user } = await jsonwebtoken.verify(token, process.env.SECRET);
+      req.user = user;
+    } catch (err) {
+      console.log(chalk.red('Authorization:'), err); // eslint-disable-line no-console
+
+      res.status(401);
+      return res.send({ message: 'Unauthorized.' });
+    }
+  }
+  return next();
 }
 
 /**
