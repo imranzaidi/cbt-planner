@@ -11,7 +11,19 @@ module.exports = (sequelize, DataTypes) => {
     complete: {
       type: DataTypes.BOOLEAN,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
     }
+  }, {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    underscored: true
   });
 
   Step.associate = (models) => {

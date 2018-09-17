@@ -9,9 +9,27 @@ const apolloServerExpress = require('apollo-server-express'),
   graphqlSchemaService = require('./graphqlSchema'),
   express = require('express'),
   helmet = require('helmet'),
+  jsonwebtoken = require('jsonwebtoken'),
   logger = require('./logger'),
   morgan = require('morgan');
 
+
+/**
+ * Facilitates user login and auth
+ *
+ * @param {Object} req - request object
+ * @returns {Promise<void>}
+ */
+async function addUser(req) {
+  const token = req.headers.authorization;
+  try {
+    const { user } = await jsonwebtoken.verify(token, process.env.SECRET);
+    req.user = user;
+  } catch (err) {
+    console.log(chalk.red('Authorization error:'), err); // eslint-disable-line no-console
+  }
+  req.next();
+}
 
 /**
  * Initialize middleware.
@@ -40,10 +58,10 @@ function initializeMiddleware(app) {
   if (config.app.env === 'development') {
     app.use(helmet.noCache());
   }
-  // TODO: Consider adding helmet.contentSecurityPolicy() for strict control of asset origin.
 
   // allow cors for graphql client
   app.use(cors());
+  app.use(addUser);
 }
 
 /**
@@ -58,9 +76,11 @@ function initGraphQLEndpoints(app, sequelizeService) {
 
   const graphQLServer = new ApolloServer({
     schema,
-    context: {
-      models: sequelizeService.models
-    }
+    context: ({ req }) => ({ // eslint-disable-line arrow-parens
+      models: sequelizeService.models,
+      SECRET: process.env.SECRET,
+      user: req.user
+    })
   });
 
   graphQLServer.applyMiddleware({ app });

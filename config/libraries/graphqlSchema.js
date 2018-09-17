@@ -43,12 +43,12 @@ function generateSchema() {
   const { makeExecutableSchema } = graphqlTools,
     schemas = getSchemas(),
     resolvers = getResolvers(),
-    { Task, TaskList, Note } = schemas;
+    { Task, TaskList, Note, User } = schemas;
 
   const SchemaDefinition = fs.readFileSync(path.join(__dirname, 'schema.graphqls')).toString();
 
-  const typeDefs = [SchemaDefinition, Task, TaskList, Note];
-  const rootResolver = _.merge({}, resolvers.Task, resolvers.TaskList, resolvers.Note);
+  const typeDefs = [SchemaDefinition, Task, TaskList, Note, User];
+  const rootResolver = _.merge({}, resolvers.Task, resolvers.TaskList, resolvers.Note, resolvers.User);
 
   return makeExecutableSchema({
     typeDefs,

@@ -15,8 +15,24 @@ module.exports = (sequelize, DataTypes) => {
     accomplished: {
       type: DataTypes.BOOLEAN,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
     }
+  }, {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    underscored: true
   });
+
+  // Mission.associate = (models) => {
+  //   models.Mission.belongsTo(models.User, { through: models.MissionsUsers });
+  // };
 
   return Mission;
 };

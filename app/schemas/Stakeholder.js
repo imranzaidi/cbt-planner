@@ -1,3 +1,6 @@
+module.exports = () => [Stakeholder, Role]; // eslint-disable-line no-use-before-define
+
+
 /***********************
  * Module Dependencies *
  ***********************/
@@ -14,6 +17,3 @@ const Stakeholder = `
     roles: [Role]
   }
 `;
-
-
-module.exports = () => [Stakeholder, Role];

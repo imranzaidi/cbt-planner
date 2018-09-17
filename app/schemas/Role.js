@@ -1,3 +1,6 @@
+module.exports = () => [Role, Goal, Stakeholder]; // eslint-disable-line no-use-before-define
+
+
 /***********************
  * Module Dependencies *
  ***********************/
@@ -12,11 +15,8 @@ const Role = `
   type Role {
     id: Int!
     title: String!
-    clarifyingStatements: String!
+    clarifying_statements: String!
     stakeholders: [Stakeholder]
     goals: [Goal]
   }
 `;
-
-
-module.exports = () => [Role, Goal, Stakeholder];

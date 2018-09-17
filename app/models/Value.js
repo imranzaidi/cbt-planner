@@ -28,8 +28,24 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'personal',
       values: enums.valueCategories
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
     }
+  }, {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    underscored: true
   });
+
+  Value.associate = (models) => {
+    models.Value.belongsTo(models.User, { through: models.ValuesUsers });
+  };
 
   return Value;
 };

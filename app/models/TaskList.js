@@ -15,11 +15,24 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'weekly',
       values: enums.taskListTypes
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
     }
+  }, {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    underscored: true
   });
 
   TaskList.associate = (models) => {
-    models.TaskList.belongsToMany(models.Task, { through: models.TaskListsTasks });
+    models.TaskList.belongsToMany(models.Task, { as: 'Tasks', through: 'task_lists_tasks' });
+    // models.TaskList.belongsTo(models.User, { through: models.TaskListsUsers });
   };
 
   return TaskList;

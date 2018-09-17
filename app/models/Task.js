@@ -25,12 +25,25 @@ module.exports = (sequelize, DataTypes) => {
     due: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
     }
+  }, {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    underscored: true
   });
 
   Task.associate = (models) => {
     models.Task.hasMany(models.Note);
-    models.Task.belongsToMany(models.TaskList, { through: models.TaskListsTasks });
+    models.Task.belongsToMany(models.TaskList, { as: 'TaskLists', through: 'task_lists_tasks' });
+    models.Task.belongsTo(models.User, { as: 'User' });
   };
 
   return Task;

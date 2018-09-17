@@ -1,3 +1,6 @@
+module.exports = () => [Goal, Mission, Role, Step, Value]; // eslint-disable-line no-use-before-define
+
+
 /***********************
  * Module Dependencies *
  ***********************/
@@ -20,6 +23,3 @@ const Goal = `
     steps: [Step]
   }
 `;
-
-
-module.exports = () => [Goal, Mission, Role, Step, Value];

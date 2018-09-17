@@ -1,6 +1,10 @@
 module.exports = {
   Task: {
-    notes: ({ id }, args, { models }) => models.Note.findAll({ where: { taskId: id } })
+    notes: ({ id }, args, { models }) => models.Note.findAll({ where: { task_id: id } }),
+    user: async ({ id }, args, { models }) => {
+      const task = await models.Task.findOne({ where: { id } });
+      return task.getUser();
+    }
   },
 
   Query: {
@@ -15,8 +19,8 @@ module.exports = {
 
   Mutation: {
     createTask: (parent, { description }, { models }) => models.Task.create({ description }),
-    updateTask: (parent, { id, description, status, priority, due }, { models }) => {
-      const updatedFields = { description, status, priority, due };
+    updateTask: async (parent, { id, description, status, priority, due, userId }, { models }) => {
+      const updatedFields = { description, status, priority, due, user_id: userId };
 
       Object.keys(updatedFields).forEach((key) => {
         if (!updatedFields[key]) {
@@ -24,7 +28,10 @@ module.exports = {
         }
       });
 
-      return models.Task.update(updatedFields, { where: { id } });
+      const task = await models.Task.findOne({ where: { id } });
+      await task.update(updatedFields, { where: { id } });
+
+      return task;
     },
     deleteTask: (parent, { id }, { models }) => models.Task.destroy({ where: { id } })
   }

@@ -6,8 +6,24 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: 'updated_at'
     }
+  }, {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    underscored: true
   });
+
+  // Stakeholder.associate = (models) => {
+  //   models.Stakeholder.belongsTo(models.User, { through: models.StakeholdersUsers });
+  // };
 
   return Stakeholder;
 };
