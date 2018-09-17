@@ -37,7 +37,7 @@ async function addUser(req, res, next) {
       console.log(chalk.red('Authorization:'), err); // eslint-disable-line no-console
 
       res.status(401);
-      return res.send({ message: 'Unauthorized.' });
+      return res.send({ message: err.message });
     }
   }
   return next();
