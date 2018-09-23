@@ -4,6 +4,7 @@ schema {
 }
 
 type Query {
+    # Outputs the purpose of this GraphQL endpoint.
     purpose: String!
 }
 

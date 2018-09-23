@@ -19,8 +19,8 @@ module.exports = {
 
   Mutation: {
     createTask: (parent, { description }, { models }) => models.Task.create({ description }),
-    updateTask: async (parent, { id, description, status, priority, due, userId }, { models }) => {
-      const updatedFields = { description, status, priority, due, user_id: userId };
+    updateTask: async (parent, { id, description, status, priority, due }, { models, user }) => {
+      const updatedFields = { description, status, priority, due, user_id: user.id };
 
       Object.keys(updatedFields).forEach((key) => {
         if (!updatedFields[key]) {

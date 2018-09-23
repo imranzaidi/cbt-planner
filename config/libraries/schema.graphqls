@@ -4,19 +4,25 @@ schema {
 }
 
 type Query {
+    # Get current User informatino.
     getUser: User
+    # Get a Task by ID.
     getTask(id: Int!): Task
+    # Get Task due by a specific date.
     getTasksDueBy(date: String!): [Task]
+    # Get TaskList by ID.
     getTaskList (id: Int!): TaskList
+    # Get a Note by ID.
     getNote(id: Int!): Note
 }
 
 type Mutation {
+    # Updated information for the current User.
     updateUser(newUsername: String, newEmail: String, newPassword: String): User
     # Create a new Task
     createTask(description: String!): Task
     # Updates a Task
-    updateTask(id: Int!, description: String!, status: String, priority: String, due: String, userId: Int): Task
+    updateTask(id: Int!, description: String!, status: String, priority: String, due: String): Task
     # Deletes a Task
     deleteTask(id: Int!): Int!
     # Creates a new TaskList
