@@ -83,7 +83,7 @@ function initializeMiddleware(app) {
  */
 function initGraphQLEndpoints(app, sequelizeService) {
   const { ApolloServer } = apolloServerExpress,
-    schemas = graphqlSchemaService.generateSchema();
+    schemas = graphqlSchemaService.generateSchemas();
 
   const standardGraphQLServer = new ApolloServer({
     schema: schemas.standardSchema,

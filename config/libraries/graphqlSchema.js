@@ -39,16 +39,14 @@ function getResolvers() {
 /**
  * Generates a combined schema from individual schemas.
  */
-function generateSchema() {
+function generateSchemas() {
   const { makeExecutableSchema } = graphqlTools,
     schemas = getSchemas(),
     resolvers = getResolvers(),
     { Task, TaskList, Note, User } = schemas;
 
   const SchemaDefinition = fs.readFileSync(path.join(__dirname, 'schema.graphqls')).toString();
-  /* eslint-disable function-paren-newline */
   const LoginRegisterSchemaDefinition = fs.readFileSync(path.join(__dirname, 'login.register.graphqls')).toString();
-  /* eslint-enable function-paren-newline */
 
   const typeDefs = [SchemaDefinition, Task, TaskList, Note, User];
   const rootResolver = _.merge({}, resolvers.Task, resolvers.TaskList, resolvers.Note, resolvers.User);
@@ -70,5 +68,5 @@ function generateSchema() {
 
 
 module.exports = {
-  generateSchema
+  generateSchemas
 };
