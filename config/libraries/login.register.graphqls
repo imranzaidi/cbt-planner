@@ -9,8 +9,8 @@ type Query {
 }
 
 type Mutation {
-    # Registers a new User
+    # Registers a new User.
     register(username: String!, email: String!, password: String!): User
-    # Logs a User in, returns a JSONWebtoken
+    # Logs a User in, returns a JSONWebtoken.
     login(email: String!, password: String!): String!
 }

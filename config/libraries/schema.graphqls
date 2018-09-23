@@ -19,24 +19,24 @@ type Query {
 type Mutation {
     # Updated information for the current User.
     updateUser(newUsername: String, newEmail: String, newPassword: String): User
-    # Create a new Task
+    # Create a new Task.
     createTask(description: String!): Task
-    # Updates a Task
+    # Updates a Task.
     updateTask(id: Int!, description: String!, status: String, priority: String, due: String): Task
-    # Deletes a Task
+    # Deletes a Task.
     deleteTask(id: Int!): Int!
-    # Creates a new TaskList
+    # Creates a new TaskList.
     createTaskList(startDate: String, type: String!): TaskList
-    # Adds a signle Task to a TaskList
+    # Adds a signle Task to a TaskList.
     addTaskToTaskList(taskId: Int!, taskListId: Int!): TaskList
-    # Adds mutiple Tasks to a TaskList
+    # Adds mutiple Tasks to a TaskList.
     addTasksToTaskList(taskIds: [Int!]!, taskListId: Int!): TaskList
-    # Deletes a TaskList
+    # Deletes a TaskList.
     deleteTaskList(id: Int!): Int!
-    # Creates a new Note for given Task
+    # Creates a new Note for given Task.
     createNote(taskId: Int!, content: String!): Note
-    # Updates an existing Note
+    # Updates an existing Note.
     updateNote(id: Int!, content: String!): [Int!]!
-    # Deletes a Note
+    # Deletes a Note.
     deleteNote(id: Int!): Int!
 }
