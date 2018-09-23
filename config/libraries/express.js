@@ -13,6 +13,9 @@ const apolloServerExpress = require('apollo-server-express'),
   logger = require('./logger'),
   morgan = require('morgan');
 
+const LOGIN_REGISTER_ROUTE = '/login-register';
+const DEFAULT_SECRET = 'ADFEdfiaef12345134asdfkWEFasdase1345rhASDF23';
+
 
 /**
  * Middleware that facilitates user login and auth.
@@ -26,7 +29,7 @@ async function addUser(req, res, next) {
   const token = req.headers.authorization;
   const query = req.body && req.body.query;
   const introspectionQuery = req.body.operationName === 'IntrospectionQuery';
-  const loginOrRegisterMutation = req.originalUrl === '/login-register';
+  const loginOrRegisterMutation = req.originalUrl === LOGIN_REGISTER_ROUTE;
 
   if (!loginOrRegisterMutation && query && !introspectionQuery) {
     try {
@@ -89,7 +92,7 @@ function initGraphQLEndpoints(app, sequelizeService) {
     schema: schemas.standardSchema,
     context: ({ req }) => ({ // eslint-disable-line arrow-parens
       models: sequelizeService.models,
-      SECRET: process.env.SECRET || 'ADFEdfiaef12345134asdfkWEFasdase1345rhASDF23',
+      SECRET: process.env.SECRET || DEFAULT_SECRET,
       user: req.user
     })
   });
@@ -98,13 +101,13 @@ function initGraphQLEndpoints(app, sequelizeService) {
     schema: schemas.loginRegisterSchema,
     context: ({ req }) => ({ // eslint-disable-line arrow-parens
       models: sequelizeService.models,
-      SECRET: process.env.SECRET || 'ADFEdfiaef12345134asdfkWEFasdase1345rhASDF23',
+      SECRET: process.env.SECRET || DEFAULT_SECRET,
       user: req.user
     })
   });
 
   standardGraphQLServer.applyMiddleware({ app });
-  loginRegisterGraphQLServer.applyMiddleware({ app, path: '/login-register' });
+  loginRegisterGraphQLServer.applyMiddleware({ app, path: LOGIN_REGISTER_ROUTE });
 }
 
 /**
