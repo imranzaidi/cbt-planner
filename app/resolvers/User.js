@@ -2,17 +2,19 @@
  * Module Dependencies *
  ***********************/
 const _ = require('lodash'),
-  bcrypt = require('bcrypt');
+  bcrypt = require('bcrypt'),
+  { safeUserProperties } = require('../consts/user');
 
 
 module.exports = {
   Query: {
     getUser: (parent, args, { models, user }) => { // eslint-disable-line arrow-body-style
-      return models.User.findOne({ where: { id: user.id } }).then((fetchedUser) => {
-        const returnValue = _.pick(fetchedUser, ['id', 'username', 'email', 'createdAt', 'updatedAt']);
-        returnValue.password = null;
-        return returnValue;
-      });
+      return models.User.findOne({ where: { id: user.id } })
+        .then((fetchedUser) => {
+          const safeReturnValue = _.pick(fetchedUser, safeUserProperties);
+          safeReturnValue.password = null;
+          return safeReturnValue;
+        });
     }
   },
 
@@ -30,17 +32,17 @@ module.exports = {
         fetchedUser.email = newEmail;
       }
 
-      let returnValue;
+      let safeReturnValue;
       if (newPassword || newUsername || newEmail) {
         const updatedUser = await fetchedUser.update(fetchedUser, { where: { id: fetchedUser.id } });
-        returnValue = _.pick(updatedUser, ['id', 'username', 'email', 'createdAt', 'updatedAt']);
-        returnValue.password = null;
-        return returnValue;
+        safeReturnValue = _.pick(updatedUser, safeUserProperties);
+        safeReturnValue.password = null;
+        return safeReturnValue;
       }
 
-      returnValue = _.pick(fetchedUser, ['id', 'username', 'email', 'createdAt', 'updatedAt']);
-      returnValue.password = null;
-      return returnValue;
+      safeReturnValue = _.pick(fetchedUser, safeUserProperties);
+      safeReturnValue.password = null;
+      return safeReturnValue;
     }
   }
 };

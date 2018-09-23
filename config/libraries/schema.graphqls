@@ -11,7 +11,9 @@ type Query {
     # Get Task due by a specific date.
     getTasksDueBy(date: String!): [Task]
     # Get TaskList by ID.
-    getTaskList (id: Int!): TaskList
+    getTaskListById (id: Int!): TaskList
+    # Get all TaskLists belonging to current User.
+    getTaskLists: [TaskList]
     # Get a Note by ID.
     getNote(id: Int!): Note
 }
