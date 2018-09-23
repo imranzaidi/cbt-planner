@@ -1,0 +1,15 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    purpose: String!
+}
+
+type Mutation {
+    # Registers a new User
+    register(username: String!, email: String!, password: String!): User
+    # Logs a User in, returns a JSONWebtoken
+    login(email: String!, password: String!): String!
+}

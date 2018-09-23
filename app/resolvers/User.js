@@ -2,57 +2,45 @@
  * Module Dependencies *
  ***********************/
 const _ = require('lodash'),
-  bcrypt = require('bcrypt'),
-  jsonwebtoken = require('jsonwebtoken');
+  bcrypt = require('bcrypt');
 
 
 module.exports = {
   Query: {
-    getUser: (parent, { id }, { models }) => models.User.findOne({ where: { id } })
+    getUser: (parent, args, { models, user }) => { // eslint-disable-line arrow-body-style
+      return models.User.findOne({ where: { id: user.id } }).then((fetchedUser) => {
+        const returnValue = _.pick(fetchedUser, ['id', 'username', 'email', 'createdAt', 'updatedAt']);
+        returnValue.password = null;
+        return returnValue;
+      });
+    }
   },
 
   Mutation: {
-    login: async (parent, { email, password }, { models, SECRET }) => {
-      const user = await models.User.findOne({ where: { email } });
-      if (!user) {
-        throw new Error('No user with that email');
-      }
-
-      const valid = bcrypt.compareSync(password, user.password);
-      if (!valid) {
-        throw new Error('Incorrect password.');
-      }
-
-      const token = jsonwebtoken.sign(
-        { user: _.pick(user, ['id', 'username', 'email']) },
-        SECRET,
-        { expiresIn: '2h' },
-      );
-
-      return token;
-    },
-    register: async (parent, args, { models }) => {
-      const user = args;
-      user.password = await bcrypt.hash(user.password, 12);
-      return models.User.create(user);
-    },
-    updateUser: async (parent, { id, newUsername, newEmail, newPassword }, { models }) => {
-      const user = await models.User.find({ where: { id } });
+    updateUser: async (parent, { newUsername, newEmail, newPassword }, { models, user }) => {
+      const fetchedUser = await models.User.find({ where: { id: user.id } });
 
       if (newPassword) {
-        user.password = await bcrypt.hash(newPassword, 12);
+        fetchedUser.password = await bcrypt.hash(newPassword, 12);
       }
       if (newUsername) {
-        user.username = newUsername;
+        fetchedUser.username = newUsername;
       }
       if (newEmail) {
-        user.email = newEmail;
+        fetchedUser.email = newEmail;
       }
 
+      let returnValue;
       if (newPassword || newUsername || newEmail) {
-        return user.update(user, { where: { id } });
+        const updatedUser = await fetchedUser.update(fetchedUser, { where: { id: fetchedUser.id } });
+        returnValue = _.pick(updatedUser, ['id', 'username', 'email', 'createdAt', 'updatedAt']);
+        returnValue.password = null;
+        return returnValue;
       }
-      return user;
+
+      returnValue = _.pick(fetchedUser, ['id', 'username', 'email', 'createdAt', 'updatedAt']);
+      returnValue.password = null;
+      return returnValue;
     }
   }
 };

@@ -9,7 +9,7 @@ const User = `
     id: Int!
     username: String!
     email: String!
-    password: String!
+    password: String
     createdAt: String!
     updatedAt: String!
   }

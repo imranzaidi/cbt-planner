@@ -24,12 +24,11 @@ const apolloServerExpress = require('apollo-server-express'),
  */
 async function addUser(req, res, next) {
   const token = req.headers.authorization;
-  let isLoginMutation = false;
+  const query = req.body && req.body.query;
+  const introspectionQuery = req.body.operationName === 'IntrospectionQuery';
+  const loginOrRegisterMutation = req.originalUrl === '/login-register';
 
-  if (req.body && req.body.query) {
-    isLoginMutation = req.body.query.match(/mutation/) && req.body.query.match(/login\(/);
-  }
-  if (!isLoginMutation && req.body.query && req.body.operationName !== 'IntrospectionQuery') {
+  if (!loginOrRegisterMutation && query && !introspectionQuery) {
     try {
       const { user } = await jsonwebtoken.verify(token, process.env.SECRET);
       req.user = user;
@@ -84,18 +83,28 @@ function initializeMiddleware(app) {
  */
 function initGraphQLEndpoints(app, sequelizeService) {
   const { ApolloServer } = apolloServerExpress,
-    schema = graphqlSchemaService.generateSchema();
+    schemas = graphqlSchemaService.generateSchema();
 
-  const graphQLServer = new ApolloServer({
-    schema,
+  const standardGraphQLServer = new ApolloServer({
+    schema: schemas.standardSchema,
     context: ({ req }) => ({ // eslint-disable-line arrow-parens
       models: sequelizeService.models,
-      SECRET: process.env.SECRET,
+      SECRET: process.env.SECRET || 'ADFEdfiaef12345134asdfkWEFasdase1345rhASDF23',
       user: req.user
     })
   });
 
-  graphQLServer.applyMiddleware({ app });
+  const loginRegisterGraphQLServer = new ApolloServer({
+    schema: schemas.loginRegisterSchema,
+    context: ({ req }) => ({ // eslint-disable-line arrow-parens
+      models: sequelizeService.models,
+      SECRET: process.env.SECRET || 'ADFEdfiaef12345134asdfkWEFasdase1345rhASDF23',
+      user: req.user
+    })
+  });
+
+  standardGraphQLServer.applyMiddleware({ app });
+  loginRegisterGraphQLServer.applyMiddleware({ app, path: '/login-register' });
 }
 
 /**

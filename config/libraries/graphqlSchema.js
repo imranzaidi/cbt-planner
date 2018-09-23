@@ -46,14 +46,26 @@ function generateSchema() {
     { Task, TaskList, Note, User } = schemas;
 
   const SchemaDefinition = fs.readFileSync(path.join(__dirname, 'schema.graphqls')).toString();
+  /* eslint-disable function-paren-newline */
+  const LoginRegisterSchemaDefinition = fs.readFileSync(path.join(__dirname, 'login.register.graphqls')).toString();
+  /* eslint-enable function-paren-newline */
 
   const typeDefs = [SchemaDefinition, Task, TaskList, Note, User];
   const rootResolver = _.merge({}, resolvers.Task, resolvers.TaskList, resolvers.Note, resolvers.User);
+  const loginRegisterTypeDefs = [LoginRegisterSchemaDefinition, User];
+  const loginRegisterRootResolver = _.merge({}, resolvers.LoginRegister);
 
-  return makeExecutableSchema({
+  const loginRegisterSchema = makeExecutableSchema({
+    typeDefs: loginRegisterTypeDefs,
+    resolvers: loginRegisterRootResolver
+  });
+
+  const standardSchema = makeExecutableSchema({
     typeDefs,
     resolvers: rootResolver
   });
+
+  return { loginRegisterSchema, standardSchema };
 }
 
 
