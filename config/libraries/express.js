@@ -14,7 +14,6 @@ const apolloServerExpress = require('apollo-server-express'),
   morgan = require('morgan');
 
 const LOGIN_REGISTER_ROUTE = '/login-register';
-const DEFAULT_SECRET = 'ADFEdfiaef12345134asdfkWEFasdase1345rhASDF23';
 
 
 /**
@@ -92,7 +91,7 @@ function initGraphQLEndpoints(app, sequelizeService) {
     schema: schemas.standardSchema,
     context: ({ req }) => ({ // eslint-disable-line arrow-parens
       models: sequelizeService.models,
-      SECRET: process.env.SECRET || DEFAULT_SECRET,
+      SECRET: config.app.secret,
       user: req.user
     })
   });
@@ -101,7 +100,7 @@ function initGraphQLEndpoints(app, sequelizeService) {
     schema: schemas.loginRegisterSchema,
     context: ({ req }) => ({ // eslint-disable-line arrow-parens
       models: sequelizeService.models,
-      SECRET: process.env.SECRET || DEFAULT_SECRET,
+      SECRET: config.app.secret,
       user: req.user
     })
   });

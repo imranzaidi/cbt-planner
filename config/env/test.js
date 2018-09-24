@@ -1,12 +1,16 @@
 /******************
  * Module Members *
  ******************/
+const DEFAULT_SECRET = 'ADFEdfiaef12345134asdfkWEFasdase1345rhASDF23';
+
+
 const testConfig = {
   app: {
     protocol: 'http',
     host: 'localhost',
     port: 3010,
-    env: 'test'
+    env: 'test',
+    secret: process.env.SECRET || DEFAULT_SECRET
   },
 
   db: {

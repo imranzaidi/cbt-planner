@@ -9,10 +9,8 @@ const utils = require('./libraries/utils'),
 /******************
  * Module Members *
  ******************/
-const controllerPaths = utils.getFilePaths(assets.controllers),
-  modelPaths = utils.getFilePaths(assets.models),
+const modelPaths = utils.getFilePaths(assets.models),
   resolverPaths = utils.getFilePaths(assets.resolvers),
-  routePaths = utils.getFilePaths(assets.routes),
   schemaPaths = utils.getFilePaths(assets.schemas);
 
 
@@ -20,10 +18,8 @@ const controllerPaths = utils.getFilePaths(assets.controllers),
  * Prints API assets to console.
  */
 function outputAssets() {
-  utils.outputPaths(controllerPaths, 'Controllers');
   utils.outputPaths(modelPaths, 'Models');
   utils.outputPaths(resolverPaths, 'Resolvers');
-  utils.outputPaths(routePaths, 'Routes');
   utils.outputPaths(schemaPaths, 'Schemas');
   console.log('\n'); // eslint-disable-line no-console
 }
@@ -31,10 +27,8 @@ function outputAssets() {
 if (process.env.NODE_ENV === 'development' && process.env.OUTPUT_ASSETS) { outputAssets(); }
 
 config.paths = {
-  controllers: controllerPaths,
   models: modelPaths,
   resolvers: resolverPaths,
-  routes: routePaths,
   schemas: schemaPaths
 };
 utils.deepFreeze(config);
