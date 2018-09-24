@@ -14,7 +14,7 @@ module.exports = {
     login: async (parent, { email, password }, { models, SECRET }) => {
       const user = await models.User.findOne({ where: { email } });
       if (!user) {
-        throw new Error('No user with that email');
+        throw new Error('No user with that email.');
       }
 
       const valid = bcrypt.compareSync(password, user.password);

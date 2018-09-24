@@ -10,7 +10,6 @@ if (process.env.NODE_ENV !== 'test') process.env.NODE_ENV = 'test';
  * Module Dependencies *
  ***********************/
 const config = require('../config/config'),
-  chalk = require('chalk'),
   { execSync } = require('child_process'),
   sequelizeService = require('../config/libraries/sequelize');
 
@@ -38,8 +37,6 @@ async function connect() {
     force: true,
     logging: false
   });
-
-  console.log(chalk.green('Database ready!')); // eslint-disable-line no-console
 }
 
 /**
@@ -50,11 +47,11 @@ async function connect() {
  */
 async function closeConnection() {
   await sequelizeService.sequelize.close();
-  console.log(chalk.blue('Database connection closed.')); // eslint-disable-line no-console
 }
 
 
 module.exports = {
+  sequelizeService,
   setupDatabase,
   connect,
   closeConnection

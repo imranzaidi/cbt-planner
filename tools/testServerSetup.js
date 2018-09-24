@@ -10,6 +10,7 @@ if (process.env.NODE_ENV !== 'test') process.env.NODE_ENV = 'test';
 const chalk = require('chalk'),
   { createServer } = require('http'),
   { setupDatabase } = require('./testDBSetup'),
+  config = require('../config/config'),
   expressService = require('../config/libraries/express'),
   sequelizeService = require('../config/libraries/sequelize');
 
@@ -26,7 +27,7 @@ async function startServer() {
   await sequelizeService.sequelize.sync();
 
   server = createServer(app);
-  await server.listen('3333');
+  await server.listen(config.app.port);
   console.log(chalk.green('Test server up.')); // eslint-disable-line no-console
 }
 

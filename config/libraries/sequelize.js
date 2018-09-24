@@ -63,6 +63,7 @@ function connect() {
       },
       operatorsAliases: false
     };
+  if (process.env.NODE_ENV === 'test') sequelizeConfig.logging = false;
 
   return new Sequelize(dbName, username, password, sequelizeConfig);
 }
