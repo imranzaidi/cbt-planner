@@ -16,15 +16,24 @@ const config = require('../config/config'),
 
 
 /**
- * Sets up a database and connection for testing. Intended for use in beforeEach()
- * and / or before() hooks for testing frameworks.
+ * Sets up a database for testing.
  *
  * @returns {Promise<void>}
  */
-async function setupDatabase() {
+function setupDatabase() {
   execSync(`dropdb --if-exists ${config.db.dbName}`);
   execSync(`createdb ${config.db.dbName}`);
+  execSync(`psql -U ${config.db.username} -d ${config.db.dbName} -c` +
+    ` "GRANT ALL PRIVILEGES ON DATABASE ${config.db.dbName} TO ${config.db.username};"`);
+}
 
+/**
+ * Sets up models, associations, creates tables and connects to PostgreSQL. Intended
+ * for use in beforeEach() and / or before() hooks for testing frameworks.
+ *
+ * @returns {Promise<void>}
+ */
+async function connect() {
   await sequelizeService.sequelize.sync({
     force: true,
     logging: false
@@ -47,5 +56,6 @@ async function closeConnection() {
 
 module.exports = {
   setupDatabase,
+  connect,
   closeConnection
 };
