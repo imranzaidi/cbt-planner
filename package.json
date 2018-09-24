@@ -30,7 +30,7 @@
     "clean": "rm -rf node_modules",
     "dev": "NODE_ENV=development; nodemon server.js",
     "dev:debug": "NODE_ENV=development; node $NODE_DEBUG_OPTION server.js",
-    "lint": "./node_modules/.bin/eslint .",
+    "lint": "eslint .",
     "reinstall": "npm cache clean; npm run clean; npm install",
     "start:cluster": "node tools/cluster.js",
     "test": "NODE_ENV=test; mocha --recursive"
