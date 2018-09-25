@@ -35,8 +35,8 @@ module.exports = {
 
       let safeReturnValue;
       if (newPassword || newUsername || newEmail) {
-        const updatedUser = await fetchedUser.update(updates);
-        safeReturnValue = _.pick(updatedUser, safeUserProperties);
+        await fetchedUser.update(updates);
+        safeReturnValue = _.pick(fetchedUser, safeUserProperties);
         safeReturnValue.password = null;
         return safeReturnValue;
       }
