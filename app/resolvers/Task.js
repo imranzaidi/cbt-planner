@@ -2,6 +2,7 @@
  * Module Dependencies *
  ***********************/
 const _ = require('lodash'),
+  Sequelize = require('sequelize'),
   { safeUserProperties } = require('../consts/user');
 
 
@@ -13,7 +14,7 @@ module.exports = {
     }).then(async (task) => {
       const user = await task.getUser();
       const safeReturnValue = _.pick(user, safeUserProperties);
-      safeUserProperties.password = null;
+      safeReturnValue.password = null;
 
       return safeReturnValue;
     })
@@ -29,7 +30,7 @@ module.exports = {
 
       return models.Task.findAll({
         where: {
-          due: { $between: [currentDate, dueDate] },
+          due: { [Sequelize.Op.between]: [currentDate, dueDate] },
           user_id: user.id
         }
       });
@@ -37,10 +38,16 @@ module.exports = {
   },
 
   Mutation: {
-    createTask: (parent, { description }, { models, user }) => models.Task.create({
-      description,
-      user_id: user.id
-    }),
+    createTask: (parent, { description, priority, due, status }, { models, user }) => {
+      const properties = { description, priority, due, status };
+
+      Object.keys(properties).forEach((key) => {
+        if (!properties[key]) delete properties[key];
+      });
+      properties.user_id = user.id;
+
+      return models.Task.create(properties);
+    },
     updateTask: async (parent, { id, description, status, priority, due }, { models, user }) => {
       const updates = { description, status, priority, due, user_id: user.id };
 

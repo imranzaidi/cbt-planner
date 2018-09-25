@@ -24,8 +24,7 @@ describe('User resolvers', () => {
       password: 'password'
     };
 
-    await sequelizeService.models.User.create(payload);
-    user = await sequelizeService.models.User.findOne({ where: { email: payload.email } });
+    user = (await sequelizeService.models.User.create(payload)).dataValues;
 
     context = {
       models: sequelizeService.models,

@@ -1,6 +1,7 @@
 module.exports = {
   Note: {
-    task: ({ taskId }, arg, { models }) => models.Task.findOne({ where: { id: taskId } })
+    // eslint-disable-next-line camelcase
+    task: ({ task_id }, arg, { models }) => models.Task.findOne({ where: { id: task_id } })
   },
 
   Query: {

@@ -58,7 +58,8 @@ module.exports = {
             user_id: user.id
           }
       });
-      if (!tasks) return null;
+
+      if (!tasks || tasks.length === 0) return null;
 
       const taskList = await models.TaskList.find({ where: { id: taskListId } });
       if (!taskList) return null;
