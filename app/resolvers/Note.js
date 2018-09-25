@@ -8,7 +8,7 @@ module.exports = {
   },
 
   Mutation: {
-    createNote: (parent, args, { models }) => models.Note.create(args),
+    createNote: (parent, { taskId, content }, { models }) => models.Note.create({ task_id: taskId, content }),
     updateNote: (parent, { id, content }, { models }) => models.Note.update({ content }, { where: { id } }),
     deleteNote: (parent, { id }, { models }) => models.Note.destroy({ where: { id } })
   }
