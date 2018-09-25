@@ -1,5 +1,3 @@
-/* global describe it expect beforeAll afterAll */
-
 /***********************
  * Module Dependencies *
  ***********************/
@@ -18,8 +16,8 @@ const SECRET = 'don\'t tell anyone!';
 
 describe('LoginRegister resolvers', () => {
   beforeAll(async () => {
-    setupDatabase();
-    connect();
+    await setupDatabase();
+    await connect();
 
     context = {
       models: sequelizeService.models,
@@ -27,8 +25,8 @@ describe('LoginRegister resolvers', () => {
     };
   });
 
-  afterAll(() => {
-    closeConnection();
+  afterAll(async () => {
+    await closeConnection();
   });
 
   it('tells you the purpose of the endpoint when queried (coverage)', async () => {

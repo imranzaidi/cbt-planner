@@ -22,19 +22,20 @@ module.exports = {
     updateUser: async (parent, { newUsername, newEmail, newPassword }, { models, user }) => {
       const fetchedUser = await models.User.find({ where: { id: user.id } });
 
+      const updates = {};
       if (newPassword) {
-        fetchedUser.password = await bcrypt.hash(newPassword, 12);
+        updates.password = await bcrypt.hash(newPassword, 12);
       }
       if (newUsername) {
-        fetchedUser.username = newUsername;
+        updates.username = newUsername;
       }
       if (newEmail) {
-        fetchedUser.email = newEmail;
+        updates.email = newEmail;
       }
 
       let safeReturnValue;
       if (newPassword || newUsername || newEmail) {
-        const updatedUser = await fetchedUser.update(fetchedUser, { where: { id: fetchedUser.id } });
+        const updatedUser = await fetchedUser.update(updates);
         safeReturnValue = _.pick(updatedUser, safeUserProperties);
         safeReturnValue.password = null;
         return safeReturnValue;

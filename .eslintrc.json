@@ -1,5 +1,8 @@
 {
   "extends": "airbnb-base",
+  "env": {
+    "jest": true
+  },
   "rules": {
     "arrow-body-style": ["warn", "as-needed"],
     "comma-dangle": ["error", "never"],
