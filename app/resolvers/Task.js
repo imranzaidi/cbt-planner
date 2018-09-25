@@ -42,16 +42,16 @@ module.exports = {
       user_id: user.id
     }),
     updateTask: async (parent, { id, description, status, priority, due }, { models, user }) => {
-      const updatedFields = { description, status, priority, due, user_id: user.id };
+      const updates = { description, status, priority, due, user_id: user.id };
 
-      Object.keys(updatedFields).forEach((key) => {
-        if (!updatedFields[key]) {
-          delete updatedFields[key];
+      Object.keys(updates).forEach((key) => {
+        if (!updates[key]) {
+          delete updates[key];
         }
       });
 
       const task = await models.Task.findOne({ where: { id } });
-      await task.update(updatedFields, { where: { id } });
+      await task.update(updates);
 
       return task;
     },
