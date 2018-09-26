@@ -4,7 +4,7 @@ module.exports = {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ['app/resolvers/**/*.js', 'app/models/**/*.js'],
+  collectCoverageFrom: ['app/resolvers/**/*.js', 'app/models/**/*.js', 'app/libraries/**/*.js'],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',
@@ -37,7 +37,7 @@ module.exports = {
   // testEnvironmentOptions: {},
 
   // The glob patterns Jest uses to detect test files
-  testMatch: ['**/test/**/*.js']
+  testMatch: ['**/test/**/*.spec.js']
 
   // Indicates whether each individual test should be reported during the run
   // verbose: null,
