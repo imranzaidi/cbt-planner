@@ -12,7 +12,7 @@ const { Query, Mutation, Note } = require('../../app/resolvers/Note'),
 let context;
 let user;
 let task;
-let note;
+let noteSpec;
 
 describe('User resolvers', () => {
   beforeAll(async () => {
@@ -38,7 +38,7 @@ describe('User resolvers', () => {
       content: 'Do it before Joker breaks out of Arkham.',
       task_id: task.id
     };
-    note = (await sequelizeService.models.Note.create(notePayload)).dataValues;
+    noteSpec = (await sequelizeService.models.Note.create(notePayload)).dataValues;
 
     context = {
       models: sequelizeService.models,
@@ -52,11 +52,11 @@ describe('User resolvers', () => {
 
   it('fetches an existing note', async () => {
     const parent = {};
-    const args = { id: note.id };
+    const args = { id: noteSpec.id };
 
     const result = await Query.getNote(parent, args, context);
-    expect(result.id).toBe(note.id);
-    expect(result.content).toBe(note.content);
+    expect(result.id).toBe(noteSpec.id);
+    expect(result.content).toBe(noteSpec.content);
   });
 
   it('creates a new note', async () => {
@@ -68,7 +68,7 @@ describe('User resolvers', () => {
 
     const result = await Mutation.createNote(parent, args, context);
     expect(result).toHaveProperty('id');
-    expect(result.id).not.toBe(note.id);
+    expect(result.id).not.toBe(noteSpec.id);
     expect(result.content).toBe(args.content);
     expect(result.task_id).toBe(args.taskId);
   });
@@ -76,17 +76,17 @@ describe('User resolvers', () => {
   it('updates an existing note', async () => {
     const parent = {};
     const args = {
-      id: note.id,
+      id: noteSpec.id,
       content: 'Stop Harvey Dent.'
     };
 
     const result = await Mutation.updateNote(parent, args, context);
     const updatedNote = (await sequelizeService.models.Note.findOne({
-      where: { id: note.id }
+      where: { id: noteSpec.id }
     })).dataValues;
 
     expect(result[0]).toBe(1);
-    expect(updatedNote.id).toBe(note.id);
+    expect(updatedNote.id).toBe(noteSpec.id);
     expect(updatedNote.content).toBe(args.content);
   });
 
@@ -101,12 +101,12 @@ describe('User resolvers', () => {
   it('deletes an existing note', async () => {
     const parent = {};
     const args = {
-      id: note.id
+      id: noteSpec.id
     };
 
     const result = await Mutation.deleteNote(parent, args, context);
     const updatedNote = await sequelizeService.models.Note.findOne({
-      where: { id: note.id }
+      where: { id: noteSpec.id }
     });
 
     expect(result).toBe(1);

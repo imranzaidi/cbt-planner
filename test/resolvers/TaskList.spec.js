@@ -12,7 +12,7 @@ const { Query, Mutation, TaskList } = require('../../app/resolvers/TaskList'),
 let context;
 let user;
 let task;
-let taskList;
+let taskListSpec;
 
 
 describe('TaskList resolvers', () => {
@@ -41,7 +41,7 @@ describe('TaskList resolvers', () => {
       type: 'monthly',
       user_id: user.id
     };
-    taskList = (await sequelizeService.models.TaskList.create(taskListPayload)).dataValues;
+    taskListSpec = (await sequelizeService.models.TaskList.create(taskListPayload)).dataValues;
 
     context = {
       models: sequelizeService.models,
@@ -55,11 +55,11 @@ describe('TaskList resolvers', () => {
 
   it('fetches an existing task list by ID', async () => {
     const parent = {};
-    const args = { id: taskList.id };
+    const args = { id: taskListSpec.id };
 
     const result = await Query.getTaskListById(parent, args, context);
-    expect(result).toHaveProperty('id', taskList.id);
-    expect(result.type).toBe(taskList.type);
+    expect(result).toHaveProperty('id', taskListSpec.id);
+    expect(result.type).toBe(taskListSpec.type);
   });
 
   it('creates a new task list when no startDate is defined', async () => {
@@ -99,11 +99,11 @@ describe('TaskList resolvers', () => {
     const parent = {};
     const args = {
       taskId: 100,
-      taskListId: taskList.id
+      taskListId: taskListSpec.id
     };
 
     await Mutation.addTaskToTaskList(parent, args, context);
-    const updatedList = await TaskList.tasks({ id: taskList.id }, {}, context);
+    const updatedList = await TaskList.tasks({ id: taskListSpec.id }, {}, context);
     expect(updatedList instanceof Array).toBe(true);
     expect(updatedList.length).toBe(0);
   });
@@ -116,7 +116,7 @@ describe('TaskList resolvers', () => {
     };
 
     await Mutation.addTaskToTaskList(parent, args, context);
-    const updatedList = await TaskList.tasks({ id: taskList.id }, {}, context);
+    const updatedList = await TaskList.tasks({ id: taskListSpec.id }, {}, context);
     expect(updatedList instanceof Array).toBe(true);
     expect(updatedList.length).toBe(0);
   });
@@ -125,11 +125,11 @@ describe('TaskList resolvers', () => {
     const parent = {};
     const args = {
       taskId: task.id,
-      taskListId: taskList.id
+      taskListId: taskListSpec.id
     };
 
     await Mutation.addTaskToTaskList(parent, args, context);
-    const updatedList = await TaskList.tasks({ id: taskList.id }, {}, context);
+    const updatedList = await TaskList.tasks({ id: taskListSpec.id }, {}, context);
     expect(updatedList instanceof Array).toBe(true);
     expect(updatedList.length).toBe(1);
     expect(updatedList[0].id).toBe(1);
@@ -139,11 +139,11 @@ describe('TaskList resolvers', () => {
     const parent = {};
     const args = {
       taskIds: [100, 200],
-      taskListId: taskList.id
+      taskListId: taskListSpec.id
     };
 
     await Mutation.addTasksToTaskList(parent, args, context);
-    const updatedList = await TaskList.tasks({ id: taskList.id }, {}, context);
+    const updatedList = await TaskList.tasks({ id: taskListSpec.id }, {}, context);
     expect(updatedList instanceof Array).toBe(true);
     expect(updatedList.length).toBe(1);
   });
@@ -161,11 +161,11 @@ describe('TaskList resolvers', () => {
     const parent = {};
     const args = {
       taskIds: [newTask1.id, newTask2.id],
-      taskListId: taskList.id
+      taskListId: taskListSpec.id
     };
 
     await Mutation.addTasksToTaskList(parent, args, context);
-    const updatedList = await TaskList.tasks({ id: taskList.id }, {}, context);
+    const updatedList = await TaskList.tasks({ id: taskListSpec.id }, {}, context);
     expect(updatedList instanceof Array).toBe(true);
     expect(updatedList.length).toBe(3);
     expect(updatedList[2].id).toBe(newTask2.id);
@@ -183,13 +183,13 @@ describe('TaskList resolvers', () => {
     };
 
     await Mutation.addTasksToTaskList(parent, args, context);
-    const updatedList = await TaskList.tasks({ id: taskList.id }, {}, context);
+    const updatedList = await TaskList.tasks({ id: taskListSpec.id }, {}, context);
     expect(updatedList instanceof Array).toBe(true);
     expect(updatedList.length).toBe(3);
   });
 
   it('return the user for a task list', async () => {
-    const parent = { id: taskList.id };
+    const parent = { id: taskListSpec.id };
     const args = {};
 
     const returnedUser = await TaskList.user(parent, args, context);
@@ -198,11 +198,11 @@ describe('TaskList resolvers', () => {
 
   it('deletes a task list', async () => {
     const parent = {};
-    const args = { id: taskList.id };
+    const args = { id: taskListSpec.id };
 
     await Mutation.deleteTaskList(parent, args, context);
     const updatedList = await sequelizeService.models.TaskList.findOne({
-      where: { id: taskList.id }
+      where: { id: taskListSpec.id }
     });
     expect(updatedList).toBe(null);
   });

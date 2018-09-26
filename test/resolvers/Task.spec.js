@@ -1,7 +1,7 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const { Task, Query, Mutation } = require('../../app/resolvers/Task'),
+const { Task: TaskSpec, Query, Mutation } = require('../../app/resolvers/Task'),
   {
     sequelizeService,
     setupDatabase,
@@ -130,7 +130,7 @@ describe('Task resolvers', () => {
     };
 
     const note = (await sequelizeService.models.Note.create(notePayload)).dataValues;
-    const result = await Task.notes(parent, args, context);
+    const result = await TaskSpec.notes(parent, args, context);
 
     expect(note.id).toBe(result[0].id);
   });
@@ -139,7 +139,7 @@ describe('Task resolvers', () => {
     const parent = { id: task.id };
     const args = {};
 
-    const result = await Task.user(parent, args, context);
+    const result = await TaskSpec.user(parent, args, context);
 
     expect(result.id).toBe(result.id);
     expect(result).toHaveProperty('id', user.id);

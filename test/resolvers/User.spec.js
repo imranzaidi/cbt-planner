@@ -10,7 +10,7 @@ const { Query, Mutation } = require('../../app/resolvers/User'),
   } = require('../../tools/testDBSetup');
 
 let context;
-let user;
+let userSpec;
 
 
 describe('User resolvers', () => {
@@ -24,11 +24,11 @@ describe('User resolvers', () => {
       password: 'password'
     };
 
-    user = (await sequelizeService.models.User.create(payload)).dataValues;
+    userSpec = (await sequelizeService.models.User.create(payload)).dataValues;
 
     context = {
       models: sequelizeService.models,
-      user
+      user: userSpec
     };
   });
 
@@ -41,11 +41,11 @@ describe('User resolvers', () => {
     const args = {};
 
     const result = await Query.getUser(parent, args, context);
-    expect(result).toHaveProperty('id', user.id);
-    expect(result).toHaveProperty('username', user.username);
-    expect(result).toHaveProperty('email', user.email);
-    expect(result).toHaveProperty('createdAt', user.createdAt);
-    expect(result).toHaveProperty('updatedAt', user.updatedAt);
+    expect(result).toHaveProperty('id', userSpec.id);
+    expect(result).toHaveProperty('username', userSpec.username);
+    expect(result).toHaveProperty('email', userSpec.email);
+    expect(result).toHaveProperty('createdAt', userSpec.createdAt);
+    expect(result).toHaveProperty('updatedAt', userSpec.updatedAt);
     expect(result).toHaveProperty('password', null);
   });
 
@@ -58,11 +58,11 @@ describe('User resolvers', () => {
     };
 
     const result = await Mutation.updateUser(parent, args, context);
-    expect(result).toHaveProperty('id', user.id);
-    expect(result).toHaveProperty('username', user.username);
-    expect(result).toHaveProperty('email', user.email);
-    expect(result).toHaveProperty('createdAt', user.createdAt);
-    expect(result).toHaveProperty('updatedAt', user.updatedAt);
+    expect(result).toHaveProperty('id', userSpec.id);
+    expect(result).toHaveProperty('username', userSpec.username);
+    expect(result).toHaveProperty('email', userSpec.email);
+    expect(result).toHaveProperty('createdAt', userSpec.createdAt);
+    expect(result).toHaveProperty('updatedAt', userSpec.updatedAt);
     expect(result).toHaveProperty('password', null);
   });
 
@@ -75,12 +75,12 @@ describe('User resolvers', () => {
     };
 
     const result = await Mutation.updateUser(parent, args, context);
-    expect(result).toHaveProperty('id', user.id);
+    expect(result).toHaveProperty('id', userSpec.id);
     expect(result).toHaveProperty('username', args.newUsername);
     expect(result).toHaveProperty('email', args.newEmail);
-    expect(result).toHaveProperty('createdAt', user.createdAt);
+    expect(result).toHaveProperty('createdAt', userSpec.createdAt);
     expect(result).toHaveProperty('updatedAt');
-    expect(result.updatedAt.valueOf()).toBeGreaterThan(user.updatedAt.valueOf());
+    expect(result.updatedAt.valueOf()).toBeGreaterThan(userSpec.updatedAt.valueOf());
     expect(result).toHaveProperty('password', null);
   });
 });
