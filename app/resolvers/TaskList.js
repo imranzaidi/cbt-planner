@@ -3,6 +3,7 @@
  ***********************/
 const _ = require('lodash'),
   Sequelize = require('sequelize'),
+  dateUtilities = require('../libraries/dateUtilities'),
   { safeUserProperties } = require('../consts/user');
 
 
@@ -36,8 +37,17 @@ module.exports = {
   Mutation: {
     createTaskList: (parent, { startDate, type }, { models, user }) => {
       const date = startDate ? new Date(startDate) : new Date();
+      const dateIsMonday = dateUtilities.isBeginningOfMonth(date);
+      const dateIsFirstOfMonth = dateUtilities.isBeginningOfWeek(date);
+      const validDate = dateIsMonday || dateIsFirstOfMonth;
 
-      // TODO: add validation for startDate on monthly & weekly basis
+      if (!startDate && !validDate) {
+        throw new Error('Please provide a valid date (Monday or 1st of the month)!');
+      }
+      if (!validDate) {
+        throw new Error('Provided date is not the beginning of the week or month!');
+      }
+
       return models.TaskList.create({ startDate: date, type, user_id: user.id });
     },
     addTaskToTaskList: async (parent, { taskId, taskListId }, { models }) => {
