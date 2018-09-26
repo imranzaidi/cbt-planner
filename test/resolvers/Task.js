@@ -121,7 +121,7 @@ describe('Task resolvers', () => {
     expect(result).toHaveProperty('user_id', user.id);
   });
 
-  it('add notes to a task', async () => {
+  it('returns notes for a task', async () => {
     const parent = { id: task.id };
     const args = {};
     const notePayload = {
