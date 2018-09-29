@@ -34,6 +34,8 @@
     "reinstall": "npm cache clean; npm run clean; npm install",
     "start:cluster": "node tools/cluster.js",
     "test": "jest --runInBand",
+    "test:unit": "jest \\test/libraries/*.spec.js\\",
+    "test:integration": "jest --runInBand \\test/resolvers/*.spec.js\\",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
   },
   "devDependencies": {
