@@ -137,6 +137,23 @@ describe('Task resolvers', () => {
     expect(result[0]).toHaveProperty('user_id', user.id);
   });
 
+  it('returns forwarded tasks', async () => {
+    const parent = {};
+    const args = {
+      id: taskWithoutDueDate.id,
+      status: 'forwarded'
+    };
+
+    await Mutation.updateTask(parent, args, context);
+    const results = await Query.getForwardedTasks(parent, {}, context);
+    expect(results.length).toBe(1);
+    expect(results[0]).toHaveProperty('id', taskWithoutDueDate.id);
+    expect(results[0]).toHaveProperty('description', taskWithoutDueDate.description);
+    expect(taskWithoutDueDate.status).not.toBe(args.status);
+    expect(results[0]).toHaveProperty('status', args.status);
+    expect(results[0]).toHaveProperty('user_id', user.id);
+  });
+
   it('updates an existing task', async () => {
     const parent = {};
     const args = {
@@ -153,6 +170,16 @@ describe('Task resolvers', () => {
     expect(result).toHaveProperty('updatedAt');
     expect(result.updatedAt.valueOf()).toBeGreaterThan(result.createdAt.valueOf());
     expect(result).toHaveProperty('user_id', user.id);
+  });
+
+  it('does not update an existing task if no update params are passed', async () => {
+    const parent = {};
+    const args = {
+      id: task.id
+    };
+
+    const result = await Mutation.updateTask(parent, args, context);
+    expect(result).toBe(null);
   });
 
   it('returns notes for a task', async () => {

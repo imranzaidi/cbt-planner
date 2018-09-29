@@ -25,6 +25,7 @@ module.exports = {
       where: { id, user_id: user.id }
     }),
     getTasksDueBy: (parent, { date }, { models, user }) => {
+      // TODO: add start range to params or modify with a less arbitrary lower bound
       const currentDate = new Date(),
         dueDate = new Date(date);
 
@@ -46,6 +47,12 @@ module.exports = {
         user_id: user.id,
         due: null
       }
+    }),
+    getForwardedTasks: (parent, args, { models, user }) => models.Task.findAll({
+      where: {
+        user_id: user.id,
+        status: 'forwarded'
+      }
     })
   },
 
@@ -61,7 +68,7 @@ module.exports = {
       return models.Task.create(properties);
     },
     updateTask: async (parent, { id, description, status, priority, due }, { models, user }) => {
-      const updates = { description, status, priority, due, user_id: user.id };
+      const updates = { description, status, priority, due };
 
       Object.keys(updates).forEach((key) => {
         if (!updates[key]) {

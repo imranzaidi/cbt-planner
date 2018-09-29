@@ -14,6 +14,8 @@ type Query {
     getIncompleteTasks: [Task]
     # Get all Tasks that haven't been assigned a due date
     getTasksWithoutDueDates: [Task]
+    # Get all Tasks that have been forwarded
+    getForwardedTasks: [Task]
     # Get TaskList by ID.
     getTaskListById (id: Int!): TaskList
     # Get all TaskLists belonging to current User.
