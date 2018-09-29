@@ -12,9 +12,9 @@ type Query {
     getTasksDueBy(date: String!): [Task]
     # Get all Tasks that are not complete.
     getIncompleteTasks: [Task]
-    # Get all Tasks that haven't been assigned a due date
+    # Get all Tasks that haven't been assigned a due date.
     getTasksWithoutDueDates: [Task]
-    # Get all Tasks that have been forwarded
+    # Get all Tasks that have been forwarded.
     getForwardedTasks: [Task]
     # Get TaskList by ID.
     getTaskListById (id: Int!): TaskList
