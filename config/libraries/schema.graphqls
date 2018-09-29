@@ -8,8 +8,12 @@ type Query {
     getUser: User
     # Get a Task by ID.
     getTask(id: Int!): Task
-    # Get Task due by a specific date.
+    # Get Tasks due by a specific date.
     getTasksDueBy(date: String!): [Task]
+    # Get all Tasks that are not complete.
+    getIncompleteTasks: [Task]
+    # Get all Tasks that haven't been assigned a due date
+    getTasksWithoutDueDates: [Task]
     # Get TaskList by ID.
     getTaskListById (id: Int!): TaskList
     # Get all TaskLists belonging to current User.
@@ -24,7 +28,7 @@ type Mutation {
     # Create a new Task.
     createTask(description: String!): Task
     # Updates a Task.
-    updateTask(id: Int!, description: String!, status: String, priority: String, due: String): Task
+    updateTask(id: Int!, description: String, status: String, priority: String, due: String): Task
     # Deletes a Task.
     deleteTask(id: Int!): Int!
     # Creates a new TaskList.

@@ -12,6 +12,7 @@ const { Task: TaskSpec, Query, Mutation } = require('../../app/resolvers/Task'),
 let context;
 let user;
 let task;
+let taskWithoutDueDate;
 const today = new Date();
 
 
@@ -84,6 +85,21 @@ describe('Task resolvers', () => {
     expect(emptyResult.length).toBe(0);
   });
 
+  it('returns all incomplete tasks', async () => {
+    const parent = {};
+    const args = {};
+
+    const result = await Query.getIncompleteTasks(parent, args, context);
+    expect(result.length).toBe(1);
+    expect(result[0]).toHaveProperty('id', task.id);
+    expect(result[0]).toHaveProperty('description', task.description);
+    expect(result[0]).toHaveProperty('priority', task.priority);
+    expect(result[0]).toHaveProperty('status', task.status);
+    expect(result[0]).toHaveProperty('createdAt', task.createdAt);
+    expect(result[0]).toHaveProperty('updatedAt', task.updatedAt);
+    expect(result[0]).toHaveProperty('user_id', user.id);
+  });
+
   it('creates new tasks', async () => {
     const parent = {};
     const args = {
@@ -94,6 +110,7 @@ describe('Task resolvers', () => {
     };
 
     const result = await Mutation.createTask(parent, args, context);
+    taskWithoutDueDate = result;
     expect(result).toHaveProperty('id');
     expect(result).toHaveProperty('description', args.description);
     expect(result).toHaveProperty('priority', args.priority);
@@ -101,6 +118,23 @@ describe('Task resolvers', () => {
     expect(result).toHaveProperty('createdAt');
     expect(result).toHaveProperty('updatedAt');
     expect(result).toHaveProperty('user_id', user.id);
+  });
+
+  it('returns all incomplete tasks', async () => {
+    const parent = {};
+    const args = {};
+
+    const result = await Query.getTasksWithoutDueDates(parent, args, context);
+    expect(result.length).toBe(1);
+    expect(result[0]).toHaveProperty('id', taskWithoutDueDate.id);
+    expect(result[0]).toHaveProperty('description', taskWithoutDueDate.description);
+    expect(result[0]).toHaveProperty('priority', taskWithoutDueDate.priority);
+    expect(result[0]).toHaveProperty('status', taskWithoutDueDate.status);
+    expect(result[0]).toHaveProperty('due', taskWithoutDueDate.due);
+    expect(taskWithoutDueDate.due).toBe(null);
+    expect(result[0]).toHaveProperty('createdAt', taskWithoutDueDate.createdAt);
+    expect(result[0]).toHaveProperty('updatedAt', taskWithoutDueDate.updatedAt);
+    expect(result[0]).toHaveProperty('user_id', user.id);
   });
 
   it('updates an existing task', async () => {

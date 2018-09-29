@@ -34,7 +34,19 @@ module.exports = {
           user_id: user.id
         }
       });
-    }
+    },
+    getIncompleteTasks: (parent, args, { models, user }) => models.Task.findAll({
+      where: {
+        user_id: user.id,
+        status: { [Sequelize.Op.or]: ['incomplete', 'in progress', 'forwarded'] }
+      }
+    }),
+    getTasksWithoutDueDates: (parent, args, { models, user }) => models.Task.findAll({
+      where: {
+        user_id: user.id,
+        due: null
+      }
+    })
   },
 
   Mutation: {
@@ -56,6 +68,8 @@ module.exports = {
           delete updates[key];
         }
       });
+
+      if (Object.keys(updates).length === 0) return null;
 
       const task = await models.Task.findOne({ where: { id } });
       await task.update(updates);
