@@ -6,7 +6,7 @@
  */
 function isBeginningOfWeek(date) {
   if (!(date instanceof Date)) {
-    throw new Error('Argument date needs to be fo type Date!');
+    throw new TypeError('Argument date needs to be of type Date!');
   }
 
   return date.getDay() === 1;
@@ -20,7 +20,7 @@ function isBeginningOfWeek(date) {
  */
 function isBeginningOfMonth(date) {
   if (!(date instanceof Date)) {
-    throw new Error('Argument date needs to be fo type Date!');
+    throw new TypeError('Argument date needs to be of type Date!');
   }
 
   return date.getDate() === 1;

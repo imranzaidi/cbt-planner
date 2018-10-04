@@ -39,15 +39,13 @@ describe('Date Utilities library', () => {
 
   it('should throw an error for invalid types i.e. not a date', () => {
     const Sep25th2018 = '09-24-2018';
-    const expectedError = 'Argument date needs to be fo type Date!';
 
     expect(() => {
       lib.isBeginningOfWeek(Sep25th2018);
-    }).toThrow(expectedError);
+    }).toThrow(TypeError);
 
     expect(() => {
       lib.isBeginningOfMonth(Sep25th2018);
-    }).toThrow(expectedError);
-
+    }).toThrow(TypeError);
   });
 });
