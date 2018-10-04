@@ -87,23 +87,27 @@ function initGraphQLEndpoints(app, sequelizeService) {
   const { ApolloServer } = apolloServerExpress,
     schemas = graphqlSchemaService.generateSchemas();
 
-  const standardGraphQLServer = new ApolloServer({
+  const standardGraphQLServerArg = {
     schema: schemas.standardSchema,
     context: ({ req }) => ({ // eslint-disable-line arrow-parens
       models: sequelizeService.models,
       SECRET: config.app.secret,
       user: req.user
     })
-  });
+  };
+  if (process.env.NODE_ENV === 'production') standardGraphQLServerArg.debug = false;
 
-  const loginRegisterGraphQLServer = new ApolloServer({
+  const loginRegisterGraphQLServerArg = {
     schema: schemas.loginRegisterSchema,
-    context: ({ req }) => ({ // eslint-disable-line arrow-parens
+    context: {
       models: sequelizeService.models,
-      SECRET: config.app.secret,
-      user: req.user
-    })
-  });
+      SECRET: config.app.secret
+    }
+  };
+  if (process.env.NODE_ENV === 'production') loginRegisterGraphQLServerArg.debug = false;
+
+  const standardGraphQLServer = new ApolloServer(standardGraphQLServerArg);
+  const loginRegisterGraphQLServer = new ApolloServer(loginRegisterGraphQLServerArg);
 
   standardGraphQLServer.applyMiddleware({ app });
   loginRegisterGraphQLServer.applyMiddleware({ app, path: LOGIN_REGISTER_ROUTE });
