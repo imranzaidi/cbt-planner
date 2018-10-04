@@ -1,9 +1,11 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const _ = require('lodash'),
+const { UserInputError } = require('apollo-server-express'),
+  _ = require('lodash'),
   bcrypt = require('bcrypt'),
-  jsonwebtoken = require('jsonwebtoken');
+  jsonwebtoken = require('jsonwebtoken'),
+  validator = require('validator');
 
 
 module.exports = {
@@ -32,6 +34,11 @@ module.exports = {
     },
     register: async (parent, args, { models }) => {
       const user = args;
+
+      if (!validator.isEmail(user.email)) throw new UserInputError('Invalid email!');
+      if (!user.password) throw new UserInputError('Password cannot be blank!');
+      if (user.password.length < 8) throw new UserInputError('Password must be at least 8 characters long!');
+
       user.password = await bcrypt.hash(user.password, 12);
 
       return models.User.create(user).then((createdUser) => {

@@ -1,7 +1,8 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const jsonwebtoken = require('jsonwebtoken'),
+const { UserInputError } = require('apollo-server-express'),
+  jsonwebtoken = require('jsonwebtoken'),
   { Query, Mutation } = require('../../app/resolvers/LoginRegister'),
   {
     sequelizeService,
@@ -90,6 +91,51 @@ describe('LoginRegister resolvers', () => {
       await Mutation.login(parent, loginArgs, context);
     } catch (e) {
       expect(e.message).toBe('Incorrect password.');
+    }
+  });
+
+  it('throws an error if user tries to sign up with a bad email', async () => {
+    const parent = {};
+    const loginArgs = {
+      email: 'you know I\'m bad!',
+      password: 'badass password'
+    };
+
+    try {
+      await Mutation.register(parent, loginArgs, context);
+    } catch (e) {
+      expect(e.message).toBe('Invalid email!');
+      expect(e instanceof UserInputError).toBeTruthy();
+    }
+  });
+
+  it('throws an error if user tries to sign up with a blank password', async () => {
+    const parent = {};
+    const loginArgs = {
+      email: 'another@user.com',
+      password: ''
+    };
+
+    try {
+      await Mutation.register(parent, loginArgs, context);
+    } catch (e) {
+      expect(e.message).toBe('Password cannot be blank!');
+      expect(e instanceof UserInputError).toBeTruthy();
+    }
+  });
+
+  it('throws an error if the password smaller than 8 characters', async () => {
+    const parent = {};
+    const loginArgs = {
+      email: 'another@user.com',
+      password: 'passwor'
+    };
+
+    try {
+      await Mutation.register(parent, loginArgs, context);
+    } catch (e) {
+      expect(e.message).toBe('Password must be at least 8 characters long!');
+      expect(e instanceof UserInputError).toBeTruthy();
     }
   });
 });

@@ -64,6 +64,7 @@
     "pg-hstore": "^2.3.2",
     "run-sequence": "^2.2.1",
     "sequelize": "^4.38.1",
+    "validator": "^10.8.0",
     "winston": "^2.4.4"
   }
 }
