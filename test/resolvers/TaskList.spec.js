@@ -203,10 +203,11 @@ describe('TaskList resolvers', () => {
       type: 'weekly'
     };
 
+    expect.assertions(1);
     try {
       await Mutation.createTaskList(parent, args, context);
     } catch (e) {
-      expect(e instanceof Error).toBe(true);
+      expect(e.message).toBe('Provided date is not the beginning of the week or month!');
     }
   });
 
@@ -217,10 +218,10 @@ describe('TaskList resolvers', () => {
       type: 'weekly'
     };
 
+    expect.assertions(1);
     try {
       await Mutation.createTaskList(parent, args, context);
     } catch (e) {
-      expect(e instanceof Error).toBe(true);
       expect(e.message).toBe('Provided date is not the beginning of the week or month!');
     }
   });
@@ -244,9 +245,10 @@ describe('TaskList resolvers', () => {
       if (validDateToRunTest) {
         expect(result).toHaveProperty('id');
         expect(result.type).toBe(args.type);
+      } else {
+        expect.assertions(1);
       }
     } catch (e) {
-      expect(e instanceof Error).toBe(true);
       expect(e.message).toBe('Please provide a valid date (Monday or 1st of the month)!');
     }
   });
@@ -258,10 +260,10 @@ describe('TaskList resolvers', () => {
       type: 'weekly'
     };
 
+    expect.assertions(1);
     try {
       await Mutation.createTaskList(parent, args, context);
     } catch (e) {
-      expect(e instanceof Error).toBe(true);
       expect(e.message).toBe('Provided date is not the beginning of the week or month!');
     }
   });
@@ -273,10 +275,10 @@ describe('TaskList resolvers', () => {
       type: 'monthly'
     };
 
+    expect.assertions(1);
     try {
       await Mutation.createTaskList(parent, args, context);
     } catch (e) {
-      expect(e instanceof Error).toBe(true);
       expect(e.message).toBe('Provided date is not the beginning of the week or month!');
     }
   });
@@ -292,6 +294,7 @@ describe('TaskList resolvers', () => {
       type: 'weekly'
     };
 
+    expect.assertions(1);
     try {
       const result = await Mutation.createTaskList(parent, args, context);
       if (validDateToRunTest) {

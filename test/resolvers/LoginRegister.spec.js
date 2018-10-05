@@ -73,6 +73,7 @@ describe('LoginRegister resolvers', () => {
       password: 'password'
     };
 
+    expect.assertions(1);
     try {
       await Mutation.login(parent, loginArgs, context);
     } catch (e) {
@@ -87,6 +88,7 @@ describe('LoginRegister resolvers', () => {
       password: 'wrong password'
     };
 
+    expect.assertions(1);
     try {
       await Mutation.login(parent, loginArgs, context);
     } catch (e) {
@@ -101,6 +103,7 @@ describe('LoginRegister resolvers', () => {
       password: 'badass password'
     };
 
+    expect.assertions(2);
     try {
       await Mutation.register(parent, loginArgs, context);
     } catch (e) {
@@ -116,6 +119,7 @@ describe('LoginRegister resolvers', () => {
       password: ''
     };
 
+    expect.assertions(2);
     try {
       await Mutation.register(parent, loginArgs, context);
     } catch (e) {
@@ -131,6 +135,7 @@ describe('LoginRegister resolvers', () => {
       password: 'passwor'
     };
 
+    expect.assertions(2);
     try {
       await Mutation.register(parent, loginArgs, context);
     } catch (e) {
