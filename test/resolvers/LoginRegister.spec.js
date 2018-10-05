@@ -3,6 +3,7 @@
  ***********************/
 const { UserInputError } = require('apollo-server-express'),
   jsonwebtoken = require('jsonwebtoken'),
+  { errorMessages } = require('../../app/consts/loginRegistration'),
   { Query, Mutation } = require('../../app/resolvers/LoginRegister'),
   {
     sequelizeService,
@@ -77,7 +78,7 @@ describe('LoginRegister resolvers', () => {
     try {
       await Mutation.login(parent, loginArgs, context);
     } catch (e) {
-      expect(e.message).toBe('No user with that email.');
+      expect(e.message).toBe(errorMessages.emailLookUp);
     }
   });
 
@@ -92,7 +93,7 @@ describe('LoginRegister resolvers', () => {
     try {
       await Mutation.login(parent, loginArgs, context);
     } catch (e) {
-      expect(e.message).toBe('Incorrect password.');
+      expect(e.message).toBe(errorMessages.incorrectPassword);
     }
   });
 
@@ -107,7 +108,7 @@ describe('LoginRegister resolvers', () => {
     try {
       await Mutation.register(parent, loginArgs, context);
     } catch (e) {
-      expect(e.message).toBe('Invalid email!');
+      expect(e.message).toBe(errorMessages.invalidEmail);
       expect(e instanceof UserInputError).toBeTruthy();
     }
   });
@@ -123,7 +124,7 @@ describe('LoginRegister resolvers', () => {
     try {
       await Mutation.register(parent, loginArgs, context);
     } catch (e) {
-      expect(e.message).toBe('Password cannot be blank!');
+      expect(e.message).toBe(errorMessages.missingPassword);
       expect(e instanceof UserInputError).toBeTruthy();
     }
   });
@@ -139,7 +140,7 @@ describe('LoginRegister resolvers', () => {
     try {
       await Mutation.register(parent, loginArgs, context);
     } catch (e) {
-      expect(e.message).toBe('Password must be at least 8 characters long!');
+      expect(e.message).toBe(errorMessages.invalidPasswordLength);
       expect(e instanceof UserInputError).toBeTruthy();
     }
   });

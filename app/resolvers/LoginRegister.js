@@ -5,7 +5,8 @@ const { UserInputError } = require('apollo-server-express'),
   _ = require('lodash'),
   bcrypt = require('bcrypt'),
   jsonwebtoken = require('jsonwebtoken'),
-  validator = require('validator');
+  validator = require('validator'),
+  { errorMessages } = require('../consts/loginRegistration');
 
 
 module.exports = {
@@ -16,12 +17,12 @@ module.exports = {
     login: async (parent, { email, password }, { models, SECRET }) => {
       const user = await models.User.findOne({ where: { email } });
       if (!user) {
-        throw new Error('No user with that email.');
+        throw new Error(errorMessages.emailLookUp);
       }
 
       const valid = bcrypt.compareSync(password, user.password);
       if (!valid) {
-        throw new Error('Incorrect password.');
+        throw new Error(errorMessages.incorrectPassword);
       }
 
       const token = jsonwebtoken.sign(
@@ -35,9 +36,9 @@ module.exports = {
     register: async (parent, args, { models }) => {
       const user = args;
 
-      if (!validator.isEmail(user.email)) throw new UserInputError('Invalid email!');
-      if (!user.password) throw new UserInputError('Password cannot be blank!');
-      if (user.password.length < 8) throw new UserInputError('Password must be at least 8 characters long!');
+      if (!validator.isEmail(user.email)) throw new UserInputError(errorMessages.invalidEmail);
+      if (!user.password) throw new UserInputError(errorMessages.missingPassword);
+      if (user.password.length < 8) throw new UserInputError(errorMessages.invalidPasswordLength);
 
       user.password = await bcrypt.hash(user.password, 12);
 
