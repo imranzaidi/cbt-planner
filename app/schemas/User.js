@@ -7,7 +7,7 @@ module.exports = () => [User]; // eslint-disable-line no-use-before-define
 const User = `
   type User {
     id: Int!
-    username: String!
+    username: String
     email: String!
     password: String
     createdAt: String!
