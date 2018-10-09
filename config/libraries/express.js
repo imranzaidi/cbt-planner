@@ -32,7 +32,7 @@ async function addUser(req, res, next) {
 
   if (!loginOrRegisterMutation && query && !introspectionQuery) {
     try {
-      const { user } = await jsonwebtoken.verify(token, process.env.SECRET);
+      const { user } = await jsonwebtoken.verify(token, config.app.secret);
       req.user = user;
     } catch (err) {
       console.log(chalk.red('Authorization:'), err); // eslint-disable-line no-console
