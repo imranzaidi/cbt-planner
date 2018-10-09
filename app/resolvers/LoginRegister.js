@@ -11,7 +11,14 @@ const { UserInputError } = require('apollo-server-express'),
 
 module.exports = {
   Query: {
-    purpose: () => 'Login / Register'
+    verifyToken: async (parent, { token }, { SECRET }) => { // eslint-disable-line
+      try {
+        await jsonwebtoken.verify(token, SECRET);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
   },
   Mutation: {
     login: async (parent, { email, password }, { models, SECRET }) => {

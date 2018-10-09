@@ -5,7 +5,7 @@ schema {
 
 type Query {
     # Outputs the purpose of this GraphQL endpoint.
-    purpose: String!
+    verifyToken(token: String!): Boolean!
 }
 
 type Mutation {

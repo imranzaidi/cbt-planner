@@ -31,11 +31,6 @@ describe('LoginRegister resolvers', () => {
     await closeConnection();
   });
 
-  it('tells you the purpose of the endpoint when queried (coverage)', async () => {
-    const result = await Query.purpose();
-    expect(result).toBe('Login / Register');
-  });
-
   it('let\'s new users register', async () => {
     const parent = {};
     const args = {
@@ -65,6 +60,22 @@ describe('LoginRegister resolvers', () => {
     expect(user).toHaveProperty('username', 'new user');
     expect(user).not.toHaveProperty('password');
     expect(user).toHaveProperty('id');
+  });
+
+  it('validates json web-tokens', async () => {
+    const parent = {};
+    const loginArgs = {
+      email: 'new@user.com',
+      password: 'password'
+    };
+
+    const token = await Mutation.login(parent, loginArgs, context);
+    let result = await Query.verifyToken(parent, { token }, context);
+    expect(result).toBe(true);
+
+    const badToken = 'blah';
+    result = await Query.verifyToken(parent, { token: badToken }, context);
+    expect(result).toBe(false);
   });
 
   it('throws an error if users try to login with out an email', async () => {
