@@ -13,10 +13,13 @@ module.exports = {
   Query: {
     verifyToken: async (parent, { token }, { SECRET }) => { // eslint-disable-line
       try {
-        await jsonwebtoken.verify(token, SECRET);
-        return true;
+        return await jsonwebtoken.verify(token, SECRET);
       } catch (e) {
-        return false;
+        return {
+          user: null,
+          exp: 0,
+          iat: 0
+        };
       }
     }
   },

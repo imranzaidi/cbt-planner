@@ -43,14 +43,14 @@ function generateSchemas() {
   const { makeExecutableSchema } = graphqlTools,
     schemas = getSchemas(),
     resolvers = getResolvers(),
-    { Task, TaskList, Note, User } = schemas;
+    { Task, TaskList, Note, User, JWTVerification } = schemas;
 
   const SchemaDefinition = fs.readFileSync(path.join(__dirname, 'schema.graphqls')).toString();
   const LoginRegisterSchemaDefinition = fs.readFileSync(path.join(__dirname, 'login.register.graphqls')).toString();
 
   const typeDefs = [SchemaDefinition, Task, TaskList, Note, User];
   const rootResolver = _.merge({}, resolvers.Task, resolvers.TaskList, resolvers.Note, resolvers.User);
-  const loginRegisterTypeDefs = [LoginRegisterSchemaDefinition, User];
+  const loginRegisterTypeDefs = [LoginRegisterSchemaDefinition, User, JWTVerification];
   const loginRegisterRootResolver = _.merge({}, resolvers.LoginRegister);
 
   const loginRegisterSchema = makeExecutableSchema({

@@ -294,7 +294,6 @@ describe('TaskList resolvers', () => {
       type: 'weekly'
     };
 
-    expect.assertions(1);
     try {
       const result = await Mutation.createTaskList(parent, args, context);
       if (validDateToRunTest) {

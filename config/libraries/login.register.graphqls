@@ -4,8 +4,8 @@ schema {
 }
 
 type Query {
-    # Outputs the purpose of this GraphQL endpoint.
-    verifyToken(token: String!): Boolean!
+    # Verifies JWT
+    verifyToken(token: String!): JWTVerification!
 }
 
 type Mutation {

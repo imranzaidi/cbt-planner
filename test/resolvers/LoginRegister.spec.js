@@ -71,11 +71,19 @@ describe('LoginRegister resolvers', () => {
 
     const token = await Mutation.login(parent, loginArgs, context);
     let result = await Query.verifyToken(parent, { token }, context);
-    expect(result).toBe(true);
+    expect(typeof result.exp).toBe('number');
+    expect(typeof result.iat).toBe('number');
+    expect(result.exp).not.toBe(0);
+    expect(result.iat).not.toBe(0);
+    expect(result.user).toHaveProperty('id');
+    expect(result.user).toHaveProperty('email');
+    expect(result.user).toHaveProperty('username');
 
     const badToken = 'blah';
     result = await Query.verifyToken(parent, { token: badToken }, context);
-    expect(result).toBe(false);
+    expect(result.user).toBeNull();
+    expect(result.exp).toBe(0);
+    expect(result.iat).toBe(0);
   });
 
   it('throws an error if users try to login with out an email', async () => {
