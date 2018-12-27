@@ -10,7 +10,8 @@ const developmentConfig = {
     host: 'localhost',
     port: 3005,
     env: 'development',
-    secret: process.env.SECRET || DEFAULT_SECRET
+    secret: process.env.SECRET || DEFAULT_SECRET,
+    frontEndOrigin: 'http://localhost:3000'
   },
 
   db: {

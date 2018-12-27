@@ -67,7 +67,7 @@ module.exports = {
 
       return models.Task.create(properties);
     },
-    updateTask: async (parent, { id, description, status, priority, due }, { models, user }) => {
+    updateTask: async (parent, { id, description, status, priority, due }, { models }) => {
       const updates = { description, status, priority, due };
 
       Object.keys(updates).forEach((key) => {

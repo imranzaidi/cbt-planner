@@ -10,7 +10,8 @@ const testConfig = {
     host: 'localhost',
     port: 3010,
     env: 'test',
-    secret: process.env.SECRET || DEFAULT_SECRET
+    secret: process.env.SECRET || DEFAULT_SECRET,
+    frontEndOrigin: 'http://localhost:3000'
   },
 
   db: {
