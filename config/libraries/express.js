@@ -1,9 +1,7 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const _ = require('lodash'),
-  apolloServerExpress = require('apollo-server-express'),
-  bcrypt = require('bcrypt'),
+const apolloServerExpress = require('apollo-server-express'),
   bodyParser = require('body-parser'),
   chalk = require('chalk'),
   cookieParser = require('cookie-parser'),
@@ -15,10 +13,9 @@ const _ = require('lodash'),
   jsonwebtoken = require('jsonwebtoken'),
   logger = require('./logger'),
   morgan = require('morgan'),
-  { errorMessages } = require('../../app/consts/loginRegistration');
+  routes = require('../../app/consts/routes');
 
-const LOGIN_REGISTER_ROUTE = '/login-register';
-const LOGIN_ROUTE = '/login';
+const { LOGIN_REGISTER_ROUTE, LOGIN_ROUTE } = routes;
 
 
 /**
@@ -122,6 +119,18 @@ function initGraphQLEndpoints(app, sequelizeService) {
 }
 
 /**
+ * Add REST routes to server.
+ *
+ * @param {Object} app - express application instance
+ * @param {Object} sequelizeService - sequelize service with models
+ */
+function bindRESTRoutes(app, sequelizeService) {
+  // eslint-disable-next-line global-require
+  const bindAuthRoutes = require('../../app/rest/authenticationRoutes');
+  bindAuthRoutes(app, sequelizeService);
+}
+
+/**
  * Initializes Express application.
  *
  * @param {Object} sequelizeService - sequelize service with models
@@ -132,34 +141,7 @@ function initialize(sequelizeService) {
 
   initializeMiddleware(app);
   initGraphQLEndpoints(app, sequelizeService);
-
-  // route for securely integrating authentication on the client-side
-  app.post(LOGIN_ROUTE, async (req, res) => {
-    const { email, password } = req.body;
-    const user = await sequelizeService.models.User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(422).send({ error: errorMessages.emailLookUp });
-    }
-
-    const valid = bcrypt.compareSync(password, user.password);
-    if (!valid) {
-      return res.status(422).send({ error: errorMessages.incorrectPassword });
-    }
-
-    const token = jsonwebtoken.sign(
-      { user: _.pick(user, ['id', 'username', 'email']) },
-      config.app.secret,
-      { expiresIn: '2h' },
-    );
-
-    res.cookie('id', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 1000 * 60 * 60 // 2 hours
-    });
-
-    return res.status(200).send({ message: 'Authenticated.' });
-  });
+  bindRESTRoutes(app, sequelizeService);
 
   return app;
 }
