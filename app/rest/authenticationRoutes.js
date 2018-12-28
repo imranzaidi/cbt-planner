@@ -6,7 +6,7 @@ const _ = require('lodash'),
   jsonwebtoken = require('jsonwebtoken'),
   config = require('../../config/config'),
   { errorMessages } = require('../consts/loginRegistration'),
-  { LOGIN_ROUTE } = require('../consts/routes');
+  { LOGIN_ROUTE, VERIFY_JWT_ROUTE } = require('../consts/routes');
 
 
 module.exports = function bindRoutes(app, sequelizeService) {
@@ -36,5 +36,22 @@ module.exports = function bindRoutes(app, sequelizeService) {
     });
 
     return res.status(200).send({ message: 'Authenticated.' });
+  });
+
+  app.get(VERIFY_JWT_ROUTE, async (req, res) => {
+    const token = req.headers.authorization || req.cookies.id;
+    try {
+      const tokenContent = await jsonwebtoken.verify(token, config.app.secret);
+      res.status(200);
+      return res.send(tokenContent);
+    } catch (error) {
+      res.status(422);
+      return res.send({
+        user: null,
+        exp: 0,
+        iat: 0,
+        error
+      });
+    }
   });
 };

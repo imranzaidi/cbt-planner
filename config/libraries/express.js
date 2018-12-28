@@ -114,8 +114,14 @@ function initGraphQLEndpoints(app, sequelizeService) {
   const standardGraphQLServer = new ApolloServer(standardGraphQLServerArg);
   const loginRegisterGraphQLServer = new ApolloServer(loginRegisterGraphQLServerArg);
 
-  standardGraphQLServer.applyMiddleware({ app });
-  loginRegisterGraphQLServer.applyMiddleware({ app, path: LOGIN_REGISTER_ROUTE });
+  standardGraphQLServer.applyMiddleware({
+    app,
+    cors: { credentials: true, origin: config.app.frontEndOrigin }
+  });
+  loginRegisterGraphQLServer.applyMiddleware({
+    app,
+    cors: { credentials: true, origin: config.app.frontEndOrigin },
+    path: LOGIN_REGISTER_ROUTE });
 }
 
 /**
