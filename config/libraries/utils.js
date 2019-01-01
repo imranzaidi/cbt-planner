@@ -10,8 +10,9 @@ const chalk = require('chalk'),
  ******************/
 const DEV = 'development',
   TEST = 'test',
+  STAGE = 'staging',
   PROD = 'production',
-  VALID_ENVIRONMENTS = Object.freeze([DEV, TEST, PROD]);
+  VALID_ENVIRONMENTS = Object.freeze([DEV, TEST, STAGE, PROD]);
 
 
 /**

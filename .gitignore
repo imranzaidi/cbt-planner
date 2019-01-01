@@ -18,6 +18,8 @@ debug/
 
 # General
 # =======
+.env
+.env.*
 *.log
 *.csv
 *.dat
