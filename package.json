@@ -30,7 +30,7 @@
     "clean": "rm -rf node_modules",
     "dev": "NODE_ENV=development nodemon server.js",
     "stage": "NODE_ENV=staging nodemon server.js",
-    "dev:debug": "NODE_ENV=development; node $NODE_DEBUG_OPTION server.js",
+    "dev:debug": "NODE_ENV=development node $NODE_DEBUG_OPTION server.js",
     "lint": "eslint .",
     "reinstall": "npm cache clean; npm run clean; npm install",
     "start:cluster": "node tools/cluster.js",
@@ -64,7 +64,6 @@
     "morgan": "^1.9.1",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
-    "run-sequence": "^2.2.1",
     "sequelize": "^4.38.1",
     "validator": "^10.8.0",
     "winston": "^2.4.4"
