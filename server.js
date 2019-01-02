@@ -1,7 +1,8 @@
 /***********************
  * Module Dependencies *
  ***********************/
-const expressService = require('./config/libraries/express'),
+const chalk = require('chalk'),
+  expressService = require('./config/libraries/express'),
   sequelizeService = require('./config/libraries/sequelize');
 
 
@@ -11,4 +12,9 @@ const expressService = require('./config/libraries/express'),
 const app = expressService.initialize(sequelizeService);
 
 
-sequelizeService.sequelize.sync().then(() => { expressService.startApp(app); });
+sequelizeService.sequelize.sync().then(() => {
+  expressService.startApp(app);
+}).catch((err) => {
+  // eslint-disable-next-line no-console
+  console.log(chalk.red('Sequelize sync() error:'), err);
+});
