@@ -28,7 +28,7 @@ const { LOGIN_REGISTER_ROUTE, LOGIN_ROUTE } = routes;
  */
 async function addUser(req, res, next) {
   const query = req.body && req.body.query;
-  const introspectionQuery = req.body.operationName === 'IntrospectionQuery';
+  const introspectionQuery = query.match('IntrospectionQuery');
   const loginOrRegisterMutation = req.originalUrl === LOGIN_REGISTER_ROUTE;
   const loginRoute = req.originalUrl === LOGIN_ROUTE;
 
