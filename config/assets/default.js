@@ -10,7 +10,7 @@ const utils = require('../libraries/utils');
 const assets = {
   models: 'app/models/**/*.js',
   resolvers: 'app/resolvers/**/*.js',
-  schemas: 'app/schemas/**/*.js'
+  schemas: 'app/schemas/**/*.graphql'
 };
 utils.deepFreeze(assets);
 

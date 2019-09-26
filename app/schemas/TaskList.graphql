@@ -1,0 +1,9 @@
+type TaskList {
+    id: Int!
+    startDate: String!
+    type: String!
+    tasks: [Task]
+    user: User!
+    createdAt: String!
+    updatedAt: String!
+}

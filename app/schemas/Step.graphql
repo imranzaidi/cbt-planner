@@ -1,0 +1,7 @@
+type Step {
+    id: Int!
+    description: String!
+    deadline: String!
+    complete: Boolean!
+    goal: Goal!
+}

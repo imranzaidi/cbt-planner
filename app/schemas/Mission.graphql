@@ -1,0 +1,6 @@
+type Mission {
+    id: Int!
+    statement: String!
+    accomplished: Boolean!
+    goals: [Goal]
+}

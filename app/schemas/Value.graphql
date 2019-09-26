@@ -1,0 +1,7 @@
+type Value {
+    id: Int!
+    valueStatement: String!
+    description: String!
+    category: String!
+    goals: [Goal]
+}

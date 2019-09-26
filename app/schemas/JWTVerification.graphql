@@ -1,0 +1,5 @@
+type JWTVerification {
+    user: User
+    iat: Int
+    exp: Int
+}

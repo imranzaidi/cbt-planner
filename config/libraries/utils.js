@@ -53,10 +53,12 @@ function getEnvironment() {
  * Generates a list of file paths based on the glob pattern passed in.
  *
  * @param globPattern {String} a glob pattern specifying how to find files
+ * @param {String} extension - file extension [.js or .graphql only]
  * @returns {Array} a list of file paths
  */
-function getFilePaths(globPattern) {
-  return glob.sync(globPattern).filter(path => path.match(/(.js)$/));
+function getFilePaths(globPattern, extension) {
+  return extension === 'js' ? glob.sync(globPattern).filter(path => path.match(/(.js)$/)) :
+    glob.sync(globPattern).filter(path => path.match(/(.graphql)$/));
 }
 
 /**

@@ -1,0 +1,8 @@
+type Goal {
+    id: Int!
+    statement: String!
+    values: [Value]
+    missions: [Mission]
+    roles: [Role]
+    steps: [Step]
+}

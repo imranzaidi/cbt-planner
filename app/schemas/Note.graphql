@@ -1,0 +1,5 @@
+type Note {
+    id: Int!
+    content: String!
+    task: Task!
+}

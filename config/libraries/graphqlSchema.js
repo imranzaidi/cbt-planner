@@ -15,9 +15,9 @@ const _ = require('lodash'),
  */
 function getSchemas() {
   return config.paths.schemas.reduce((acc, schemaPath) => {
-    const schemaName = schemaPath.replace('app/schemas/', '').replace('.js', '');
+    const schemaName = schemaPath.replace('app/schemas/', '').replace('.graphql', '');
 
-    acc[schemaName] = require(path.resolve(schemaPath)); // eslint-disable-line
+    acc[schemaName] = fs.readFileSync(path.resolve(schemaPath), 'utf8'); // eslint-disable-line
     return acc;
   }, {});
 }

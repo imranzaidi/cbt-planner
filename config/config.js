@@ -9,9 +9,9 @@ const utils = require('./libraries/utils'),
 /******************
  * Module Members *
  ******************/
-const modelPaths = utils.getFilePaths(assets.models),
-  resolverPaths = utils.getFilePaths(assets.resolvers),
-  schemaPaths = utils.getFilePaths(assets.schemas);
+const modelPaths = utils.getFilePaths(assets.models, 'js'),
+  resolverPaths = utils.getFilePaths(assets.resolvers, 'js'),
+  schemaPaths = utils.getFilePaths(assets.schemas, 'graphql');
 
 
 /**

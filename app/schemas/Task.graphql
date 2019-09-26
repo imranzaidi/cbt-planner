@@ -1,0 +1,11 @@
+type Task {
+    id: Int!
+    description: String!
+    priority: String!
+    status: String!
+    due: String
+    notes: [Note]
+    user: User
+    createdAt: String!
+    updatedAt: String!
+}
