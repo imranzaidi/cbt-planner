@@ -20,7 +20,7 @@ module.exports = {
 
   Mutation: {
     updateUser: async (parent, { newUsername, newEmail, newPassword }, { models, user }) => {
-      const fetchedUser = await models.User.find({ where: { id: user.id } });
+      const fetchedUser = await models.User.findOne({ where: { id: user.id } });
 
       const updates = {};
       if (newPassword) {

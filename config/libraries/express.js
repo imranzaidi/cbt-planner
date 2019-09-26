@@ -28,7 +28,7 @@ const { LOGIN_REGISTER_ROUTE, LOGIN_ROUTE } = routes;
  */
 async function addUser(req, res, next) {
   const query = req.body && req.body.query;
-  const introspectionQuery = query.match('IntrospectionQuery');
+  const introspectionQuery = (query || '').match('IntrospectionQuery');
   const loginOrRegisterMutation = req.originalUrl === LOGIN_REGISTER_ROUTE;
   const loginRoute = req.originalUrl === LOGIN_ROUTE;
 
@@ -104,10 +104,12 @@ function initGraphQLEndpoints(app, sequelizeService) {
 
   const loginRegisterGraphQLServerArg = {
     schema: schemas.loginRegisterSchema,
-    context: {
+    context: ({ req, res }) => ({
       models: sequelizeService.models,
-      SECRET: config.app.secret
-    }
+      SECRET: config.app.secret,
+      res,
+      req
+    })
   };
   if (process.env.NODE_ENV === 'production') loginRegisterGraphQLServerArg.debug = false;
 

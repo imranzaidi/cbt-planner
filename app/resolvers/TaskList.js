@@ -10,11 +10,11 @@ const _ = require('lodash'),
 module.exports = {
   TaskList: {
     tasks: ({ id }, args, { models }) => { // eslint-disable-line arrow-body-style
-      return models.TaskList.find({ where: { id } })
+      return models.TaskList.findOne({ where: { id } })
         .then(taskList => taskList.getTasks());
     },
     user: ({ id }, args, { models }) => { // eslint-disable-line arrow-body-style
-      return models.TaskList.find({ where: { id } })
+      return models.TaskList.findOne({ where: { id } })
         .then(async (taskList) => {
           const user = await taskList.getUser();
           const safeReturnValue = _.pick(user, safeUserProperties);
@@ -51,10 +51,10 @@ module.exports = {
       return models.TaskList.create({ startDate: date, type, user_id: user.id });
     },
     addTaskToTaskList: async (parent, { taskId, taskListId }, { models }) => {
-      const task = await models.Task.find({ where: { id: taskId } });
+      const task = await models.Task.findOne({ where: { id: taskId } });
       if (!task) return null;
 
-      const taskList = await models.TaskList.find({ where: { id: taskListId } });
+      const taskList = await models.TaskList.findOne({ where: { id: taskListId } });
       if (!taskList) return null;
 
       await taskList.addTask(task);
@@ -71,7 +71,7 @@ module.exports = {
 
       if (!tasks || tasks.length === 0) return null;
 
-      const taskList = await models.TaskList.find({ where: { id: taskListId } });
+      const taskList = await models.TaskList.findOne({ where: { id: taskListId } });
       if (!taskList) return null;
 
       await taskList.addTasks(tasks);

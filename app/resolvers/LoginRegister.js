@@ -11,9 +11,10 @@ const { UserInputError } = require('apollo-server-express'),
 
 module.exports = {
   Query: {
-    verifyToken: async (parent, { token }, { SECRET }) => { // eslint-disable-line
+    verifyToken: async (parent, { token }, { req, SECRET }) => { // eslint-disable-line
+      const tokenFromAnywhere = token || req.headers.authorization || req.cookies.id;
       try {
-        return await jsonwebtoken.verify(token, SECRET);
+        return await jsonwebtoken.verify(tokenFromAnywhere, SECRET);
       } catch (e) {
         return {
           user: null,
@@ -24,7 +25,7 @@ module.exports = {
     }
   },
   Mutation: {
-    login: async (parent, { email, password }, { models, SECRET }) => {
+    login: async (parent, { email, password }, { models, SECRET, res }) => {
       const user = await models.User.findOne({ where: { email } });
       if (!user) {
         throw new Error(errorMessages.emailLookUp);
@@ -40,6 +41,12 @@ module.exports = {
         SECRET,
         { expiresIn: '2h' },
       );
+
+      res.cookie('id', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 1000 * 60 * 60 // 2 hours
+      });
 
       return token;
     },

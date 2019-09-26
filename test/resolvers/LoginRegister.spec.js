@@ -15,6 +15,8 @@ const { UserInputError } = require('apollo-server-express'),
 let context;
 const SECRET = 'don\'t tell anyone!';
 
+// TODO: Add tests for verifying and setting token via cookies
+
 
 describe('LoginRegister resolvers', () => {
   beforeAll(async () => {
@@ -23,7 +25,9 @@ describe('LoginRegister resolvers', () => {
 
     context = {
       models: sequelizeService.models,
-      SECRET
+      SECRET,
+      res: { cookie: (cookieName, cookieValue, cookieProps) => {} }, // eslint-disable-line no-unused-vars
+      req: { header: { authorization: '' } }
     };
   });
 
