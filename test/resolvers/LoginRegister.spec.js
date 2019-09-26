@@ -14,8 +14,7 @@ const { UserInputError } = require('apollo-server-express'),
 
 let context;
 const SECRET = 'don\'t tell anyone!';
-
-// TODO: Add tests for verifying and setting token via cookies
+const cookie = jest.fn();
 
 
 describe('LoginRegister resolvers', () => {
@@ -26,8 +25,11 @@ describe('LoginRegister resolvers', () => {
     context = {
       models: sequelizeService.models,
       SECRET,
-      res: { cookie: (cookieName, cookieValue, cookieProps) => {} }, // eslint-disable-line no-unused-vars
-      req: { header: { authorization: '' } }
+      res: { cookie },
+      req: {
+        cookies: { id: '' },
+        headers: { authorization: '' }
+      }
     };
   });
 
@@ -59,14 +61,26 @@ describe('LoginRegister resolvers', () => {
     const token = await Mutation.login(parent, loginArgs, context);
     const { user } = await jsonwebtoken.verify(token, SECRET);
 
+    const cookieParam1 = 'id';
+    const cookieParam2 = token;
+    const cookieParam3 = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60
+    };
+
     expect(typeof token).toBe('string');
     expect(user).toHaveProperty('email', loginArgs.email);
     expect(user).toHaveProperty('username', 'new user');
     expect(user).not.toHaveProperty('password');
     expect(user).toHaveProperty('id');
+    expect(context.res.cookie).toBeCalled();
+    expect(context.res.cookie.mock.calls[0][0]).toBe(cookieParam1);
+    expect(context.res.cookie.mock.calls[0][1]).toBe(cookieParam2);
+    expect(context.res.cookie.mock.calls[0][2]).toEqual(cookieParam3);
   });
 
-  it('validates json web-tokens', async () => {
+  it('validates json web-tokens with token param provided to mutation', async () => {
     const parent = {};
     const loginArgs = {
       email: 'new@user.com',
@@ -85,6 +99,58 @@ describe('LoginRegister resolvers', () => {
 
     const badToken = 'blah';
     result = await Query.verifyToken(parent, { token: badToken }, context);
+    expect(result.user).toBeNull();
+    expect(result.exp).toBe(0);
+    expect(result.iat).toBe(0);
+  });
+
+  it('validates json web-tokens with token provided via authorization headers', async () => {
+    const parent = {};
+    const loginArgs = {
+      email: 'new@user.com',
+      password: 'password'
+    };
+    const contextClone = JSON.parse(JSON.stringify(context));
+
+    contextClone.res.cookie = cookie;
+    contextClone.req.headers.authorization = await Mutation.login(parent, loginArgs, context);
+    let result = await Query.verifyToken(parent, { token: '' }, contextClone);
+    expect(typeof result.exp).toBe('number');
+    expect(typeof result.iat).toBe('number');
+    expect(result.exp).not.toBe(0);
+    expect(result.iat).not.toBe(0);
+    expect(result.user).toHaveProperty('id');
+    expect(result.user).toHaveProperty('email');
+    expect(result.user).toHaveProperty('username');
+
+    contextClone.req.headers.authorization = 'bad token';
+    result = await Query.verifyToken(parent, { token: '' }, contextClone);
+    expect(result.user).toBeNull();
+    expect(result.exp).toBe(0);
+    expect(result.iat).toBe(0);
+  });
+
+  it('validates json web-tokens with token provided via request cookies', async () => {
+    const parent = {};
+    const loginArgs = {
+      email: 'new@user.com',
+      password: 'password'
+    };
+    const contextClone = JSON.parse(JSON.stringify(context));
+
+    contextClone.res.cookie = cookie;
+    contextClone.req.cookies.id = await Mutation.login(parent, loginArgs, context);
+    let result = await Query.verifyToken(parent, { token: '' }, contextClone);
+    expect(typeof result.exp).toBe('number');
+    expect(typeof result.iat).toBe('number');
+    expect(result.exp).not.toBe(0);
+    expect(result.iat).not.toBe(0);
+    expect(result.user).toHaveProperty('id');
+    expect(result.user).toHaveProperty('email');
+    expect(result.user).toHaveProperty('username');
+
+    contextClone.req.cookies.id = 'bad token';
+    result = await Query.verifyToken(parent, { token: '' }, contextClone);
     expect(result.user).toBeNull();
     expect(result.exp).toBe(0);
     expect(result.iat).toBe(0);
