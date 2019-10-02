@@ -28,11 +28,11 @@ const { LOGIN_REGISTER_ROUTE, LOGIN_ROUTE } = routes;
  */
 async function addUser(req, res, next) {
   const query = req.body && req.body.query;
-  const introspectionQuery = (query || '').match('IntrospectionQuery');
-  const loginOrRegisterMutation = req.originalUrl === LOGIN_REGISTER_ROUTE;
-  const loginRoute = req.originalUrl === LOGIN_ROUTE;
+  const isIntrospectionQuery = (query || '').match('IntrospectionQuery');
+  const isLoginOrRegisterMutation = req.originalUrl === LOGIN_REGISTER_ROUTE;
+  const isLoginRoute = req.originalUrl === LOGIN_ROUTE;
 
-  if (query && !introspectionQuery && !loginRoute && !loginOrRegisterMutation) {
+  if (query && !(isIntrospectionQuery || isLoginRoute || isLoginOrRegisterMutation)) {
     try {
       const token = req.headers.authorization || req.cookies.id;
       const { user } = await jsonwebtoken.verify(token, config.app.secret);

@@ -4,8 +4,8 @@ schema {
 }
 
 type Query {
-    # Verifies JWT
-    verifyToken(token: String!): JWTVerification!
+    # Verifies JWT; can be passed in mutation params (token), authorization header or cookie
+    verifyToken(token: String): JWTVerification!
 }
 
 type Mutation {
