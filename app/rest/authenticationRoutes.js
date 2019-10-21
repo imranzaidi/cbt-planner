@@ -20,11 +20,13 @@ module.exports = function bindRoutes(app, sequelizeService) {
 
     const valid = bcrypt.compareSync(password, user.password);
     if (!valid) {
-      return res.status(422).send({ error: errorMessages.incorrectPassword });
+      return res.status(422).send({ error: errorMessages.incorrectPassword, success: false, user: null });
     }
 
+    const safeUserObject = _.pick(user, ['id', 'username', 'email']);
+
     const token = jsonwebtoken.sign(
-      { user: _.pick(user, ['id', 'username', 'email']) },
+      { user: safeUserObject },
       config.app.secret,
       { expiresIn: '2h' },
     );
@@ -35,7 +37,7 @@ module.exports = function bindRoutes(app, sequelizeService) {
       maxAge: 1000 * 60 * 60 // 2 hours
     });
 
-    return res.status(200).send({ message: 'Authenticated.' });
+    return res.status(200).send({ message: 'Authenticated.', success: true, user: safeUserObject });
   });
 
   app.get(VERIFY_JWT_ROUTE, async (req, res) => {
