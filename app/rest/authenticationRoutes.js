@@ -5,7 +5,7 @@ const _ = require('lodash'),
   bcrypt = require('bcrypt'),
   jsonwebtoken = require('jsonwebtoken'),
   config = require('../../config/config'),
-  { errorMessages } = require('../consts/loginRegistration'),
+  { errorMessages, errorTypes } = require('../consts/loginRegistration'),
   { LOGIN_ROUTE, VERIFY_JWT_ROUTE } = require('../consts/routes');
 
 
@@ -15,12 +15,14 @@ module.exports = function bindRoutes(app, sequelizeService) {
     const { email, password } = req.body;
     const user = await sequelizeService.models.User.findOne({ where: { email } });
     if (!user) {
-      return res.status(422).send({ error: errorMessages.emailLookUp });
+      const error = { message: errorMessages.emailLookUp, name: errorTypes.login };
+      return res.status(422).send({ error, success: false, user: null });
     }
 
     const valid = bcrypt.compareSync(password, user.password);
     if (!valid) {
-      return res.status(422).send({ error: errorMessages.incorrectPassword, success: false, user: null });
+      const error = { message: errorMessages.incorrectPassword, name: errorTypes.login };
+      return res.status(422).send({ error, success: false, user: null });
     }
 
     const safeUserObject = _.pick(user, ['id', 'username', 'email']);
@@ -44,11 +46,9 @@ module.exports = function bindRoutes(app, sequelizeService) {
     const token = req.headers.authorization || req.cookies.id;
     try {
       const tokenContent = await jsonwebtoken.verify(token, config.app.secret);
-      res.status(200);
-      return res.send(tokenContent);
+      return res.status(200).send(tokenContent);
     } catch (error) {
-      res.status(422);
-      return res.send({
+      return res.status(422).send({
         user: null,
         exp: 0,
         iat: 0,

@@ -6,7 +6,13 @@ const errorMessages = {
   invalidPasswordLength: 'Password must be at least 8 characters long!'
 };
 
+const errorTypes = {
+  login: 'LoginError',
+  signUp: 'SignUpError'
+};
+
 
 module.exports = {
-  errorMessages
+  errorMessages,
+  errorTypes
 };

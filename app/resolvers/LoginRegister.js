@@ -6,7 +6,7 @@ const { UserInputError } = require('apollo-server-express'),
   bcrypt = require('bcrypt'),
   jsonwebtoken = require('jsonwebtoken'),
   validator = require('validator'),
-  { errorMessages } = require('../consts/loginRegistration');
+  { errorMessages, errorTypes } = require('../consts/loginRegistration');
 
 
 module.exports = {
@@ -28,12 +28,16 @@ module.exports = {
     login: async (parent, { email, password }, { models, SECRET, res }) => {
       const user = await models.User.findOne({ where: { email } });
       if (!user) {
-        throw new Error(errorMessages.emailLookUp);
+        const error = new Error(errorMessages.emailLookUp);
+        error.name = errorTypes.login;
+        throw error;
       }
 
       const valid = bcrypt.compareSync(password, user.password);
       if (!valid) {
-        throw new Error(errorMessages.incorrectPassword);
+        const error = new Error(errorMessages.incorrectPassword);
+        error.name = errorTypes.login;
+        throw error;
       }
 
       const token = jsonwebtoken.sign(
