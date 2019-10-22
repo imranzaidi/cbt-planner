@@ -15,6 +15,7 @@ const { UserInputError } = require('apollo-server-express'),
 let context;
 const SECRET = 'don\'t tell anyone!';
 const cookie = jest.fn();
+const clearCookie = jest.fn();
 
 
 describe('LoginRegister resolvers', () => {
@@ -25,7 +26,7 @@ describe('LoginRegister resolvers', () => {
     context = {
       models: sequelizeService.models,
       SECRET,
-      res: { cookie },
+      res: { cookie, clearCookie },
       req: {
         cookies: { id: '' },
         headers: { authorization: '' }
@@ -95,6 +96,16 @@ describe('LoginRegister resolvers', () => {
     expect(context.res.cookie.mock.calls[0][0]).toBe(cookieParam1);
     expect(context.res.cookie.mock.calls[0][1]).toBe(cookieParam2);
     expect(context.res.cookie.mock.calls[0][2]).toEqual(cookieParam3);
+  });
+
+  it('logs out a user and returns "Logged out."', async () => {
+    const parent = {};
+    const loginArgs = {};
+
+    const response = await Mutation.logout(parent, loginArgs, context);
+
+    expect(context.res.clearCookie).toBeCalledWith('id');
+    expect(response).toBe('Logged Out.');
   });
 
   it('validates json web-tokens with token param provided to mutation', async () => {

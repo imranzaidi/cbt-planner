@@ -6,7 +6,7 @@ const _ = require('lodash'),
   jsonwebtoken = require('jsonwebtoken'),
   config = require('../../config/config'),
   { errorMessages, errorTypes } = require('../consts/loginRegistration'),
-  { LOGIN_ROUTE, VERIFY_JWT_ROUTE } = require('../consts/routes');
+  { LOGIN_ROUTE, LOGOUT_ROUTE, VERIFY_JWT_ROUTE } = require('../consts/routes');
 
 
 module.exports = function bindRoutes(app, sequelizeService) {
@@ -40,6 +40,11 @@ module.exports = function bindRoutes(app, sequelizeService) {
     });
 
     return res.status(200).send({ message: 'Authenticated.', success: true, user: safeUserObject });
+  });
+
+  app.post(LOGOUT_ROUTE, (req, res) => {
+    res.clearCookie('id');
+    return res.status(200).send({ message: 'Logged Out.' });
   });
 
   app.get(VERIFY_JWT_ROUTE, async (req, res) => {

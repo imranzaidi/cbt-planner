@@ -54,6 +54,10 @@ module.exports = {
 
       return token;
     },
+    logout: async (parent, args, { res }) => {
+      res.clearCookie('id');
+      return 'Logged Out.';
+    },
     register: async (parent, args, { models }) => {
       const user = args;
 

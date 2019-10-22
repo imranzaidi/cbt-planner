@@ -13,4 +13,6 @@ type Mutation {
     register(email: String!, password: String!): User
     # Logs a User in, returns a JSONWebtoken.
     login(email: String!, password: String!): String!
+    # Logs out a user by deleting cookie.
+    logout: String!
 }
