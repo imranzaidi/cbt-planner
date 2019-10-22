@@ -60,6 +60,12 @@ module.exports = {
       if (!validator.isEmail(user.email)) throw new UserInputError(errorMessages.invalidEmail);
       if (!user.password) throw new UserInputError(errorMessages.missingPassword);
       if (user.password.length < 8) throw new UserInputError(errorMessages.invalidPasswordLength);
+      const existingUser = await models.User.findOne({ where: { email: user.email } });
+      if (existingUser && existingUser.email && validator.isEmail(existingUser.email)) {
+        const error = new Error(errorMessages.existingUser);
+        error.name = errorTypes.signUp;
+        throw error;
+      }
 
       user.password = await bcrypt.hash(user.password, 12);
 

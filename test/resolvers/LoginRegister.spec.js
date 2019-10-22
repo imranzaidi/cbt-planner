@@ -3,7 +3,7 @@
  ***********************/
 const { UserInputError } = require('apollo-server-express'),
   jsonwebtoken = require('jsonwebtoken'),
-  { errorMessages } = require('../../app/consts/loginRegistration'),
+  { errorMessages, errorTypes } = require('../../app/consts/loginRegistration'),
   { Query, Mutation } = require('../../app/resolvers/LoginRegister'),
   {
     sequelizeService,
@@ -49,6 +49,23 @@ describe('LoginRegister resolvers', () => {
     expect(result.username).toBe(args.username);
     expect(result.email).toBe(args.email);
     expect(result).toHaveProperty('id');
+  });
+
+  it('throws an error if the user email already exists', async () => {
+    const parent = {};
+    const args = {
+      username: 'new user',
+      email: 'new@user.com',
+      password: 'password'
+    };
+
+    expect.assertions(2);
+    try {
+      await Mutation.register(parent, args, context);
+    } catch (e) {
+      expect(e.message).toBe(errorMessages.existingUser);
+      expect(e.name).toBe(errorTypes.signUp);
+    }
   });
 
   it('let\'s existing users login and returns a jsonwebtoken', async () => {
@@ -163,11 +180,12 @@ describe('LoginRegister resolvers', () => {
       password: 'password'
     };
 
-    expect.assertions(1);
+    expect.assertions(2);
     try {
       await Mutation.login(parent, loginArgs, context);
     } catch (e) {
       expect(e.message).toBe(errorMessages.emailLookUp);
+      expect(e.name).toBe(errorTypes.login);
     }
   });
 
@@ -178,11 +196,12 @@ describe('LoginRegister resolvers', () => {
       password: 'wrong password'
     };
 
-    expect.assertions(1);
+    expect.assertions(2);
     try {
       await Mutation.login(parent, loginArgs, context);
     } catch (e) {
       expect(e.message).toBe(errorMessages.incorrectPassword);
+      expect(e.name).toBe(errorTypes.login);
     }
   });
 
