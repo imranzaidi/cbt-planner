@@ -75,6 +75,21 @@ describe('TaskList resolvers', () => {
     expect(result.type).toBe(args.type);
   });
 
+  it('fails to create a new task list when a startDate is not defined', async () => {
+    const parent = {};
+    const args = {
+      startDate: '',
+      type: 'weekly'
+    };
+
+    expect.assertions(1);
+    try {
+      await Mutation.createTaskList(parent, args, context);
+    } catch (error) {
+      expect(error.message).toBe('Please provide a valid date (Monday or 1st of the month)!');
+    }
+  });
+
   it('fetches existing task lists for the current user', async () => {
     const parent = {};
     const args = {};
