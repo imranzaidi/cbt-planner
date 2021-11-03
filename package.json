@@ -65,7 +65,7 @@
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.44.3",
-    "validator": "^10.8.0",
+    "validator": "^13.7.0",
     "winston": "^2.4.4"
   }
 }
